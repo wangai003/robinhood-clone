@@ -11,6 +11,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    assets = db.relationship("Asset", back_populates="user")
+    watchlists = db.relationship("Watchlist", back_populates="user")
+    linked_accounts = db.relationship("LinkedAccount", back_populates="user")
+
     @property
     def password(self):
         return self.hashed_password
