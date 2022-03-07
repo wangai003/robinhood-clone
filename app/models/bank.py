@@ -1,7 +1,7 @@
 from enum import unique
 from .db import db
 
-class bank(db.Model):
+class Bank(db.Model):
     __tablename__ = 'banks'
 
     id = db.Column(db.Integer, primary_key=True)
