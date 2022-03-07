@@ -17,6 +17,9 @@ const BankForm = () => {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
+
+
+
   const onLogin = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
@@ -24,6 +27,9 @@ const BankForm = () => {
       setErrors(data);
     }
   };
+
+
+  
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
