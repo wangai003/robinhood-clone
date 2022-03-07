@@ -2,7 +2,6 @@ from ntpath import join
 import requests
 from os import environ
 from flask import Blueprint, jsonify, request
-import time
 import datetime
 import pytz
 
@@ -60,15 +59,12 @@ def stock_quote(symbol):
 @stock_routes.route('/<symbol>/candles')
 def stock_candles(symbol):
     symbol = symbol.upper()
-
     # Open pre-hours for Robinhood at 9AM EST in unix timestamp
     open = int(pytz.timezone('America/New_York').localize(datetime.datetime.today().replace(
         hour=9, minute=0, second=0)).timestamp())
-
     # Close after-hours for Robinhood at 4PM EST in unix timestamp
     close = int(pytz.timezone('America/New_York').localize(datetime.datetime.today().replace(
         hour=18, minute=0, second=0)).timestamp())
-
     params = {
         'symbol': symbol,
         'resolution': request.args.get('resolution') or 5,
@@ -76,7 +72,6 @@ def stock_candles(symbol):
         'to': request.args.get('to') or close,
         'token': TOKEN
     }
-
     res = requests.get(f'{BASE_URL}/stock/candle', params=params).json()
 
     data = [{'time': t, 'price': c} for t, c in zip(res['t'], res['c'])]
@@ -84,39 +79,23 @@ def stock_candles(symbol):
     return jsonify(data)
 
 
-# @stock_routes.route('/<symbol>/company')
-# def stock_company(symbol):
-#     info = requests.get(
-#         f'{BASE_URL}/stock/{symbol}/company', params={'token': KEY}
-#     ).json()
+@stock_routes.route('<symbol>/financials')
+def stock_financials(symbol):
+    symbol = symbol.upper()
+    params = {
+        'symbol': symbol,
+        'metric': 'all',
+        'token': TOKEN
+    }
+    res = requests.get(f'{BASE_URL}/stock/metric',
+                       params=params).json()['metric']
 
-#     data = {
-#         'symbol': info['symbol'],
-#         'name': info['companyName'],
-#         'CEO': info['CEO'],
-#         'employees': info['employees'],
-#         'headquarters': f"{info['city']}, {info['country']}",
-#     }
+    data = {
+        'market_cap': res['marketCapitalization'],
+        '52_week_high': res['52WeekHigh'],
+        '52_week_low': res['52WeekLow'],
+        'pe_ratio': res['peNormalizedAnnual'],
+        'dividend_yield': res['dividendYieldIndicatedAnnual'],
+    }
 
-#     return jsonify(data)
-
-
-# @stock_routes.route('/<symbol>/news')
-# def stock_news(symbol):
-#     count = request.args.get('count') or 1
-#     latest_news = requests.get(
-#         f'{BASE_URL}/stock/{symbol}/news/last/{count}', params={'token': KEY}
-#     ).json()
-
-#     data = [
-#         {
-#             'datetime': news['datetime'],
-#             'headline': news['headline'],
-#             'summary': news['summary'],
-#             'url': news['url'],
-#             'image': news['image']
-#         }
-#         for news in latest_news
-#     ]
-
-#     return jsonify(data)
+    return jsonify(data)
