@@ -8,7 +8,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
-
+import Watchlist from './components/WatchList';
+import { loadWatchlists } from './store/watchlist';
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ function App() {
   useEffect(() => {
     (async() => {
       await dispatch(authenticate());
+      await dispatch(loadWatchlists())
       setLoaded(true);
+
     })();
   }, [dispatch]);
 
@@ -42,6 +45,7 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
           <h1>My Home Page</h1>
+          <Watchlist></Watchlist>
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
