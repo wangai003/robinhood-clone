@@ -8,7 +8,7 @@ import "./Stock.css"
 function Stock() {
     const [stock, setStock] = useState({});
     const [interval, setInterval] = useState("1D");
-    const [resolution, setResolution] = useState(5);
+    const [resolution, setResolution] = useState("5");
     const [prices, setPrices] = useState([]);
     const [times, setTimes] = useState([]);
     const [color, setColor] = useState("green")
@@ -36,6 +36,7 @@ function Stock() {
     useEffect(() => {
         (async () => {
             const fromTo = getInterval();
+            console.log(typeof resolution)
             const response = await fetch(`/api/stocks/${symbol}/candles?from=${fromTo[0]}&to=${fromTo[1]}&resolution=${resolution}`);
             const data = await response.json();
             const prices = [];
@@ -58,16 +59,14 @@ function Stock() {
     }, [interval])
 
     const handleClick = (int) => {
-        setInterval(int);
+        console.log(int)
         switch (int) {
-
             case ('1D'):
-                setResolution(5);
-
+                setResolution("5");
             case ('1W'):
-                setResolution(30);
+                setResolution("30");
             case ('1M'):
-                setResolution(60);
+                setResolution("60");
             case ('3M'):
                 setResolution("D");
             case ('1Y'):
@@ -75,8 +74,9 @@ function Stock() {
             case ('5Y'):
                 setResolution("W");
             default:
-                return ['', '']
+
         }
+        setInterval(int);
     }
 
     const convertTimes = (time) => {
