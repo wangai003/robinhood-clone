@@ -20,8 +20,8 @@ const Splash = () => {
           </div>
         </div>
       </nav>
-      <header className='header'>
-        <div className='headerContainer'>
+      <header className='headerContainer'>
+        <div className='header'>
           <div className='headerLeftContainer'>
             <div className='headerLeft'>
               <h1>Investing for Everyone</h1>
@@ -39,7 +39,7 @@ const Splash = () => {
               <video
                 autoPlay
                 muted
-                controlslist='nodownload nofullscreen noremoteplayback'
+                controlsList='nodownload nofullscreen noremoteplayback'
                 loop
                 playsInline
                 preload='auto'
@@ -53,6 +53,7 @@ const Splash = () => {
               <img
                 className='headerImage'
                 src='https://robinhood.com/us/en/_next/static/images/1x__284c8d0c799d3c9649ca021c00228275.png'
+                alt=''
               />
             </div>
           </div>
