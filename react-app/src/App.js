@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Splash from './components/splash';
+import Dashboard from './components/dashboard';
 import MainWrapper from './components/MainWrapper';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
@@ -9,6 +10,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 
 function App() {
+  const user = useSelector(state => state.session.user);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
 
@@ -27,19 +29,19 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path='/splash'>
-          <Splash />
+          <Splash user={user} />
         </Route>
-        <MainWrapper>
+        <MainWrapper user={user}>
           <Switch>
             <Route exact path='/login'>
-              <LoginForm />
+              <LoginForm user={user} />
             </Route>
-            <Route exact path='/sign-up'>
-              <SignUpForm />
+            <Route exact path='/signup'>
+              <SignUpForm user={user} />
             </Route>
-            <ProtectedRoute exact path='/'>
-              <h1>My Home Page</h1>
-            </ProtectedRoute>
+            <Route exact path='/'>
+              {user ? <Dashboard /> : <Redirect to='/splash' />}
+            </Route>
             <Route>
               <h1>404 Not Found</h1>
             </Route>

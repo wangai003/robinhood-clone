@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Splash.css';
 
-const Splash = () => {
+const Splash = ({ user }) => {
+  if (user) return <Redirect to='/' />;
+
   return (
     <div className='splash main'>
       <nav>
