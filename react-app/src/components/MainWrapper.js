@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 const MainWrapper = props => {
   return (
     <Route {...props}>
-      <NavBar />
+      <NavBar user={props.user} />
       {props.children}
     </Route>
   );
