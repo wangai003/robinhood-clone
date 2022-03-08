@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 
 function AddToWatchlist({ hideForm, symbol, stock }) {
     const [currWatchlist, setCurrWatchlist] = useState('')
-    const [errors, setErrors] = useState([]);
     // const watchlists = useSelector(state => state.watchlists)
     const watchlists = [{ name: "crypto", id: 1 }, { name: "tech", id: 2 }]
 
     const submit = () => {
         const errors = [];
-        if (currWatchlist = '') {
+        if (currWatchlist === '') {
             errors.push("Please select a watchlist")
         }
         const payload = {
