@@ -1,0 +1,11 @@
+.hide {
+    display: none;
+}
+
+nav > button {
+    cursor: pointer;
+}
+
+nav > button:hover {
+    color: green;
+}
