@@ -18,10 +18,8 @@ const ProfileButton = () => {
   }, [showMenu]);
 
   return (
-    <div className='profile'>
-      <button className='profileButton navText' onClick={() => !showMenu && setShowMenu(true)}>
-        Profile
-      </button>
+    <div className='profile' onClick={() => !showMenu && setShowMenu(true)}>
+      <span>Account</span>
       {showMenu && <ProfileMenu />}
     </div>
   );

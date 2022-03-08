@@ -8,15 +8,20 @@ const NavBar = () => {
     <nav>
       <div className='navbar'>
         <div className='home'>
-          <Link to='/' exact={true} activeClassName='active'>
-            Home
-          </Link>
+          <Link to='/'>Home</Link>
         </div>
         <div className='searchBar'>
-          <input placeholder='search' />
+          <input placeholder='Search' />
         </div>
-        <div className='menus'>
-          <ProfileButton />
+        <div className='navMenuContainer'>
+          <div className='navMenu'>
+            <Link to='/'>
+              <span>Portfolio</span>
+            </Link>
+          </div>
+          <div className='navMenu'>
+            <ProfileButton />
+          </div>
         </div>
       </div>
     </nav>

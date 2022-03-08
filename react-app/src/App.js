@@ -31,14 +31,14 @@ function App() {
         <Route exact path='/splash'>
           <Splash user={user} />
         </Route>
+        <Route exact path='/login'>
+          <LoginForm user={user} />
+        </Route>
+        <Route exact path='/signup'>
+          <SignUpForm user={user} />
+        </Route>
         <MainWrapper>
           <Switch>
-            <Route exact path='/login'>
-              <LoginForm user={user} />
-            </Route>
-            <Route exact path='/signup'>
-              <SignUpForm user={user} />
-            </Route>
             <Route exact path='/'>
               {user ? <Dashboard /> : <Redirect to='/splash' />}
             </Route>
