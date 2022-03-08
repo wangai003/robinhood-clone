@@ -46,6 +46,23 @@ export const addBank = (userId, bank, accountNumber, name) => async (dispatch) =
   }
 }
 
+
+export const deleteBank = (id) => async (dispatch) => {
+  const response = await fetch(`/api/banks/delete/${id}`);
+
+  if (response.ok) {
+    dispatch(removeBank())
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ['An error occurred. Please try again.']
+  }
+}
+
 export default function bankReducer(state = initialState, action) {
   switch (action.type) {
     case SET_BANK:

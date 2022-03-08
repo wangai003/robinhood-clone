@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, session, request
+from flask import Blueprint, jsonify, session, request, flash
 from flask_login import login_required
 from app.models import User, db, Bank, LinkedAccount
 from app.forms import AddBankForm
@@ -34,7 +34,7 @@ def linked():
 
   # return f'{current_user_id}'
 
-  return jsonify([{'name': account.name, 'user': account.user_id, 'account_number': account.account_number} for account in accounts])
+  return jsonify([{'id': account.id, 'name': account.name, 'user': account.user_id, 'account_number': account.account_number} for account in accounts])
 
 @bank_routes.route('/addbank', methods=['POST'])
 def add_bank():
@@ -56,3 +56,15 @@ def add_bank():
         return bank.to_dict()
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+
+@bank_routes.route('/delete/<int:id>')
+def remove_account(id):
+    acct = LinkedAccount.query.get(id)
+
+    if(current_user.id == acct.user_id):
+      db.session.delete(acct)
+      db.session.commit()
+
+    return "Bank Account Unlinked"

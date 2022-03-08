@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { addBank } from '../store/bank';
+import { addBank, deleteBank } from '../store/bank';
 
 const BankForm = () => {
 
@@ -55,6 +55,20 @@ const BankForm = () => {
 
   };
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    let id = e.target.id
+
+    const data = await dispatch(deleteBank(id));
+
+    if(data) {
+      alert(data)
+    }
+
+    setInfo(true)
+  }
+
   const updateBank = (e) => {
     setBank(e.target.value)
   }
@@ -83,6 +97,7 @@ const BankForm = () => {
             <th>Account Number </th>
             <th>Edit</th>
             <th>Delete</th>
+            <th>test</th>
           </thead>
           <tbody>
 
@@ -92,7 +107,8 @@ const BankForm = () => {
                 <td>{bank.name}</td>
                 <td>{bank.account_number}</td>
                 <td><button id={bank.id}>Edit</button></td>
-                <td><button id={bank.id}>Delete</button></td>
+                <td><button id={bank.id} onClick={handleClick}>Delete</button></td>
+                <td>{bank.id}</td>
               </tr>
             ))}
 
