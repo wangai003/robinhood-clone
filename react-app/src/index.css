@@ -5,6 +5,12 @@ body {
   padding: 0;
 }
 
+main {
+  background-color: black;
+  color: white;
+  height: 100vh;
+}
+
 .btn {
   display: inline-flex;
   justify-content: center;
