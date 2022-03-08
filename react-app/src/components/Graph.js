@@ -7,6 +7,7 @@ import { Chart as ChartJS } from 'chart.js/auto'
 function Graph({ symbol, change }) {
     const [prices, setPrices] = useState([]);
     const [times, setTimes] = useState([]);
+    const [color, setColor] = useState("green")
 
     useEffect(() => {
         if (!symbol) {
@@ -25,6 +26,7 @@ function Graph({ symbol, change }) {
                 prices.push(obj.price);
                 times.push(`${hours}:${minutes}`);
             }
+            setColor(prices[0] < prices[prices.length - 1] ? "green" : "red");
             setTimes(times);
             setPrices(prices);
         })();
@@ -38,7 +40,7 @@ function Graph({ symbol, change }) {
                 data: prices,
                 pointStyle: "line",
                 // backgroundColor: "green",
-                borderColor: prices[0] < prices[prices.length - 1] ? "green" : "red"
+                borderColor: color
 
             }
         ]
