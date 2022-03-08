@@ -3,7 +3,7 @@ import { NavLink as Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton';
 import './Navbar.css';
 
-const NavBar = ({ user }) => {
+const NavBar = () => {
   return (
     <nav>
       <div className='navbar'>
@@ -15,19 +15,8 @@ const NavBar = ({ user }) => {
         <div className='searchBar'>
           <input placeholder='search' />
         </div>
-        <div className='auth'>
-          {user ? (
-            <ProfileButton />
-          ) : (
-            <>
-              <Link to='/login' exact={true} activeClassName='active'>
-                Login
-              </Link>
-              <Link to='/signup' exact={true} activeClassName='active'>
-                Sign Up
-              </Link>
-            </>
-          )}
+        <div className='menus'>
+          <ProfileButton />
         </div>
       </div>
     </nav>

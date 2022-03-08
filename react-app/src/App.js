@@ -31,7 +31,7 @@ function App() {
         <Route exact path='/splash'>
           <Splash user={user} />
         </Route>
-        <MainWrapper class='main' user={user}>
+        <MainWrapper>
           <Switch>
             <Route exact path='/login'>
               <LoginForm user={user} />
