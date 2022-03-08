@@ -1,8 +1,11 @@
 body {
   font-family: sans-serif;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body * {
+  box-sizing: border-box;
 }
 
 main {
@@ -11,8 +14,19 @@ main {
   height: 100vh;
 }
 
+a {
+  text-decoration: none;
+}
+
 .btn {
+  cursor: pointer;
+  width: fit-content;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-transparent {
+  background-color: transparent;
+  border: none;
 }
