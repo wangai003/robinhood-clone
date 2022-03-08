@@ -36,7 +36,7 @@ function Stock() {
     useEffect(() => {
         (async () => {
             const fromTo = getInterval();
-            console.log(typeof resolution)
+            console.log(resolution)
             const response = await fetch(`/api/stocks/${symbol}/candles?from=${fromTo[0]}&to=${fromTo[1]}&resolution=${resolution}`);
             const data = await response.json();
             const prices = [];
