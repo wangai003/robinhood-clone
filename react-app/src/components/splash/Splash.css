@@ -19,11 +19,6 @@
   align-items: center;
 }
 
-.btn {
-  cursor: pointer;
-  width: fit-content;
-}
-
 .auth {
   display: flex;
   align-items: center;
@@ -67,7 +62,7 @@
   background-color: rgb(195, 245, 60);
 }
 
-.header {
+.splash .header {
   width: 65%;
   height: 100%;
   margin: 0 auto;

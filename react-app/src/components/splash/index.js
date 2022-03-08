@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Splash.css';
 
-const Splash = () => {
+const Splash = ({ user }) => {
+  if (user) return <Redirect to='/' />;
+
   return (
     <div className='splash main'>
       <nav>
@@ -45,16 +46,9 @@ const Splash = () => {
                 preload='auto'
                 className='headerVideo'
               >
-                <source
-                  src='https://robinhood.com/us/en/_next/static/images/3x__327bf4cc768a323497d5aaa7416319c2.mp4'
-                  type='video/mp4'
-                />
+                <source src='/static/splash_phone_vid.mp4' type='video/mp4' />
               </video>
-              <img
-                className='headerImage'
-                src='https://robinhood.com/us/en/_next/static/images/1x__284c8d0c799d3c9649ca021c00228275.png'
-                alt=''
-              />
+              <img className='headerImage' src='/static/splash_phone_img.png' alt='' />
             </div>
           </div>
         </div>
