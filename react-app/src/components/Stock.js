@@ -63,22 +63,17 @@ function Stock() {
 
             case ('1D'):
                 setResolution(5);
-                
+
             case ('1W'):
                 setResolution(30);
-                return unixifyDates([oneWeekAgo, today]);
             case ('1M'):
                 setResolution(60);
-                return unixifyDates([oneMonthAgo, today]);
             case ('3M'):
                 setResolution("D");
-                return unixifyDates([threeMonthsAgo, today]);
             case ('1Y'):
                 setResolution("D");
-                return unixifyDates([oneYearAgo, today]);
             case ('5Y'):
                 setResolution("W");
-                return unixifyDates([fiveYearsAgo, today]);
             default:
                 return ['', '']
         }
@@ -149,22 +144,16 @@ function Stock() {
 
         switch (interval) {
             case ('1D'):
-                setResolution(5);
                 return unixifyDates([open, today]);
             case ('1W'):
-                setResolution(30);
                 return unixifyDates([oneWeekAgo, today]);
             case ('1M'):
-                setResolution(60);
                 return unixifyDates([oneMonthAgo, today]);
             case ('3M'):
-                setResolution("D");
                 return unixifyDates([threeMonthsAgo, today]);
             case ('1Y'):
-                setResolution("D");
                 return unixifyDates([oneYearAgo, today]);
             case ('5Y'):
-                setResolution("W");
                 return unixifyDates([fiveYearsAgo, today]);
             default:
                 return ['', '']
