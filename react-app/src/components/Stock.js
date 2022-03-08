@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
+import Graph from './Graph';
 import "./Stock.css"
 
 function Stock() {
@@ -18,11 +19,12 @@ function Stock() {
         if (!symbol) {
             return;
         }
-        // (async () => {
-        //     const response = await fetch(`/api/stocks/${symbol}/candles`);
-        //     const stock = await response.json();
-        //     setStock(stock)
-        // })();
+        (async () => {
+            const response = await fetch(`/api/stocks/${symbol}/quote`);
+            const stock = await response.json();
+            setStock(stock);
+            console.log(stock)
+        })();
     }, [symbol])
 
     return (
@@ -30,10 +32,10 @@ function Stock() {
             <div>
                 <div>
                     <h2>{symbol}</h2>
-                    <h2>$price</h2>
-                    <div>price change</div>
+                    <h2>{`$${stock.current}`}</h2>
+                    <div>{`${stock.change} (${stock.change_percent}%)`}</div>
                 </div>
-                <div>graph</div>
+                <Graph symbol={symbol} change={stock.change} />
                 <nav>
                     <button>1D</button>
                     <button>1W</button>
