@@ -33,6 +33,7 @@ const ProfileMenu = () => {
       </div>
       <div className='footer'>
         <Link className='menu logout' onClick={onLogout} to='/login'>
+          <i className='fa-solid fa-arrow-right-from-bracket fa-xl'></i>
           Log Out
         </Link>
       </div>

@@ -61,3 +61,7 @@
 .menu:hover {
   background-color: gray;
 }
+
+.menu i {
+  margin-right: 12px;
+}
