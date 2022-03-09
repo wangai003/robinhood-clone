@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
 const SignUpForm = ({ user }) => {
@@ -80,6 +80,10 @@ const SignUpForm = ({ user }) => {
         ></input>
       </div>
       <button type='submit'>Sign Up</button>
+      <div>
+        <span>Already a user?</span>
+        <Link to='/login'>Log in here</Link>
+      </div>
     </form>
   );
 };

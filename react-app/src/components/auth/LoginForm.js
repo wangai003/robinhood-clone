@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { login, demo } from '../../store/session';
 
 const LoginForm = ({ user }) => {
@@ -53,6 +53,10 @@ const LoginForm = ({ user }) => {
         <button type='button' onClick={() => dispatch(demo())}>
           Login as demo
         </button>
+        <div>
+          <span>Not on Robinhood?</span>
+          <Link to='/signup'>Create an account</Link>
+        </div>
       </div>
     </form>
   );
