@@ -1,3 +1,17 @@
+:root {
+  --rh-green-base: rgb(0, 200, 5);
+  --rh-green-hover: rgba(38, 208, 43, 1);
+  --rh-green-pressed: rgba(64, 214, 68, 1);
+  --rh-red-base: rgb(255, 80, 0);
+  --rh-red-hover: rgba(255, 106, 38, 1);
+  --rh-red-pressed: rgba(255, 124, 64, 1);
+  --rh-dark-base: rgb(30, 33, 36);
+  --rh-dark-hover: rgba(53, 55, 58, 1);
+  --rh-dark-pressed: rgba(75, 77, 80, 1);
+  --rh-dark-border: rgb(64, 73, 78);
+  --rh-dark-base2: rgb(145, 159, 166);
+}
+
 body {
   font-family: sans-serif;
   margin: 0;

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { logout } from '../../store/session';
 import './ProfileMenu.css';
 
@@ -33,7 +33,9 @@ const ProfileMenu = () => {
         </div>
       </div>
       <div className='body'>
-        <div className='menu'>stuff</div>
+        <Link className='menu' to='add-funds'>
+          Transfer
+        </Link>
       </div>
       <div className='footer'>
         <div className='menu logout' onClick={onLogout}>

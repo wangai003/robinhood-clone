@@ -10,13 +10,11 @@ export function ModalProvider({ children }) {
 
   useEffect(() => {
     setValue(modalRef.current);
-  }, [])
+  }, []);
 
   return (
     <>
-      <ModalContext.Provider value={value}>
-        {children}
-      </ModalContext.Provider>
+      <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
       <div ref={modalRef} />
     </>
   );
@@ -27,11 +25,9 @@ export function Modal({ onClose, children }) {
   if (!modalNode) return null;
 
   return ReactDOM.createPortal(
-    <div id="modal">
-      <div id="modal-background" onClick={onClose} />
-      <div id="modal-content" >
-        {children}
-      </div>
+    <div id='modal'>
+      <div id='modal-background' onClick={onClose} />
+      <div id='modal-content'>{children}</div>
     </div>,
     modalNode
   );
@@ -39,7 +35,7 @@ export function Modal({ onClose, children }) {
 
 export const Modal2 = props => {
   if (!props.show) {
-    return null
+    return null;
   }
 
   return (
@@ -48,13 +44,13 @@ export const Modal2 = props => {
         <div className='modal-header'>
           <h4 className='modal-title'>{props.title}</h4>
         </div>
-        <div className='modal-body'>
-          {props.children}
-        </div>
+        <div className='modal-body'>{props.children}</div>
         <div className='modal-footer'>
-          <button onClick={props.onClose} className='button'>Close</button>
+          <button onClick={props.onClose} className='button'>
+            Close
+          </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
