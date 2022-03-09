@@ -1,15 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { logout } from '../../store/session';
 import './ProfileMenu.css';
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector(state => state.session.user);
 
   const onLogout = async e => {
     await dispatch(logout());
+    history.push('/login');
   };
+
+  if (!user) return <></>;
 
   return (
     <div className='profileMenu' onClick={e => e.stopPropagation()}>
@@ -32,10 +36,10 @@ const ProfileMenu = () => {
         <div className='menu'>stuff</div>
       </div>
       <div className='footer'>
-        <Link className='menu logout' onClick={onLogout} to='/login'>
+        <div className='menu logout' onClick={onLogout}>
           <i className='fa-solid fa-arrow-right-from-bracket fa-xl'></i>
           Log Out
-        </Link>
+        </div>
       </div>
     </div>
   );

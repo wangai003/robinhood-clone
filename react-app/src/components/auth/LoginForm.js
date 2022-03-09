@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login } from '../../store/session';
+import { login, demo } from '../../store/session';
 
 const LoginForm = ({ user }) => {
   const [errors, setErrors] = useState([]);
@@ -50,6 +50,9 @@ const LoginForm = ({ user }) => {
           onChange={updatePassword}
         />
         <button type='submit'>Login</button>
+        <button type='button' onClick={() => dispatch(demo())}>
+          Login as demo
+        </button>
       </div>
     </form>
   );
