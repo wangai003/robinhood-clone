@@ -1,13 +1,15 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import NavBar from './NavBar';
+import NavBar from './Navigation';
 
 const MainWrapper = props => {
   return (
-    <Route {...props}>
-      <NavBar user={props.user} />
-      {props.children}
-    </Route>
+    <main>
+      <Route {...props}>
+        <NavBar user={props.user} />
+        {props.children}
+      </Route>
+    </main>
   );
 };
 
