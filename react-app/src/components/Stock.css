@@ -1,3 +1,7 @@
+:root {
+    --special-green: #00a004;
+}
+
 .hide {
     display: none;
 }
@@ -6,21 +10,26 @@ nav > button {
     cursor: pointer;
 }
 
-.selected {
-    text-decoration: underline;
+.interval-bar {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    width: 100%;
 }
 
 .interval-btn {
+    position: relative;
+    top: 2px;
     box-sizing: border-box;
-    width: 4rem;
+    width: 2rem;
+    margin: 0 1rem 0 0;
     background-color: white;
     border: none;
-    margin: 0.5rem;
     font-size: 1rem;
+    font-weight: 600;
 }
 
 .red.selected {
     color: red;
+    border-bottom: 2px solid red;
 }
 
 .red:hover {
@@ -28,9 +37,77 @@ nav > button {
 }
 
 .green.selected {
-    color: green;
+    color: var(--special-green);
+    border-bottom: 2px solid var(--special-green);
 }
 
 .green:hover {
-    color: green;
+    color: var(--special-green);
+}
+
+.stock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stock-page-container {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.stock-about-container {
+    width: 100%;
+}
+
+.stock-symbol-price-container {
+    width: 100%;
+}
+
+#stock-price-change {
+    display: flex;
+}
+
+#add-to-list-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: black;
+    padding: 1rem;
+    font-size: 1rem;
+    min-width: 12rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    white-space: nowrap;
+    position: relative;
+    top: 4rem;
+    left: 4rem;
+}
+
+#add-to-list-btn.green {
+    border: 2px solid var(--special-green);
+    color: var(--special-green);
+}
+
+#add-to-list-btn.green:hover {
+    background-color: rgba(0, 160, 4, 0.2);
+}
+
+#add-to-list-btn.red {
+    border: 2px solid red;
+    color: red;
+}
+
+.stock-about-container {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.add-to-watchlist-form {
+    position: static;
+    top: 0;
+    left: 0;
+
 }

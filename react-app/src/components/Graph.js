@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-import { Line } from "react-chartjs-2";
+import { Line, getElementAtEvent } from "react-chartjs-2";
 import { Chart as ChartJS } from 'chart.js/auto'
 
 import './Graph.css'
 
 
 function Graph({ times, prices, color }) {
+    const chartRef = useRef();
 
     const data = {
         labels: times,
@@ -16,7 +17,7 @@ function Graph({ times, prices, color }) {
                 data: prices,
                 pointStyle: "circle",
                 pointRadius: 0,
-                borderColor: color,
+                borderColor: color === 'green' ? "#00a004" : "red",
             }
         ]
     }
@@ -32,11 +33,25 @@ function Graph({ times, prices, color }) {
                 text: 'Chart.js Line Chart',
             },
             tooltip: {
-                mode: 'index',
+                mode: 'nearest',
                 intersect: false,
                 displayColors: false,
                 yAlign: "bottom",
-                caretPadding: 10
+                caretPadding: 10,
+                callbacks: {
+                    label: function (context) {
+                        let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        if (context.parsed.y !== null) {
+                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                        }
+                        return label;
+                    },
+
+                }
             }
         },
         scales: {
