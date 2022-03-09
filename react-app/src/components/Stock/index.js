@@ -7,6 +7,8 @@ import './Stock.css';
 
 function Stock() {
   const [stock, setStock] = useState({});
+  const [activePrice, setActivePrice] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [interval, setInterval] = useState('1D');
   const [intervalLong, setIntervalLong] = useState('Today');
   const [resolution, setResolution] = useState('5');
@@ -45,6 +47,8 @@ function Stock() {
       const response2 = await fetch(`/api/stocks/${symbol}/financials`);
       stock.financials = await response2.json();
       setStock(stock);
+      setActivePrice(stock.current);
+      setIsLoaded(true);
     })();
   }, [symbol]);
 
@@ -201,13 +205,19 @@ function Stock() {
       <div className='stock-container'>
         <div className='stock-symbol-price-container'>
           <h2 id='stock-symbol'>{symbol.toUpperCase()}</h2>
-          <h2 id='stock-current-price'>{`$${stock.current}`}</h2>
+          <h2 id='stock-current-price'>{`$${activePrice}`}</h2>
           <div id='stock-price-change'>
             {change > 0 ? `$${change} (${changePercent}%)` : `-$${change * -1} (${changePercent}%)`}
             <div className='interval-long'>{intervalLong}</div>
           </div>
         </div>
-        <Graph symbol={symbol} color={color} times={times} prices={prices} />
+        {isLoaded && <Graph
+          symbol={symbol}
+          color={color}
+          times={times}
+          prices={prices}
+          stock={stock}
+          setActivePrice={setActivePrice} />}
         <nav className='interval-bar'>
           <button
             className={

@@ -1,9 +1,13 @@
 #stock-add-to-watchlist-x {
     cursor: pointer;
     padding: 1rem;
-    /* position: absolute;
-    top: 0;
-    right: 0; */
+    margin-left: 10rem;
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--rh-dark-base);
+    border: none;
+    color: white;
+    font-size: 1rem;
 }
 
 .stock-add-to-watchlist-container {
@@ -54,18 +58,13 @@
 
 #stock-add-to-watchlist-submit:hover {
     background-color: var(--rh-dark-green-hover);
-}
-
-#stock-add-to-watchlist-x {
-    margin-left: 10rem;
-    display: flex;
-    justify-content: flex-end;
-    background-color: var(--rh-dark-base);
-    border: none;
-    color: white;
-    font-size: 1.5rem;
+    color: var(--rh-green-base)
 }
 
 #stock-add-to-watchlist-x:hover {
     color:var(--rh-dark-base2)
+}
+
+.stock-watchlist-form-error {
+    color: red;
 }
