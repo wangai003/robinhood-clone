@@ -11,7 +11,7 @@ const NavBar = () => {
           <Link to='/'>Home</Link>
         </div>
         <div className='searchBar'>
-          <i class='fa-solid fa-magnifying-glass fa-lg'></i>
+          <i className='fa-solid fa-magnifying-glass fa-lg'></i>
           <input placeholder='Search' />
         </div>
         <div className='navMenuContainer'>
