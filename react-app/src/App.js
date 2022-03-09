@@ -11,6 +11,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 // import User from './components/User';
 import Stock from './components/Stock';
 import { authenticate } from './store/session';
+import BankForm from './components/BankForm'
+
 import Watchlist from './components/WatchList';
 import { loadWatchlists } from './store/watchlist';
 import WatchlistList from './components/WatchlistList';
@@ -35,17 +37,25 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
+
         <Route exact path='/splash'>
           <Splash user={user} />
         </Route>
+
         <Route exact path='/login'>
           <LoginForm user={user} />
         </Route>
+
+
         <Route exact path='/signup'>
           <SignUpForm user={user} />
         </Route>
+
         <MainWrapper user={user}>
           <Switch>
+            <ProtectedRoute path='/add-funds' exact={true}>
+              <BankForm />
+            </ProtectedRoute>
             <Route exact path='/'>
               {user ? <Dashboard /> : <Redirect to='/splash' />}
             </Route>
@@ -57,6 +67,7 @@ function App() {
             </Route>
           </Switch>
         </MainWrapper>
+
       </Switch>
     </BrowserRouter>
   );
