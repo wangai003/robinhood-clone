@@ -11,7 +11,9 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 // import User from './components/User';
 import Stock from './components/Stock';
 import { authenticate } from './store/session';
-
+import Watchlist from './components/WatchList';
+import { loadWatchlists } from './store/watchlist';
+import WatchlistList from './components/WatchlistList';
 function App() {
   const user = useSelector(state => state.session.user);
   const [loaded, setLoaded] = useState(false);
@@ -20,7 +22,9 @@ function App() {
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
+      await dispatch(loadWatchlists())
       setLoaded(true);
+
     })();
   }, [dispatch]);
 
