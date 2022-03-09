@@ -1,0 +1,71 @@
+#stock-add-to-watchlist-x {
+    cursor: pointer;
+    padding: 1rem;
+    /* position: absolute;
+    top: 0;
+    right: 0; */
+}
+
+.stock-add-to-watchlist-container {
+    padding: 0 1rem 1rem 1rem;
+    min-height: 12rem;
+    min-width: 15rem;
+    margin-top: 12rem;
+    background-color: var(--rh-dark-base);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: 0.5rem;
+}
+
+.stock-add-to-watchlist-container > form {
+    display: flex;
+    height: 10rem;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#stock-add-to-watchlist-select {
+    height: 2.5rem;
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid var(--rh-green-base);
+    border-radius: 0.5rem;
+    background-color: var(--rh-dark-base);
+    cursor: pointer;
+    color: white;
+}
+
+#stock-add-to-watchlist-select > option {
+    cursor: pointer;
+}
+
+#stock-add-to-watchlist-submit {
+    height: 3rem;
+    background-color: var(--rh-green-base);
+    border: 1px solid var(--rh-green-base);
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--rh-dark-base);
+    cursor: pointer;
+}
+
+#stock-add-to-watchlist-submit:hover {
+    background-color: var(--rh-dark-green-hover);
+}
+
+#stock-add-to-watchlist-x {
+    margin-left: 10rem;
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--rh-dark-base);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+#stock-add-to-watchlist-x:hover {
+    color:var(--rh-dark-base2)
+}

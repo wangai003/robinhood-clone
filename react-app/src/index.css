@@ -2,6 +2,7 @@
   --rh-green-base: rgb(0, 200, 5);
   --rh-green-hover: rgba(38, 208, 43, 1);
   --rh-green-pressed: rgba(64, 214, 68, 1);
+  --rh-dark-green-hover: rgba(0, 160, 4, 0.2);
   --rh-red-base: rgb(255, 80, 0);
   --rh-red-hover: rgba(255, 106, 38, 1);
   --rh-red-pressed: rgba(255, 124, 64, 1);
