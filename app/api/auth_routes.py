@@ -45,6 +45,20 @@ def login():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
+@auth_routes.route('/demo', methods=['POST'])
+def demo():
+    """
+    Logs in as demo user
+    """
+    # Add the user to the session, we are logged in!
+    user = User.query.filter(User.email == 'demo@aa.io').first()
+    if user:
+        login_user(user)
+        return user.to_dict()
+    else:
+        return {'errors': 'Demo user not found.'}
+
+
 @auth_routes.route('/logout')
 def logout():
     """
