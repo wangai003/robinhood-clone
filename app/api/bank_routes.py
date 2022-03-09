@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, session, request, flash
 from flask_login import login_required
 from app.models import User, db, Bank, LinkedAccount
-from app.forms import AddBankForm
+from app.forms import AddBankForm, EditBankForm
 from flask_login import current_user, login_user, logout_user, login_required
 
 bank_routes = Blueprint('banks', __name__)
@@ -34,7 +34,8 @@ def linked():
 
   # return f'{current_user_id}'
 
-  return jsonify([{'id': account.id, 'name': account.name, 'user': account.user_id, 'account_number': account.account_number} for account in accounts])
+  return jsonify([{'id': account.id, 'name': account.name, 'user': account.user_id, 'bank_id': account.bank_id, 'account_number': account.account_number} for account in accounts])
+
 
 @bank_routes.route('/addbank', methods=['POST'])
 def add_bank():
@@ -68,3 +69,28 @@ def remove_account(id):
       db.session.commit()
 
     return "Bank Account Unlinked"
+
+
+
+@bank_routes.route('/edit/<int:id>', methods=['GET', 'POST', 'PUT'])
+def update_bank(id):
+    post = LinkedAccount.query.get(id)
+
+    print('MY POST --------> ', post)
+    print('post.user_id', post.user_id)
+    print('post.bank_id', post.bank_id)
+    # if request.method == 'GET':
+    #   return "hello"
+    form = EditBankForm()
+    if form.validate_on_submit():
+        print("IM IN HEREEEEEEE")
+        print('form data ----->', form.data['name'])
+        post.user_id = form.data['user_id']
+        post.bank_id = form.data['bank_id']
+        post.name = form.data['name']
+        post.account_number = form.data['account_number']
+
+        db.session.add(post)
+        db.session.commit()
+
+    return post.to_dict()

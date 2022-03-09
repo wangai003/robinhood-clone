@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { addBank, deleteBank } from '../store/bank';
+import EditBank from './EditBank';
 
 const BankForm = () => {
 
@@ -62,7 +63,7 @@ const BankForm = () => {
 
     const data = await dispatch(deleteBank(id));
 
-    if(data) {
+    if (data) {
       alert(data)
     }
 
@@ -89,24 +90,39 @@ const BankForm = () => {
 
     <>
       <div>
-        <h2> My Linked Accounts: </h2>
+
+        {myBanks.length > 0 && (
+          <h2> My Linked Accounts: </h2>
+        )}
+
+        {myBanks.length < 1 && (
+          <h2> Please add a bank account: </h2>
+        )}
 
         <table>
-          <thead>
-            <th>Name </th>
-            <th>Account Number </th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>test</th>
-          </thead>
+          {myBanks.length > 0 && (
+            <thead>
+
+              <th>Name </th>
+              <th>Account Number </th>
+              <th>Edit </th>
+              <th>Delete </th>
+              <th>Bank ID </th>
+
+            </thead>
+
+
+          )}
           <tbody>
 
             {myBanks?.map(bank => (
               <tr>
-
                 <td>{bank.name}</td>
                 <td>{bank.account_number}</td>
-                <td><button id={bank.id}>Edit</button></td>
+
+                {/* <td><button id={bank.id}>Edit</button></td> */}
+                <EditBank userId={userId} name={bank.name} accountNumber={bank.account_number} id={bank.id} bankId={bank.bank_id}/>
+
                 <td><button id={bank.id} onClick={handleClick}>Delete</button></td>
                 <td>{bank.id}</td>
               </tr>
@@ -123,7 +139,9 @@ const BankForm = () => {
       <form onSubmit={handleSubmit}>
         <div>
           {errors.map((error, ind) => (
-            <div key={ind}>{error}</div>
+
+            <div key={ind}>{error.split(':')[1]}</div>
+
           ))}
         </div>
 
