@@ -1,1 +1,33 @@
-/* TODO Add site wide styles */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+main {
+  background-color: black;
+  color: white;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.btn {
+  cursor: pointer;
+  width: fit-content;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-transparent {
+  background-color: transparent;
+  border: none;
+}

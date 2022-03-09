@@ -65,6 +65,7 @@ def stock_candles(symbol):
     # Close after-hours for Robinhood at 4PM EST in unix timestamp
     close = int(pytz.timezone('America/New_York').localize(datetime.datetime.today().replace(
         hour=18, minute=0, second=0)).timestamp())
+    print("*****************************", request.args.get('resolution'))
     params = {
         'symbol': symbol,
         'resolution': request.args.get('resolution') or 5,
