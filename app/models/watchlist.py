@@ -8,4 +8,11 @@ class Watchlist(db.Model):
     name = db.Column(db.String(100), nullable=False)
 
     user = db.relationship("User", back_populates="watchlists")
-    watchlist_stocks = db.relationship("WatchlistStock", back_populates="watchlist")
+    watchlist_stocks = db.relationship("WatchlistStock",cascade="all, delete-orphan" ,back_populates="watchlist")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'user_id' : self.user_id,
+        }

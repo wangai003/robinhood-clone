@@ -10,6 +10,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import Watchlist from './components/WatchList';
 import { loadWatchlists } from './store/watchlist';
+import WatchlistList from './components/WatchlistList';
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
           <h1>My Home Page</h1>
-          <Watchlist></Watchlist>
+          <WatchlistList></WatchlistList>
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>

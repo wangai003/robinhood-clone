@@ -1,19 +1,18 @@
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createWatchlist } from '../../store/watchlist';
-const CreateWatchlistForm = ({ hideform}) => {
+import { createWatchlist, editWatchlist } from '../../store/watchlist';
+const EditWatchlistForm = ({ watchlist,hideform}) => {
 	const sessionUser = useSelector(state => state.session.user);
 	const dispatch = useDispatch();
-	const history = useHistory();
-	const [title, setTitle] = useState('');
+	const [title, setTitle] = useState(watchlist.name);
 	const [validationErrors,setValidationErrors] = useState([]);
 
 
 	const updateTitle = (e) => setTitle(e.target.value);
 	useEffect(()=>{
 		const button = document.getElementById("submit")
-		if(title === ""){
+		if(title === "" || title.toLowerCase() === watchlist.name.toLowerCase()){
 			button.disabled = true;
 			button.style.opacity = .4;
 		}
@@ -32,18 +31,18 @@ const CreateWatchlistForm = ({ hideform}) => {
 
 			button.disabled = true;
 			titleInput.disabled = true;
-            let createdWatchlist = await dispatch(createWatchlist(title,sessionUser.id))
-			if(createdWatchlist.errors){
-				for(let currErr in createdWatchlist.errors){
-					if(createdWatchlist.errors[currErr] === "You provided a name for a Watchlist that you have already created"){
+            let editedWatchlist = await dispatch(editWatchlist(title,sessionUser.id,watchlist.id))
+			if(editedWatchlist.errors){
+				for(let currErr in editedWatchlist.errors){
+					if(editedWatchlist.errors[currErr] === "You provided a name for a Watchlist that you have already created"){
 						setTitle("")
 					}
-					errors.push(`${createdWatchlist.errors[currErr]}`)
+					errors.push(`${editedWatchlist.errors[currErr]}`)
 				}
 				button.disabled = false;
 				titleInput.disabled = false;
 				setValidationErrors(errors);
-			} else if (createdWatchlist){
+			} else if (editedWatchlist){
                 // new watch list was created need to rerender or reload
                 hideform();
 			}
@@ -72,4 +71,4 @@ const CreateWatchlistForm = ({ hideform}) => {
 	);
 };
 
-export default CreateWatchlistForm
+export default EditWatchlistForm
