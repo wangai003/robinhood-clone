@@ -7,6 +7,9 @@ import MainWrapper from './components/MainWrapper';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+// import UsersList from './components/UsersList';
+// import User from './components/User';
+import Stock from './components/Stock';
 import { authenticate } from './store/session';
 
 function App() {
@@ -37,11 +40,14 @@ function App() {
         <Route exact path='/signup'>
           <SignUpForm user={user} />
         </Route>
-        <MainWrapper>
+        <MainWrapper user={user}>
           <Switch>
             <Route exact path='/'>
               {user ? <Dashboard /> : <Redirect to='/splash' />}
             </Route>
+            <ProtectedRoute exact path='/stocks/:symbol'>
+              <Stock />
+            </ProtectedRoute>
             <Route>
               <h1>404 Not Found</h1>
             </Route>

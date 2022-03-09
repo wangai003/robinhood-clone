@@ -1,0 +1,36 @@
+.hide {
+    display: none;
+}
+
+nav > button {
+    cursor: pointer;
+}
+
+.selected {
+    text-decoration: underline;
+}
+
+.interval-btn {
+    box-sizing: border-box;
+    width: 4rem;
+    background-color: white;
+    border: none;
+    margin: 0.5rem;
+    font-size: 1rem;
+}
+
+.red.selected {
+    color: red;
+}
+
+.red:hover {
+    color: red;
+}
+
+.green.selected {
+    color: green;
+}
+
+.green:hover {
+    color: green;
+}
