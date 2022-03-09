@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Splash from './components/splash';
+import Dashboard from './components/dashboard';
+import MainWrapper from './components/MainWrapper';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
-import User from './components/User';
+// import UsersList from './components/UsersList';
+// import User from './components/User';
+import Stock from './components/Stock';
 import { authenticate } from './store/session';
 import BankForm from './components/BankForm'
 
+import Watchlist from './components/WatchList';
+import { loadWatchlists } from './store/watchlist';
+import WatchlistList from './components/WatchlistList';
 function App() {
+  const user = useSelector(state => state.session.user);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       await dispatch(authenticate());
+      await dispatch(loadWatchlists())
       setLoaded(true);
+
     })();
   }, [dispatch]);
 
@@ -27,26 +36,38 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
       <Switch>
-        <Route path='/login' exact={true}>
-          <LoginForm />
+
+        <Route exact path='/splash'>
+          <Splash user={user} />
         </Route>
-        <Route path='/sign-up' exact={true}>
-          <SignUpForm />
+
+        <Route exact path='/login'>
+          <LoginForm user={user} />
         </Route>
-        <Route path='/add-funds' exact={true}>
-          <BankForm />
+
+
+        <Route exact path='/signup'>
+          <SignUpForm user={user} />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute>
-        <ProtectedRoute path='/' exact={true} >
-          <h1>My Home Page</h1>
-        </ProtectedRoute>
+
+        <MainWrapper user={user}>
+          <Switch>
+            <ProtectedRoute path='/add-funds' exact={true}>
+              <BankForm />
+            </ProtectedRoute>
+            <Route exact path='/'>
+              {user ? <Dashboard /> : <Redirect to='/splash' />}
+            </Route>
+            <ProtectedRoute exact path='/stocks/:symbol'>
+              <Stock />
+            </ProtectedRoute>
+            <Route>
+              <h1>404 Not Found</h1>
+            </Route>
+          </Switch>
+        </MainWrapper>
+
       </Switch>
     </BrowserRouter>
   );

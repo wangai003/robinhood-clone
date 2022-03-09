@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { login } from '../../store/session';
+import { useDispatch } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
+import { login, demo } from '../../store/session';
 
-const LoginForm = () => {
+const LoginForm = ({ user }) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
-  const onLogin = async (e) => {
+  const onLogin = async e => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
@@ -18,11 +17,11 @@ const LoginForm = () => {
     }
   };
 
-  const updateEmail = (e) => {
+  const updateEmail = e => {
     setEmail(e.target.value);
   };
 
-  const updatePassword = (e) => {
+  const updatePassword = e => {
     setPassword(e.target.value);
   };
 
@@ -39,13 +38,7 @@ const LoginForm = () => {
       </div>
       <div>
         <label htmlFor='email'>Email</label>
-        <input
-          name='email'
-          type='text'
-          placeholder='Email'
-          value={email}
-          onChange={updateEmail}
-        />
+        <input name='email' type='text' placeholder='Email' value={email} onChange={updateEmail} />
       </div>
       <div>
         <label htmlFor='password'>Password</label>
@@ -57,6 +50,13 @@ const LoginForm = () => {
           onChange={updatePassword}
         />
         <button type='submit'>Login</button>
+        <button type='button' onClick={() => dispatch(demo())}>
+          Login as demo
+        </button>
+        <div>
+          <span>Not on Robinhood?</span>
+          <Link to='/signup'>Create an account</Link>
+        </div>
       </div>
     </form>
   );

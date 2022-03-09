@@ -1,45 +1,44 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
-const SignUpForm = () => {
+const SignUpForm = ({ user }) => {
   const [errors, setErrors] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
-  const onSignUp = async (e) => {
+  const onSignUp = async e => {
     e.preventDefault();
     if (password === repeatPassword) {
       const data = await dispatch(signUp(firstName, lastName, email, password));
       if (data) {
-        setErrors(data)
+        setErrors(data);
       }
     }
   };
 
-  const updateFirstName = (e) => {
+  const updateFirstName = e => {
     setFirstName(e.target.value);
   };
 
-  const updateLastName = (e) => {
+  const updateLastName = e => {
     setLastName(e.target.value);
   };
 
-  const updateEmail = (e) => {
+  const updateEmail = e => {
     setEmail(e.target.value);
   };
 
-  const updatePassword = (e) => {
+  const updatePassword = e => {
     setPassword(e.target.value);
   };
 
-  const updateRepeatPassword = (e) => {
+  const updateRepeatPassword = e => {
     setRepeatPassword(e.target.value);
   };
 
@@ -56,39 +55,19 @@ const SignUpForm = () => {
       </div>
       <div>
         <label>First Name</label>
-        <input
-          type='text'
-          name='firstName'
-          onChange={updateFirstName}
-          value={firstName}
-        ></input>
+        <input type='text' name='firstName' onChange={updateFirstName} value={firstName}></input>
       </div>
       <div>
         <label>Last Name</label>
-        <input
-          type='text'
-          name='lastName'
-          onChange={updateLastName}
-          value={lastName}
-        ></input>
+        <input type='text' name='lastName' onChange={updateLastName} value={lastName}></input>
       </div>
       <div>
         <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
+        <input type='text' name='email' onChange={updateEmail} value={email}></input>
       </div>
       <div>
         <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
+        <input type='password' name='password' onChange={updatePassword} value={password}></input>
       </div>
       <div>
         <label>Repeat Password</label>
@@ -101,6 +80,10 @@ const SignUpForm = () => {
         ></input>
       </div>
       <button type='submit'>Sign Up</button>
+      <div>
+        <span>Already a user?</span>
+        <Link to='/login'>Log in here</Link>
+      </div>
     </form>
   );
 };
