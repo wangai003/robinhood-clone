@@ -82,6 +82,7 @@ def update_bank(id):
     # if request.method == 'GET':
     #   return "hello"
     form = EditBankForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         print("IM IN HEREEEEEEE")
         print('form data ----->', form.data['name'])
