@@ -1,0 +1,93 @@
+.dashboardContainer {
+  padding-top: 36px;
+  width: 1024px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboardContainer .portfolioValue {
+  font-size: 32px;
+  height: 40px;
+}
+
+.priceChange {
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+.priceChange .timeFrame {
+  color: var(--rh-dark-base2)
+}
+
+.graphContainer {
+  margin: 20px 0;
+  height: 300px;
+  width: 680px;
+  background-color: white;
+  color: black;
+
+}
+
+.buyingPowerContainer {
+  border-radius: 4px;
+  padding: 0 24px;
+  margin: 0 -24px;
+}
+
+.bpHeader, .bpDetails>div {
+  padding: 24px 0;
+}
+
+.bpHeader, .cash {
+  border-bottom: 1px solid var(--rh-dark-border);
+}
+
+.bpHeader, .cash, .power {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bpHeader {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.bpBody {
+  padding-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.bpDetails {
+  min-width: 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.bpMessage {
+  padding: 24px;
+  padding-left: 36px;
+  line-height: 24px;
+}
+
+.buyingPowerContainer:hover, .buyingPowerContainer.selected {
+  background-color: var(--rh-dark-base);
+}
+
+.bpHeader:hover {
+  cursor: pointer;
+}
+
+.deposit {
+  margin-top: 24px;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 700;
+}

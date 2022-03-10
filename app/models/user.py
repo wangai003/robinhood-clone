@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    buying_power = db.Column(db.Numeric(10,2))
+    buying_power = db.Column(db.Numeric(10,2), default=0)
     hashed_password = db.Column(db.String(255), nullable=False)
 
     assets = db.relationship("Asset", back_populates="user")
@@ -34,5 +34,6 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'first_name': self.first_name,
             'last_name' : self.last_name,
-            'email': self.email
+            'email': self.email,
+            # 'buying_power': int(self.buying_power)
         }

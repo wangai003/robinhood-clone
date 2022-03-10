@@ -33,7 +33,7 @@
 }
 
 .signup {
-  background-color: rgb(0, 200, 5);
+  background-color: var(--rh-green-base);
   border-radius: 24px;
   padding: 0 36px;
   margin-left: 30px;

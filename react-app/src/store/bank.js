@@ -1,28 +1,87 @@
-const SET_BANK = 'bank/SET_BANK'
-const REMOVE_BANK = 'bank/REMOVE_BANK'
-const LOAD_BANK = 'bank/LOAD_BANK'
+const GET_BANK = 'bank/GET_BANK'
+const GET_ACCOUNTS = 'bank/GET_ACCOUNTS'
+const EDIT_ACCOUNT = 'bank/EDIT_ACCOUNT'
+const REMOVE_ACCOUNT = 'bank/REMOVE_ACCOUNT'
+const ADD_ACCOUNT = 'bank/ADD_ACCOUNT'
 
-export const loadSingleBank = (bank) => ({
-  type: LOAD_BANK,
-  bank
-})
 
 const setBank = (bank) => ({
-  type: SET_BANK,
+  type: GET_BANK,
   payload: bank
 });
 
-const removeBank = () => ({
-  type: REMOVE_BANK,
+const setAccounts = (account) => ({
+  type: GET_ACCOUNTS,
+  payload: account
+});
+
+const editAccount = (account) => ({
+  type: EDIT_ACCOUNT,
+  payload: account
 })
 
-const initialState = { bank: null };
+const removeAccount = (id) => ({
+  type: REMOVE_ACCOUNT,
+  payload: id
+})
+
+const addAccountAction = (account) => ({
+  type: ADD_ACCOUNT,
+  payload: account
+})
+
+export const getBanks = () => async (dispatch) => {
+
+  const response = await fetch('/api/banks/');
+
+  if (response.ok) {
+
+    const data = await response.json();
+    dispatch(setBank(data))
+    return data;
+
+  } else if (response.status < 500) {
+
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+
+  } else {
+    return ['An error occurred. Please try again.']
+  }
+
+}
 
 
 
-export const addBank = (userId, bank, accountNumber, name) => async (dispatch) => {
+export const getAccounts = () => async (dispatch) => {
 
-  const response = await fetch('/api/banks/addbank', {
+  const response = await fetch('/api/accounts/');
+
+  if (response.ok) {
+    const data = await response.json();
+
+    dispatch(setAccounts(data));
+
+    return data;
+  } else if (response.status < 500) {
+
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+
+  } else {
+    return ['An error occurred. Please try again.']
+  }
+}
+
+
+
+export const addAccount = (userId, bankId, accountNumber, name) => async (dispatch) => {
+
+  const response = await fetch('/api/accounts/add', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +89,7 @@ export const addBank = (userId, bank, accountNumber, name) => async (dispatch) =
 
     body: JSON.stringify({
       "user_id": userId,
-      "bank_id": bank,
+      "bank_id": bankId,
       "account_number": accountNumber,
       name,
     }),
@@ -39,7 +98,9 @@ export const addBank = (userId, bank, accountNumber, name) => async (dispatch) =
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(setBank(data))
+
+    dispatch(addAccountAction(data))
+
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -53,11 +114,14 @@ export const addBank = (userId, bank, accountNumber, name) => async (dispatch) =
 
 
 export const deleteBank = (id) => async (dispatch) => {
-  const response = await fetch(`/api/banks/delete/${id}`);
+  const response = await fetch(`/api/accounts/delete/${id}`, { method: 'DELETE' });
 
   if (response.ok) {
-    dispatch(removeBank())
+
+    dispatch(removeAccount(id))
+
     return null;
+
   } else if (response.status < 500) {
     const data = await response.json();
     if (data.errors) {
@@ -69,34 +133,86 @@ export const deleteBank = (id) => async (dispatch) => {
 }
 
 
+
+
 //editing
 export const editBank = (bank) => async (dispatch) => {
-  const response = await fetch(`/api/banks/edit/${bank.id}`, {
+
+  let responseBody = {
+    "user_id": bank.userId,
+    "bank_id": bank.bankId,
+    "name": bank.name,
+    "account_number": bank.accountNumber
+  }
+
+  // if(bank.accountNumber) {
+  //   responseBody["account_number"] = bank.accountNumber
+  // }
+
+
+  const response = await fetch(`/api/accounts/edit/${bank.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      "user_id": bank.userId,
-      "bank_id": bank.bankId,
-      "account_number": bank.accountNumber,
-      "name": bank.name,
-    })
+
+    body: JSON.stringify(responseBody)
   });
+
 
   if (response.ok) {
     const updatedBank = await response.json();
-    dispatch(loadSingleBank(updatedBank))
+
+    dispatch(editAccount(updatedBank))
+
+    return null;
+
+  } else if (response.status < 500) {
+    const data = await response.json();
+
+    if (data.errors) {
+      console.log('INSIDE EDITBANK THUNK --------------------')
+      console.log('my errors inside thunk---> ', data.errors)
+      return data.errors;
+    }
+
+  } else {
+    return ['An error occurred. Please try again.']
   }
-  return response;
 }
 
+
+const initialState = { bank: null, linked: null };
+
 export default function bankReducer(state = initialState, action) {
+  let newState;
   switch (action.type) {
-    case SET_BANK:
-      return { bank: action.payload }
-    case REMOVE_BANK:
-      return { bank: null }
-    case LOAD_BANK:
-      return { bank: action.payload }
+    case GET_BANK:
+
+      state.bank = action.payload
+      return {...state}
+
+    case GET_ACCOUNTS:
+
+      state.linked = action.payload
+      return {...state}
+
+    case REMOVE_ACCOUNT:
+
+      newState = JSON.parse(JSON.stringify(state))
+      delete newState.linked[action.payload]
+      return newState
+
+    case EDIT_ACCOUNT:
+
+      newState = JSON.parse(JSON.stringify(state))
+      newState.linked[action.payload.id] = action.payload
+      return newState
+
+    case ADD_ACCOUNT:
+
+      newState = JSON.parse(JSON.stringify(state))
+      newState.linked[action.payload.id] = action.payload
+      return newState
+
     default:
       return state;
   }

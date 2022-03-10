@@ -5,10 +5,12 @@ import NavBar from './Navigation';
 const MainWrapper = props => {
   return (
     <main>
-      <Route {...props}>
-        <NavBar user={props.user} />
-        {props.children}
-      </Route>
+      <div className='content'>
+        <Route {...props}>
+          <NavBar user={props.user} />
+          {props.children}
+        </Route>
+      </div>
     </main>
   );
 };
