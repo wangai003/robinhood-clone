@@ -65,6 +65,10 @@
   width: 75px;
 }
 
+.result .colored {
+  color: var(--rh-green-base)
+}
+
 .noResult {
   height: 20;
   margin: 0;
