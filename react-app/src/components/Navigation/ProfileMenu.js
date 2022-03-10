@@ -40,7 +40,7 @@ const ProfileMenu = () => {
         </div>
       </div>
       <div className='body'>
-        <Link className='menu' to='add-funds'>
+        <Link className='menu' to='/add-funds'>
           Transfer
         </Link>
       </div>
