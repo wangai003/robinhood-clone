@@ -11,6 +11,7 @@ const rootReducer = combineReducers({
   stocks: stocksReducer,
   bank: bankReducer,
   watchlist: watchlistReducer,
+  assets: assetsReducer
 });
 
 let enhancer;

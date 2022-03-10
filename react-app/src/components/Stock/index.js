@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
+import BuySellStockForm from './BuySellStockForm';
+import { loadAssets } from '../../store/assets'
 import Graph from '../Graph';
 import './Stock.css';
-import BuyStockForm from './BuyStockForm';
 
 function Stock() {
   const [stock, setStock] = useState({});
@@ -19,24 +20,23 @@ function Stock() {
   const [change, setChange] = useState(0);
   const [changePercent, setChangePercent] = useState(0);
   const [showWatchlistForm, setShowWatchlistform] = useState(false);
+  const [buySell, setBuySell] = useState('');
+  const [showBuySell, SetShowBuySell] = useState(false);
+  const [assetsValue, setAssetsValue] = useState(0);
+
+  const assets = useSelector((state) => state.assets);
+
+  const dispatch = useDispatch();
 
   const { symbol } = useParams();
-
-  // const hideForm = () => {
-  //   setShowWatchlistform('hide');
-  // };
 
   const closeWatchlistForm = () => {
     setShowWatchlistform(false);
   };
-  // useEffect(() => {
-  //   if (!showWatchlistForm) return;
 
-
-  //   document.addEventListener('click', closeWatchlistForm);
-
-  //   return () => document.removeEventListener('click', closeWatchlistForm);
-  // }, [showWatchlistForm])
+  const closeBuySellForm = () => {
+    SetShowBuySell(false);
+  }
 
   useEffect(() => {
     if (!symbol) {
@@ -47,8 +47,10 @@ function Stock() {
       const stock = await response1.json();
       const response2 = await fetch(`/api/stocks/${symbol}/financials`);
       stock.financials = await response2.json();
+      dispatch(loadAssets());
       setStock(stock);
       setActivePrice(stock.current);
+      if (assets[symbol.toUpperCase()]) setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
       setIsLoaded(true);
     })();
   }, [symbol]);
@@ -309,12 +311,37 @@ function Stock() {
           <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
         </div>
       }
+      {
+        isLoaded && assets[symbol.toUpperCase()] &&
+        <div>
+          <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
+        </div>
+      }
       <button
         id='buy-stock-btn'
         className={`${color}`}
-      >Buy Stock</button>
-      {isLoaded &&
-        <BuyStockForm symbol={symbol} stock={stock} />}
+        onClick={() => {
+          setBuySell('buy');
+          SetShowBuySell(true);
+        }}>
+        Buy {symbol.toUpperCase()}
+      </button>
+      <button
+        id='sell-stock-btn'
+        className={`${color}`}
+        onClick={() => {
+          setBuySell('sell');
+          SetShowBuySell(true);
+        }}
+      >Sell {symbol.toUpperCase()}
+      </button>
+      {isLoaded && showBuySell &&
+        < BuySellStockForm
+          symbol={symbol.toUpperCase()}
+          stock={stock}
+          buySell={buySell}
+          hideForm={closeBuySellForm} />
+      }
     </div>
   );
 }

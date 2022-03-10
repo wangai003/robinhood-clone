@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import './AddToWatchlist.css'
 
 function AddToWatchlist({ hideForm, symbol, stock }) {

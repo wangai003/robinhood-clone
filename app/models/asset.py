@@ -10,3 +10,17 @@ class Asset(db.Model):
     count = db.Column(db.Integer, nullable=False)
 
     user = db.relationship("User", back_populates="assets")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'symbol': self.symbol,
+            'count': self.count
+        }
+
+    def num_count(self):
+        return self.count
+
+    def str_symbol(self):
+        return self.symbol
