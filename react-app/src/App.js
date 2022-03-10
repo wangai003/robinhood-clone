@@ -10,6 +10,8 @@ import Splash from './components/Splash';
 import Dashboard from './components/Dashboard';
 import Stock from './components/Stock';
 import BankForm from './components/BankForm';
+import { getBanks } from './store/bank';
+import { getAccounts } from './store/bank';
 
 function App() {
   const user = useSelector(state => state.session.user);
@@ -19,6 +21,8 @@ function App() {
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
+      await dispatch(getBanks());
+      await dispatch(getAccounts());
       setLoaded(true);
     })();
   }, [dispatch]);
@@ -41,7 +45,7 @@ function App() {
               <Route exact path='/'>
                 {user ? <Dashboard /> : <Redirect to='/splash' />}
               </Route>
-              <ProtectedRoute exact path='/add-funds' exact={true}>
+              <ProtectedRoute exact path='/add-funds'>
                 <BankForm />
               </ProtectedRoute>
               <ProtectedRoute exact path='/stocks/:symbol'>
