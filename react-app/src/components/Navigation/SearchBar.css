@@ -1,0 +1,77 @@
+.searchBarWrapper {
+  flex-basis: 480px;
+  min-width: 160px;
+  height: 32px;
+  position: relative;
+}
+
+.searchBarContainer {
+  width: 100%;
+  height: max-content;
+  border: 1px solid var(--rh-dark-border);
+  border-radius: 4px;
+  position: absolute;
+  z-index: 10;
+}
+
+.searchBar {
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.searchBarContainer i {
+  color: var(--rh-dark-base2);
+  margin: 0 12px;
+}
+
+.searchBarContainer input {
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+
+.searchBarContainer.focused {
+  background-color: var(--rh-dark-base)
+}
+
+.searchMenu {
+  width: 100%;
+  height: 100%;
+  padding-top: 12px;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.result {
+  width: 100%;
+  height: 28px;
+  padding: 0 24px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.result:hover {
+  background-color: var(--rh-dark-hover);
+}
+
+.stockSymbol {
+  width: 75px;
+}
+
+.result .colored {
+  color: var(--rh-green-base)
+}
+
+.noResult {
+  height: 20;
+  margin: 0;
+  padding: 18px 24px;
+  font-size: 13px;
+}

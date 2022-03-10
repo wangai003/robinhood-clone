@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
 
 import { Line, getElementAtEvent } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
 import './Graph.css';
 
-function Graph({ times, prices, color }) {
+function Graph({ times, prices, color, stock, setActivePrice }) {
   const chartRef = useRef();
 
   const data = {
@@ -32,6 +32,7 @@ function Graph({ times, prices, color }) {
         text: 'Chart.js Line Chart',
       },
       tooltip: {
+        usePointStyle: true,
         mode: 'nearest',
         intersect: false,
         displayColors: false,
@@ -52,6 +53,18 @@ function Graph({ times, prices, color }) {
             }
             return label;
           },
+          labelColor: () => {
+            return {
+              borderColor: 'white',
+              borderWidth: 2,
+            }
+          },
+          labelPointStyle: (context) => {
+            return {
+              pointStyle: 'circle',
+              pointRadius: 3
+            }
+          }
         },
       },
     },
@@ -71,12 +84,34 @@ function Graph({ times, prices, color }) {
     },
   };
 
+  const tooltipLine = {
+    id: 'tooltip-line',
+    beforeDraw: chart => {
+      if (chart.tooltip._active && chart.tooltip._active.length) {
+        const ctx = chart.ctx;
+        ctx.save();
+        const activePoint = chart.tooltip._active[0];
+        setActivePrice(Number(activePoint.element["$context"].raw).toFixed(2))
+        ctx.beginPath();
+        ctx.moveTo(activePoint.element.x, chart.chartArea.top);
+        ctx.lineTo(activePoint.element.x, chart.chartArea.bottom)
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'grey';
+        ctx.stroke();
+        ctx.restore();
+      }
+      else {
+        setActivePrice(stock.current)
+      }
+    }
+  }
+
   return (
     <div className='graph-container'>
       <Line
         data={data}
         options={options}
-        // elements={elements}
+        plugins={[tooltipLine]}
       />
     </div>
   );

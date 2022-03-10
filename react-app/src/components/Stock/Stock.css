@@ -6,9 +6,15 @@ nav>button {
   cursor: pointer;
 }
 
+.stock-dtls-title {
+  border-bottom: 1px solid var(--rh-dark-pressed);
+  padding-bottom: 0.5rem;
+}
+
 .interval-bar {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid var(--rh-dark-pressed);
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .interval-btn {
@@ -17,7 +23,8 @@ nav>button {
   box-sizing: border-box;
   width: 2rem;
   margin: 0 1rem 0 0;
-  background-color: white;
+  background-color: black;
+  color: white;
   border: none;
   font-size: 1rem;
   font-weight: 600;
@@ -56,6 +63,7 @@ nav>button {
 
 .stock-about-container {
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .stock-symbol-price-container {
@@ -89,7 +97,7 @@ nav>button {
 }
 
 #add-to-list-btn.green:hover {
-  background-color: rgba(0, 160, 4, 0.2);
+  background-color: var(--rh-dark-green-hover);
 }
 
 #add-to-list-btn.red {
@@ -97,13 +105,36 @@ nav>button {
   color: red;
 }
 
-.stock-about-container {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+.stock-add-to-watchlist-form {
+  position: absolute;
+  top: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* margin-top: 10rem; */
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-.add-to-watchlist-form {
-  position: static;
-  top: 0;
-  left: 0;
+.stock-financials-container {
+  width: 100%;
+}
 
+.stock-financials-list {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0;
+  row-gap: 1rem;
+}
+
+.financials-title {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.stock-financials-list > li > div {
+  font-size: 14px;
 }

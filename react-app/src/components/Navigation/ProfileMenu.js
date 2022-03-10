@@ -20,8 +20,7 @@ const ProfileMenu = () => {
     dispatch(getBp(user.id));
   }, [dispatch]);
 
-  if (!user) return <></>;
-
+  if (!user) return null;
 
   return (
     <div className='profileMenu' onClick={e => e.stopPropagation()}>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticate } from './store/session';
+import { getAllStocks } from './store/stocks';
 import MainWrapper from './components/MainWrapper';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import LoginForm from './components/auth/LoginForm';
@@ -23,6 +24,8 @@ function App() {
       await dispatch(authenticate());
       await dispatch(getBanks());
       await dispatch(getAccounts());
+      await dispatch(getAllStocks());
+
       setLoaded(true);
     })();
   }, [dispatch]);
