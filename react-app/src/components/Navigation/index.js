@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink as Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton';
+import SearchBar from './SearchBar';
 import './Navbar.css';
 
 const NavBar = () => {
@@ -10,10 +11,7 @@ const NavBar = () => {
         <div className='home'>
           <Link to='/'>Home</Link>
         </div>
-        <div className='searchBar'>
-          <i className='fa-solid fa-magnifying-glass fa-lg'></i>
-          <input placeholder='Search' />
-        </div>
+        <SearchBar />
         <div className='navMenuContainer'>
           <div className='navMenu'>
             <Link to='/'>

@@ -13,7 +13,7 @@ const ProfileMenu = () => {
     history.push('/login');
   };
 
-  if (!user) return <></>;
+  if (!user) return null;
 
   return (
     <div className='profileMenu' onClick={e => e.stopPropagation()}>

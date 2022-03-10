@@ -31,6 +31,10 @@ main {
   height: 100vh;
 }
 
+nav {
+  background-color: unset;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -47,4 +51,8 @@ a {
 .btn-transparent {
   background-color: transparent;
   border: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
