@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import session from './session';
+import session from './session'
+import bankReducer from './bank'
+import bpReducer from './bp'
 import stocksReducer from './stocks';
-import bankReducer from './bank';
 import watchlistReducer from './watchlist';
 import assetsReducer from './assets';
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   stocks: stocksReducer,
   bank: bankReducer,
   watchlist: watchlistReducer,
+  bp: bpReducer,
   assets: assetsReducer
 });
 
