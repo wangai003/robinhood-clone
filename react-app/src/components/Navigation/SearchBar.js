@@ -20,7 +20,13 @@ const SearchBar = () => {
 
   return (
     <div className='searchBarWrapper'>
-      <div className='searchBarContainer' onClick={() => !showMenu && setShowMenu(true)}>
+      <div
+        className={'searchBarContainer' + `${showMenu ? ' focused' : ''}`}
+        onClick={e => {
+          e.stopPropagation();
+          !showMenu && setShowMenu(true);
+        }}
+      >
         <div className='searchBar'>
           <i className='fa-solid fa-magnifying-glass fa-lg'></i>
           <input

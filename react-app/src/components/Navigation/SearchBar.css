@@ -35,7 +35,7 @@
   outline: none;
 }
 
-.searchBarContainer:hover, .searchBarContainer:focus-within {
+.searchBarContainer.focused {
   background-color: var(--rh-dark-base)
 }
 
