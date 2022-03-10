@@ -9,6 +9,11 @@ const SearchMenu = ({ input }) => {
   const regex = new RegExp(input, 'gi');
   const matches = stocks
     .filter(stock => stock.symbol.match(regex) || stock.name.match(regex))
+    .sort(
+      (a, b) =>
+        a.name.indexOf(a.name.match(regex)?.[0]) - b.name.indexOf(b.name.match(regex)?.[0]) ||
+        a.symbol.indexOf(a.symbol.match(regex)?.[0]) - b.symbol.indexOf(b.symbol.match(regex)?.[0])
+    )
     .slice(0, 6)
     .map(stock => {
       const { symbol, name } = stock;
@@ -22,7 +27,6 @@ const SearchMenu = ({ input }) => {
       const nameAfter = nameMatch
         ? name.slice(name.indexOf(nameMatch) + nameMatch.length)
         : undefined;
-      console.log(symbol);
 
       return {
         symbol,
@@ -34,7 +38,6 @@ const SearchMenu = ({ input }) => {
         nameAfter,
       };
     });
-  console.log(matches);
 
   return (
     <div className='searchMenu'>
