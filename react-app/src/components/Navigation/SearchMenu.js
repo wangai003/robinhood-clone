@@ -9,11 +9,30 @@ const SearchMenu = ({ input }) => {
   const regex = new RegExp(input, 'gi');
   const matches = stocks
     .filter(stock => stock.symbol.match(regex) || stock.name.match(regex))
-    .sort(
-      (a, b) =>
-        a.name.indexOf(a.name.match(regex)?.[0]) - b.name.indexOf(b.name.match(regex)?.[0]) ||
-        a.symbol.indexOf(a.symbol.match(regex)?.[0]) - b.symbol.indexOf(b.symbol.match(regex)?.[0])
-    )
+    .sort((a, b) => {
+      const aNameIndex = a.name.indexOf(a.name.match(regex)?.[0]);
+      const bNameIndex = b.name.indexOf(b.name.match(regex)?.[0]);
+      const aSymbolIndex = a.symbol.indexOf(a.symbol.match(regex)?.[0]);
+      const bSymbolIndex = b.symbol.indexOf(b.symbol.match(regex)?.[0]);
+
+      const aOrder =
+        aSymbolIndex > -1 && aNameIndex > -1
+          ? Math.min(aSymbolIndex, aNameIndex)
+          : Math.max(aSymbolIndex, aNameIndex);
+      const bOrder =
+        bSymbolIndex > -1 && bNameIndex > -1
+          ? Math.min(bSymbolIndex, bNameIndex)
+          : Math.max(bSymbolIndex, bNameIndex);
+
+      return (
+        aOrder - bOrder ||
+        (bSymbolIndex > -1) - (aSymbolIndex > -1) ||
+        aSymbolIndex - bSymbolIndex ||
+        a.symbol.length - b.symbol.length ||
+        (bNameIndex > -1) - (aNameIndex > -1) ||
+        aNameIndex - bNameIndex
+      );
+    })
     .slice(0, 6)
     .map(stock => {
       const { symbol, name } = stock;
