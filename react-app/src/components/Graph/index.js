@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
 
 import { Line, getElementAtEvent } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';

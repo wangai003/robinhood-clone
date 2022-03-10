@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { login, demo } from '../../store/session';
+import './LoginForm.css';
 
 const LoginForm = ({ user }) => {
   const [errors, setErrors] = useState([]);
@@ -30,35 +31,41 @@ const LoginForm = ({ user }) => {
   }
 
   return (
-    <form onSubmit={onLogin}>
-      <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
+    <div className='login-page-container'>
+      <img id='login-form-img' src="/static/rh-login-image.jpg" />
+      <div className='login-form-container'>
+        <form className="login-form" onSubmit={onLogin}>
+          <h2>Log in to Robinhood</h2>
+          <div>
+            {errors.map((error, ind) => (
+              <div key={ind}>{error}</div>
+            ))}
+          </div>
+          <div>
+            <label htmlFor='email'>Email</label>
+            <input name='email' type='text' placeholder='Email' value={email} onChange={updateEmail} />
+          </div>
+          <div>
+            <label htmlFor='password'>Password</label>
+            <input
+              name='password'
+              type='password'
+              placeholder='Password'
+              value={password}
+              onChange={updatePassword}
+            />
+            <button type='submit'>Login</button>
+            <button type='button' onClick={() => dispatch(demo())}>
+              Login as demo
+            </button>
+            <div>
+              <span>Not on Robinhood?</span>
+              <Link to='/signup'>Create an account</Link>
+            </div>
+          </div>
+        </form>
       </div>
-      <div>
-        <label htmlFor='email'>Email</label>
-        <input name='email' type='text' placeholder='Email' value={email} onChange={updateEmail} />
-      </div>
-      <div>
-        <label htmlFor='password'>Password</label>
-        <input
-          name='password'
-          type='password'
-          placeholder='Password'
-          value={password}
-          onChange={updatePassword}
-        />
-        <button type='submit'>Login</button>
-        <button type='button' onClick={() => dispatch(demo())}>
-          Login as demo
-        </button>
-        <div>
-          <span>Not on Robinhood?</span>
-          <Link to='/signup'>Create an account</Link>
-        </div>
-      </div>
-    </form>
+    </div>
   );
 };
 

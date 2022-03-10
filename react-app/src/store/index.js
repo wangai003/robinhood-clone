@@ -4,12 +4,14 @@ import session from './session';
 import stocksReducer from './stocks';
 import bankReducer from './bank';
 import watchlistReducer from './watchlist';
+import assetsReducer from './assets';
 
 const rootReducer = combineReducers({
   session,
   stocks: stocksReducer,
   bank: bankReducer,
   watchlist: watchlistReducer,
+  assets: assetsReducer
 });
 
 let enhancer;
