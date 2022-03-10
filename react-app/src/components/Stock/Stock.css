@@ -86,21 +86,43 @@ nav>button {
   height: 3rem;
   border-radius: 1.5rem;
   white-space: nowrap;
-  position: relative;
+  /* position: relative; */
   top: 4rem;
   left: 4rem;
 }
 
-#add-to-list-btn.green {
+#buy-stock-btn,
+#sell-stock-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: black;
+  padding: 1rem;
+  font-size: 1rem;
+  min-width: 8rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  white-space: nowrap;
+  margin: 0.5rem;
+}
+
+#add-to-list-btn.green,
+#buy-stock-btn.green,
+#sell-stock-btn.green {
   border: 2px solid var(--rh-green-base);
   color: var(--rh-green-base);
 }
 
-#add-to-list-btn.green:hover {
+#add-to-list-btn.green:hover,
+#buy-stock-btn.green:hover,
+#sell-stock-btn.green:hover {
   background-color: var(--rh-dark-green-hover);
 }
 
-#add-to-list-btn.red {
+#add-to-list-btn.red,
+#buy-stock-btn.red,
+#sell-stock-btn.red {
   border: 2px solid red;
   color: red;
 }
@@ -137,4 +159,10 @@ nav>button {
 
 .stock-financials-list > li > div {
   font-size: 14px;
+}
+
+.stock-btn-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10rem 0 0 5rem;
 }

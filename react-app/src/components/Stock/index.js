@@ -298,49 +298,55 @@ function Stock() {
           </ul>
         </div>
       </div>
-      <button
-        id='add-to-list-btn'
-        className={`${color}`}
-        onClick={() => !showWatchlistForm && setShowWatchlistform(true)}
-      >
-        &#10003; Add to Lists
-      </button>
-      {
-        showWatchlistForm &&
-        <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
-          <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
+      <div className='stock-btn-container'>
+        <div cla>
+          {
+            isLoaded && assets[symbol.toUpperCase()] &&
+            <div>
+              <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
+            </div>
+          }
         </div>
-      }
-      {
-        isLoaded && assets[symbol.toUpperCase()] &&
-        <div>
-          <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
+        <button
+          id='add-to-list-btn'
+          className={`${color}`}
+          onClick={() => !showWatchlistForm && setShowWatchlistform(true)}
+        >
+          &#10003; Add to Lists
+        </button>
+        <div className='buy-sell-btn-container'>
+          <button
+            id='buy-stock-btn'
+            className={`${color}`}
+            onClick={() => {
+              setBuySell('buy');
+              SetShowBuySell(true);
+            }}>
+            Buy {symbol.toUpperCase()}
+          </button>
+          <button
+            id='sell-stock-btn'
+            className={`${color}`}
+            onClick={() => {
+              setBuySell('sell');
+              SetShowBuySell(true);
+            }}
+          >Sell {symbol.toUpperCase()}
+          </button>
         </div>
-      }
-      <button
-        id='buy-stock-btn'
-        className={`${color}`}
-        onClick={() => {
-          setBuySell('buy');
-          SetShowBuySell(true);
-        }}>
-        Buy {symbol.toUpperCase()}
-      </button>
-      <button
-        id='sell-stock-btn'
-        className={`${color}`}
-        onClick={() => {
-          setBuySell('sell');
-          SetShowBuySell(true);
-        }}
-      >Sell {symbol.toUpperCase()}
-      </button>
+      </div>
       {isLoaded && showBuySell &&
         < BuySellStockForm
           symbol={symbol.toUpperCase()}
           stock={stock}
           buySell={buySell}
           hideForm={closeBuySellForm} />
+      }
+      {
+        showWatchlistForm &&
+        <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
+          <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
+        </div>
       }
     </div>
   );
