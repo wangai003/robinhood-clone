@@ -95,6 +95,8 @@
 .modal-content {
   width: 500px;
   background-color: #FFF;
+  color: black;
+  border-radius: 3px;
 }
 
 .modal-header, .modal-footer {
@@ -109,4 +111,11 @@
   padding: 10px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-body div {
+  margin-bottom: 20px;
 }

@@ -9,6 +9,7 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.bank_routes import bank_routes
+from .api.account_routes import account_routes
 from .api.watchlist_routes import watchlist_routes
 from .api.stock_routes import stock_routes
 from .api.asset_routes import asset_routes
@@ -36,6 +37,7 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(bank_routes, url_prefix='/api/banks')
+app.register_blueprint(account_routes, url_prefix='/api/accounts')
 
 app.register_blueprint(watchlist_routes,url_prefix='/api/watchlists')
 app.register_blueprint(stock_routes, url_prefix='/api/stocks')

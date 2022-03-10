@@ -1,0 +1,117 @@
+/*
+h2 {
+  color: blue
+}
+ */
+
+ .linked-accounts-table {
+   display: inline-block;
+ }
+
+ .linked-accounts-table thead th {
+   margin-right: 30px;
+ }
+
+ .table-outer-container {
+   /* border: 2px solid red; */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+
+ .table-inner-container {
+   /* border: 2px solid orange; */
+   padding: 20px;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 600px;
+ }
+
+ .table-inner-container th {
+  padding: 10px;
+ }
+
+ .table-inner-container td {
+  padding-left: 10px;
+ }
+
+
+ .table-inner-container button {
+   margin: 5px;
+   height: 20px;
+ }
+
+ .form-outer-container {
+  /* border: 2px solid green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ /* .form-inner-container {
+  border: 2px solid orange;
+  display: flex;
+  flex-direction: column;
+} */
+
+.bank-form {
+  /* background-color: rgb(255, 164, 164); */
+  border: 2px rgb(0, 141, 71) solid;
+  padding: 30px;
+  width: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 20px;
+}
+
+.bank-form:hover {
+  box-shadow: 0 0 5px 0.1em rgb(0, 141, 71);
+}
+
+.form-container {
+  margin-top: 50px;
+}
+
+.sub-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bank-form input {
+  width: 220px;
+  height: 25px;
+}
+
+.bank-form select {
+  width: 220px;
+  height: 25px;
+}
+
+.bank-form label {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+label {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.add-bank-button {
+  margin-top: 20px;
+  width: 90px;
+  height: 30px;
+  font-size: 14px ;
+}
+
+.bank-errors {
+  color: red;
+  font-size: 14px;
+}
