@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import Graph from '../Graph';
 import './Stock.css';
+import BuyStockForm from './BuyStockForm';
 
 function Stock() {
   const [stock, setStock] = useState({});
@@ -308,6 +309,12 @@ function Stock() {
           <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
         </div>
       }
+      <button
+        id='buy-stock-btn'
+        className={`${color}`}
+      >Buy Stock</button>
+      {isLoaded &&
+        <BuyStockForm symbol={symbol} stock={stock} />}
     </div>
   );
 }
