@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Stock from ".";
 import { buyAssets, buySellAssets, sellAllAssets } from "../../store/assets";
 
-function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
+function BuySellStockForm({ symbol, buySell, hideForm, stock, name }) {
     const [count, setCount] = useState(1);
     const [cost, setCost] = useState(0);
     const [errors, setErrors] = useState([]);
@@ -14,7 +14,7 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
     const validateSale = () => {
         const errors = []
         if (assets[symbol] && count > assets[symbol].count && buySell === 'sell') {
-            errors.push('You don\'t have that many shares to sell');
+            errors.push('You don\'t have that many shares');
         }
         setErrors(errors);
     }
@@ -50,7 +50,7 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
 
         if (!errors.length) {
             const payload = {
-                name: symbol,
+                name,
                 symbol,
                 count
             }
@@ -71,7 +71,7 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
     }
 
     return (
-        <div>
+        <div className="bu-sell-stock-form-container">
             {errors.map(error => (
                 <div key={error}>{error}</div>
             ))}

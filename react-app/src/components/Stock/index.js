@@ -23,8 +23,10 @@ function Stock() {
   const [buySell, setBuySell] = useState('');
   const [showBuySell, SetShowBuySell] = useState(false);
   const [assetsValue, setAssetsValue] = useState(0);
+  // const [name, setName] = useState('');
 
   const assets = useSelector((state) => state.assets);
+  const stocks = useSelector((state) => state.stocks);
 
   const dispatch = useDispatch();
 
@@ -50,10 +52,18 @@ function Stock() {
       dispatch(loadAssets());
       setStock(stock);
       setActivePrice(stock.current);
-      if (assets[symbol.toUpperCase()]) setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
       setIsLoaded(true);
     })();
   }, [symbol]);
+
+  useEffect(() => {
+    (async () => {
+      if (assets[symbol.toUpperCase()]) {
+        console.log("in assets value**********************")
+        setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
+      }
+    })();
+  })
 
   useEffect(() => {
     (async () => {
@@ -270,7 +280,9 @@ function Stock() {
         </nav>
         <div className='stock-about-container'>
           <h3 className='stock-dtls-title'>About</h3>
-          <p>This company is this</p>
+          {stocks[symbol.toUpperCase()] &&
+            <p>{stocks[symbol.toUpperCase()].name}</p>
+          }
         </div>
         <div className='stock-financials-container'>
           <h3 className='stock-dtls-title'>Key Statistics</h3>
@@ -334,14 +346,15 @@ function Stock() {
           >Sell {symbol.toUpperCase()}
           </button>
         </div>
+        {isLoaded && showBuySell &&
+          < BuySellStockForm
+            symbol={symbol.toUpperCase()}
+            stock={stock}
+            buySell={buySell}
+            name={stocks[symbol.toUpperCase()].name}
+            hideForm={closeBuySellForm} />
+        }
       </div>
-      {isLoaded && showBuySell &&
-        < BuySellStockForm
-          symbol={symbol.toUpperCase()}
-          stock={stock}
-          buySell={buySell}
-          hideForm={closeBuySellForm} />
-      }
       {
         showWatchlistForm &&
         <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>

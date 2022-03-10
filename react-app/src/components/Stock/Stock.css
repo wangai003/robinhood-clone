@@ -104,7 +104,15 @@ nav>button {
   height: 3rem;
   border-radius: 1.5rem;
   white-space: nowrap;
-  margin: 0.5rem;
+  margin: 0.5rem 0 0.5rem;
+}
+
+#buy-stock-btn {
+  margin-right: 0.5rem;
+}
+
+.buy-sell-btn-container {
+  display: flex;
 }
 
 #add-to-list-btn.green,

@@ -28,8 +28,8 @@ def stock_symbols():
     NYSE = [line.strip().split('\t')
             for line in open('app/utils/NYSE.txt')][1:]
 
-    data = [{'symbol': stock[0], 'name': stock[1]}
-            for stock in sorted(AMEX + NASDAQ + NYSE) if len(stock) == 2]
+    data = {stock[0]: {'symbol': stock[0], 'name': stock[1]}
+            for stock in sorted(AMEX + NASDAQ + NYSE) if len(stock) == 2}
 
     return jsonify(data)
 
