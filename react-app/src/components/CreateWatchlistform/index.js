@@ -1,7 +1,9 @@
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { getAllStocks } from '../../store/stocks';
 import { createWatchlist } from '../../store/watchlist';
+import './watchlistform.css'
 const CreateWatchlistForm = ({ hideform}) => {
 	const sessionUser = useSelector(state => state.session.user);
 	const dispatch = useDispatch();
@@ -33,19 +35,15 @@ const CreateWatchlistForm = ({ hideform}) => {
 			button.disabled = true;
 			titleInput.disabled = true;
             let createdWatchlist = await dispatch(createWatchlist(title,sessionUser.id))
-			if(createdWatchlist.errors){
-				for(let currErr in createdWatchlist.errors){
-					if(createdWatchlist.errors[currErr] === "You provided a name for a Watchlist that you have already created"){
-						setTitle("")
-					}
-					errors.push(`${createdWatchlist.errors[currErr]}`)
-				}
+			if(createdWatchlist.error){
+				console.log("akdjbasjhdbajh")
+				errors.push(createdWatchlist.error)
 				button.disabled = false;
 				titleInput.disabled = false;
 				setValidationErrors(errors);
-			} else if (createdWatchlist){
+			} else{
                 // new watch list was created need to rerender or reload
-                hideform();
+				hideform();
 			}
 		}
 	};

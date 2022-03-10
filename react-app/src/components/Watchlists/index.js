@@ -10,8 +10,11 @@ function WatchlistList() {
   const sessionUser = useSelector(state => state.session.User);
   const watchlists = useSelector(state => state.watchlist.watchlists);
   const [showCreateWatchlistForm, changeCreateWatchlistForm] = useState(false);
+  const [createWatchlistText,setCreateWatchlistText] = useState("New Watchlist")
   const toggleCreateWatchlistForm = async e => {
     changeCreateWatchlistForm(!showCreateWatchlistForm);
+    if(!showCreateWatchlistForm)setCreateWatchlistText("Cancel")
+    else{ setCreateWatchlistText("New Watchlist")}
   };
 
   useEffect(() => {
@@ -20,7 +23,7 @@ function WatchlistList() {
 
   return (
     <div className='watchlistListContainer'>
-      <button onClick={toggleCreateWatchlistForm}>Create new watchlist</button>
+      <button onClick={toggleCreateWatchlistForm}>{createWatchlistText}</button>
       {showCreateWatchlistForm && (
         <CreateWatchlistForm hideform={toggleCreateWatchlistForm}></CreateWatchlistForm>
       )}
