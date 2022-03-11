@@ -19,6 +19,6 @@ class BankAccount(db.Model):
             'name': self.name,
             'user_id': self.user_id,
             'bank_id': self.bank_id,
-            # 'bank_name': self.bank.name,
+            'bank_name': self.bank.name,
             'account_number': self.account_number,
         }

@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [activeValue, setActiveValue] = useState(0);
 
   const assets = useSelector((state) => Object.values(state.portfolio.assets));
+  const bp = useSelector(state => state.portfolio.buying_power);
 
   const dispatch = useDispatch();
 
@@ -99,18 +100,18 @@ const Dashboard = () => {
           <div className={'buyingPowerContainer' + `${showMenu ? ' selected' : ''}`}>
             <div className='bpHeader noSelect' onClick={() => setShowMenu(!showMenu)}>
               <span>Buying Power</span>
-              {!showMenu && <span>$100,000,000</span>}
+              {!showMenu && <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>}
             </div>
             {showMenu && (
               <div className='bpBody'>
                 <div className='bpDetails'>
                   <div className='cash'>
                     <span>Brokerage Cash</span>
-                    <span>$100,000,000</span>
+                    <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
                   </div>
                   <div className='power'>
                     <span>Buying Power</span>
-                    <span>$100,000,000</span>
+                    <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
                   </div>
                   <Link className='btn btn-filled deposit' to='/add-funds'>
                     Deposit Funds
