@@ -20,6 +20,7 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setErrors([]);
 
     const data = await dispatch(addBuyingPower(buyingPower));
 
