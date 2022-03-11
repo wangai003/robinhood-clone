@@ -60,15 +60,21 @@ const Dashboard = () => {
           }
         }
         i++;
-        console.log(values);
+      }
+      if (Object.keys(assets).length) {
+        const change = (values[values.length - 1] - values[0]).toFixed(2);
+        const changePercent = (100 * change / values[0]).toFixed(2);
+        const color = change > 0 ? 'green' : 'red';
+
         setTimes(times);
         setCurrValue(values[values.length - 1].toFixed(2));
-        setActiveValue(values[values.length - 1]);
-        setChange((values[values.length - 1] - values[0]).toFixed(2))
+        setActiveValue(values[values.length - 1].toFixed(2));
+        setChange(change);
+        setChangePercent(changePercent);
         setPrices(values);
       }
     })();
-  }, [isLoaded]);
+  }, [isLoaded, interval]);
 
   const setFunctions = { setInterval, setIntervalLong, setResolution };
 

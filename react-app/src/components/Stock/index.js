@@ -81,7 +81,7 @@ function Stock() {
       }
 
       const change = (prices[prices.length - 1] - prices[0]);
-      const changePercent = (change / prices[0]).toFixed(2);
+      const changePercent = (100 * change / prices[0]).toFixed(2);
       const color = change > 0 ? 'green' : 'red';
 
       setChange(change.toFixed(2));
