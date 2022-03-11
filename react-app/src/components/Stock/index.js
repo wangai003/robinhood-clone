@@ -80,11 +80,11 @@ function Stock() {
         times.push(convertTimes(obj.time, interval));
       }
 
-      const change = (prices[prices.length - 1] - prices[0]).toFixed(2);
+      const change = (prices[prices.length - 1] - prices[0]);
       const changePercent = (change / prices[0]).toFixed(2);
       const color = change > 0 ? 'green' : 'red';
 
-      setChange(change);
+      setChange(change.toFixed(2));
       setChangePercent(changePercent);
       setColor(color);
       setTimes(times);
