@@ -113,6 +113,7 @@ const Dashboard = () => {
                   <div className='power'>
                     <span>Buying Power</span>
                     <span>{bp}</span>
+
                   </div>
                   <Link className='btn btn-filled deposit' to='/add-funds'>
                     Deposit Funds

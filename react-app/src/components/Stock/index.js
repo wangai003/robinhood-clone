@@ -26,10 +26,8 @@ function Stock() {
   const [buySell, setBuySell] = useState('');
   const [showBuySell, SetShowBuySell] = useState(false);
   const [assetsValue, setAssetsValue] = useState(0);
-
   const assets = useSelector(state => state.portfolio.assets);
   const stocks = useSelector(state => state.stocks);
-
 
   const { symbol } = useParams();
 
