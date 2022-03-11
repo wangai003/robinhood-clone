@@ -1,18 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch} from 'react-redux';
 import {
   addStockToWatchlist,
-  createWatchlist,
   searchStocks,
 } from '../../store/portfolio/watchlist';
-import debounce from 'lodash.debounce';
 import { DebounceInput } from 'react-debounce-input';
 import './addstockform.css';
 const AddStockForm = ({ hideform, watchlist }) => {
-  const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
-  const history = useHistory();
   const [name, setName] = useState('');
   const [filteredStocks, setFilteredStocks] = useState([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
@@ -62,7 +57,7 @@ const AddStockForm = ({ hideform, watchlist }) => {
         setShowSuggestions(false);
         console.log(filteredStocks[activeSuggestionIndex]);
         updateOnlyName(filteredStocks[activeSuggestionIndex]);
-        let res = await dispatch(
+        await dispatch(
           addStockToWatchlist(filteredStocks[activeSuggestionIndex], watchlist)
         );
         hideform();
