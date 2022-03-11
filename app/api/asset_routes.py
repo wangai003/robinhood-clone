@@ -10,7 +10,8 @@ asset_routes = Blueprint('assets', __name__)
 @login_required
 def load_assets():
     assets = Asset.query.filter(Asset.user_id == current_user.id).all()
-    return jsonify([asset.to_dict() for asset in assets])
+    data = {asset.symbol: {asset.to_dict()} for asset in assets}
+    return jsonify({asset.symbol: {asset.to_dict()} for asset in assets})
 
 
 @asset_routes.route('/', methods=['POST'])
