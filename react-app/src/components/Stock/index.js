@@ -5,6 +5,9 @@ import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
 // import { loadAssets } from '../../store/portfolio/assets';
 import Graph from '../Graph';
+import GraphBar from '../Graph/GraphBar';
+import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
+import { fixMarketCap } from '../utils/stockUtils';
 import './Stock.css';
 
 function Stock() {
@@ -25,8 +28,8 @@ function Stock() {
   const [assetsValue, setAssetsValue] = useState(0);
 
   const assets = useSelector(state => state.portfolio.assets);
+  const stocks = useSelector(state => state.stocks);
 
-  const dispatch = useDispatch();
 
   const { symbol } = useParams();
 
@@ -50,15 +53,21 @@ function Stock() {
       // dispatch(loadAssets());
       setStock(stock);
       setActivePrice(stock.current);
-      if (assets[symbol.toUpperCase()])
-        setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2));
       setIsLoaded(true);
     })();
   }, [symbol]);
 
   useEffect(() => {
     (async () => {
-      const fromTo = getInterval();
+      if (assets[symbol.toUpperCase()]) {
+        setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
+      }
+    })();
+  })
+
+  useEffect(() => {
+    (async () => {
+      const fromTo = getInterval(interval);
       const response = await fetch(
         `/api/stocks/${symbol}/candles?from=${fromTo[0]}&to=${fromTo[1]}&resolution=${resolution}`
       );
@@ -68,14 +77,14 @@ function Stock() {
 
       for (const obj of data) {
         prices.push(obj.price.toFixed(2));
-        times.push(convertTimes(obj.time));
+        times.push(convertTimes(obj.time, interval));
       }
 
-      const change = (prices[prices.length - 1] - prices[0]).toFixed(2);
-      const changePercent = (change / prices[0]).toFixed(2);
+      const change = (prices[prices.length - 1] - prices[0]);
+      const changePercent = (100 * change / prices[0]).toFixed(2);
       const color = change > 0 ? 'green' : 'red';
 
-      setChange(change);
+      setChange(change.toFixed(2));
       setChangePercent(changePercent);
       setColor(color);
       setTimes(times);
@@ -83,121 +92,7 @@ function Stock() {
     })();
   }, [interval]);
 
-  const handleClick = int => {
-    switch (int) {
-      case '1D':
-        setIntervalLong('Today');
-        setResolution('5');
-        break;
-      case '1W':
-        setIntervalLong('Past Week');
-        setResolution('30');
-        break;
-      case '1M':
-        setIntervalLong('Past Month');
-        setResolution('60');
-        break;
-      case '3M':
-        setIntervalLong('Past 3 Months');
-        setResolution('D');
-        break;
-      case '1Y':
-        setIntervalLong('Past Year');
-        setResolution('D');
-        break;
-      // case ('5Y'):
-      //     setResolution("W");
-      //     break;
-      default:
-        break;
-    }
-    setInterval(int);
-  };
-
-  const convertTimes = time => {
-    const date = new Date(time * 1000);
-    const year = date.getFullYear();
-    const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
-    const day = date.getDate();
-    const hours = date.getHours() > 12 ? `${date.getHours() - 12}` : `${date.getHours()}`;
-    const minutes = date.getMinutes() > 9 ? `${date.getMinutes()}` : `0${date.getMinutes()}`;
-    const amPM = date.getHours() > 12 ? 'PM' : 'AM';
-
-    switch (interval) {
-      case '1D': {
-        return `${hours}:${minutes} ${amPM}`;
-      }
-      case '1W': {
-        return `${month} ${day} ${hours}:${minutes} ${amPM}`;
-      }
-      case '1M': {
-        return `${month} ${day} ${hours}:${minutes} ${amPM}`;
-      }
-      case '3M':
-        return `${month} ${day}, ${year}`;
-      case '1Y':
-        return `${month} ${day}, ${year}`;
-      // case ('5Y'):
-      //     return `${month} ${day}, ${year}`;
-      default:
-        return '';
-    }
-  };
-
-  const unixifyDates = dates => {
-    const unixDates = [];
-    dates.forEach(date => {
-      let unixDate = Date.parse(date) / 1000;
-      unixDates.push(unixDate.toString());
-    });
-    return unixDates;
-  };
-
-  const fixMarketCap = marketCap => {
-    if (marketCap < 1000) {
-      return marketCap.toFixed(2).toString();
-    } else if (marketCap < 1000000) {
-      return (marketCap / 1000).toFixed(2).toString() + 'K';
-    } else if (marketCap < 1000000000) {
-      return (marketCap / 1000000).toFixed(2).toString() + 'M';
-    } else if (marketCap < 1000000000000) {
-      return (marketCap / 1000000000).toFixed(2).toString() + 'B';
-    } else if (marketCap > 1000000000000) {
-      return (marketCap / 1000000000000).toFixed(2).toString() + 'T';
-    } else return marketCap;
-  };
-
-  const getInterval = () => {
-    let today = new Date();
-    today.setHours(16);
-    today.setMinutes(0);
-    today.setSeconds(0);
-    today.setMilliseconds(0);
-    const open = new Date(today - 23400000);
-    const oneDay = 86400000;
-    const oneWeekAgo = new Date(today - oneDay * 7);
-    const oneMonthAgo = new Date(today - oneDay * 30);
-    const threeMonthsAgo = new Date(today - oneDay * 90);
-    const oneYearAgo = new Date(today - oneDay * 365);
-    // const fiveYearsAgo = new Date(today - oneDay * 365 * 5 - oneDay);
-
-    switch (interval) {
-      case '1D':
-        return unixifyDates([open, today]);
-      case '1W':
-        return unixifyDates([oneWeekAgo, today]);
-      case '1M':
-        return unixifyDates([oneMonthAgo, today]);
-      case '3M':
-        return unixifyDates([threeMonthsAgo, today]);
-      case '1Y':
-        return unixifyDates([oneYearAgo, today]);
-      // case ('5Y'):
-      //     return unixifyDates([fiveYearsAgo, today]);
-      default:
-        return ['', ''];
-    }
-  };
+  const setFunctions = { setInterval, setIntervalLong, setResolution };
 
   return (
     <div className='stock-page-container'>
@@ -210,66 +105,19 @@ function Stock() {
             <div className='interval-long'>{intervalLong}</div>
           </div>
         </div>
-        {isLoaded && (
-          <Graph
-            symbol={symbol}
-            color={color}
-            times={times}
-            prices={prices}
-            stock={stock}
-            setActivePrice={setActivePrice}
-          />
-        )}
-        <nav className='interval-bar'>
-          <button
-            className={
-              interval === '1D' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML)}
-          >
-            1D
-          </button>
-          <button
-            className={
-              interval === '1W' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML)}
-          >
-            1W
-          </button>
-          <button
-            className={
-              interval === '1M' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML)}
-          >
-            1M
-          </button>
-          <button
-            className={
-              interval === '3M' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML)}
-          >
-            3M
-          </button>
-          <button
-            className={
-              interval === '1Y' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML)}
-          >
-            1Y
-          </button>
-          {/* <button
-                        className={interval === '5Y' ? `interval-btn selected ${color}` : `interval-btn ${color}`}
-                        onClick={(e) => handleClick(e.target.innerHTML)}>
-                        5Y
-                    </button> */}
-        </nav>
+        {isLoaded && <Graph
+          symbol={symbol}
+          color={color}
+          times={times}
+          prices={prices}
+          current={stock.current}
+          setActivePrice={setActivePrice} />}
+        <GraphBar color={color} interval={interval} setFunctions={setFunctions} />
         <div className='stock-about-container'>
           <h3 className='stock-dtls-title'>About</h3>
-          <p>This company is this</p>
+          {stocks[symbol.toUpperCase()] &&
+            <p>{stocks[symbol.toUpperCase()].name}</p>
+          }
         </div>
         <div className='stock-financials-container'>
           <h3 className='stock-dtls-title'>Key Statistics</h3>
@@ -317,51 +165,57 @@ function Stock() {
           </ul>
         </div>
       </div>
-      <button
-        id='add-to-list-btn'
-        className={`${color}`}
-        onClick={() => !showWatchlistForm && setShowWatchlistform(true)}
-      >
-        &#10003; Add to Lists
-      </button>
-      {showWatchlistForm && (
+      <div className='stock-btn-container'>
+        <div cla>
+          {
+            isLoaded && assets[symbol.toUpperCase()] &&
+            <div>
+              <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
+            </div>
+          }
+        </div>
+        <button
+          id='add-to-list-btn'
+          className={`${color}`}
+          onClick={() => !showWatchlistForm && setShowWatchlistform(true)}
+        >
+          &#10003; Add to Lists
+        </button>
+        <div className='buy-sell-btn-container'>
+          <button
+            id='buy-stock-btn'
+            className={`${color}`}
+            onClick={() => {
+              setBuySell('buy');
+              SetShowBuySell(true);
+            }}>
+            Buy {symbol.toUpperCase()}
+          </button>
+          <button
+            id='sell-stock-btn'
+            className={`${color}`}
+            onClick={() => {
+              setBuySell('sell');
+              SetShowBuySell(true);
+            }}
+          >Sell {symbol.toUpperCase()}
+          </button>
+        </div>
+        {isLoaded && showBuySell &&
+          < BuySellStockForm
+            symbol={symbol.toUpperCase()}
+            stock={stock}
+            buySell={buySell}
+            name={stocks[symbol.toUpperCase()].name}
+            hideForm={closeBuySellForm} />
+        }
+      </div>
+      {
+        showWatchlistForm &&
         <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
           <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
         </div>
-      )}
-      {isLoaded && assets[symbol.toUpperCase()] && (
-        <div>
-          <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
-        </div>
-      )}
-      <button
-        id='buy-stock-btn'
-        className={`${color}`}
-        onClick={() => {
-          setBuySell('buy');
-          SetShowBuySell(true);
-        }}
-      >
-        Buy {symbol.toUpperCase()}
-      </button>
-      <button
-        id='sell-stock-btn'
-        className={`${color}`}
-        onClick={() => {
-          setBuySell('sell');
-          SetShowBuySell(true);
-        }}
-      >
-        Sell {symbol.toUpperCase()}
-      </button>
-      {isLoaded && showBuySell && (
-        <BuySellStockForm
-          symbol={symbol.toUpperCase()}
-          stock={stock}
-          buySell={buySell}
-          hideForm={closeBuySellForm}
-        />
-      )}
+      }
     </div>
   );
 }
