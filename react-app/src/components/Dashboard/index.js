@@ -28,8 +28,6 @@ const Dashboard = () => {
     currency: 'USD',
   });
 
-  const dispatch = useDispatch();
-
   // const assets = assetList.map(async asset => {
   //   const res = await fetch(`/api/stocks/${asset.symbol}/quote`);
   //   const quote = await res.json();
@@ -137,28 +135,30 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className='rightContainer'>
-        <div className='stocksListContainer'>
-          <div className='listContainer'>
-            <header className='listTitle'>Stocks</header>
-            {assetList.map(asset => (
-              <div className='stockContainer' key={asset.id}>
-                <Link className='stockDetails' to={`/stocks/${asset.symbol}`}>
-                  <span className='stockSymbol'>{asset.symbol}</span>
-                  <span className='stockCount'>{`${asset.count} ${
-                    asset.count === 1 ? 'Share' : 'Shares'
-                  }`}</span>
-                </Link>
-                <div className='miniGraph'></div>
-                <div className='stockQuote'>
-                  <span className='stockPrice'>$100</span>
-                  <span className='stockChange'>-10%</span>
+      <div className='rightWrapper'>
+        <div className='rightContainer'>
+          <div className='stocksListContainer'>
+            <div className='listContainer'>
+              <header className='listTitle'>Stocks</header>
+              {assetList.map(asset => (
+                <div className='stockContainer' key={asset.id}>
+                  <Link className='stockDetails' to={`/stocks/${asset.symbol}`}>
+                    <span className='stockSymbol'>{asset.symbol}</span>
+                    <span className='stockCount'>{`${asset.count} ${
+                      asset.count === 1 ? 'Share' : 'Shares'
+                    }`}</span>
+                  </Link>
+                  <div className='miniGraph'></div>
+                  <div className='stockQuote'>
+                    <span className='stockPrice'>$100</span>
+                    <span className='stockChange'>-10%</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+          <Watchlists />
         </div>
-        <Watchlists />
       </div>
     </div>
   );

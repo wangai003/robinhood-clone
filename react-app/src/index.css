@@ -29,6 +29,7 @@ main {
   background-color: black;
   color: white;
   padding-bottom: 36px;
+  min-height: 100vh;
 }
 
 .content {
