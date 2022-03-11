@@ -33,6 +33,7 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
     if (data === null) {
       setShowModal(false);
     }
+    setBuyingPower(0);
   };
 
   return (
