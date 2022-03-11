@@ -1,27 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { getAllStocks } from '../../store/stocks';
 import { createWatchlist } from '../../store/portfolio/watchlist';
+import { Modal2 } from '../BankForm/context/Modal';
 import './watchlistform.css';
-const CreateWatchlistForm = ({ hideform }) => {
+const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
-  const history = useHistory();
   const [title, setTitle] = useState('');
   const [validationErrors, setValidationErrors] = useState([]);
 
   const updateTitle = e => setTitle(e.target.value);
-  useEffect(() => {
-    const button = document.getElementById('submit');
-    if (title === '') {
-      button.disabled = true;
-      button.style.opacity = 0.4;
-    } else {
-      button.disabled = false;
-      button.style.opacity = 1;
-    }
-  }, [title]);
+  // useEffect(() => {
+  //   const button = document.getElementById('submit');
+  //   if (title === '') {
+  //     button.disabled = true;
+  //     button.style.opacity = 0.4;
+  //   } else {
+  //     button.disabled = false;
+  //     button.style.opacity = 1;
+  //   }
+  // }, [title]);
   const handleSubmit = async e => {
     e.preventDefault();
     const errors = [];
@@ -40,13 +38,16 @@ const CreateWatchlistForm = ({ hideform }) => {
         setValidationErrors(errors);
       } else {
         // new watch list was created need to rerender or reload
-        hideform();
+        setShowModal(false)
       }
     }
   };
   let count = 0;
   return (
-    <section>
+    <Modal2
+    title={`Create Watchlist`}
+          onClose={() => setShowModal(false)}
+          show={showModal}>
       <div>
         <form className='createWatchlistForm' onSubmit={handleSubmit}>
           {validationErrors.length > 0 && (
@@ -69,7 +70,7 @@ const CreateWatchlistForm = ({ hideform }) => {
           <input id='submit' type={'submit'}></input>
         </form>
       </div>
-    </section>
+    </Modal2>
   );
 };
 

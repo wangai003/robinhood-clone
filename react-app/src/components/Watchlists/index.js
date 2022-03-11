@@ -1,40 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector} from 'react-redux';
 import CreateWatchlistForm from '../CreateWatchlistform';
 import Watchlist from './Watchlist';
-// import { loadWatchlists } from '../../store/portfolio/watchlist';
-//probably dont need this since the loading is just done on the main page
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 function WatchlistList() {
-  // const dispatch = useDispatch();
-  // const sessionUser = useSelector(state => state.session.User);
+
   const watchlists = Object.values(useSelector(state => state.portfolio.watchlists));
+  const [showModal, setShowModal] = useState(false);
   const [showCreateWatchlistForm, changeCreateWatchlistForm] = useState(false);
   const [createWatchlistText, setCreateWatchlistText] = useState('New Watchlist');
   const toggleCreateWatchlistForm = async e => {
+    setShowModal(true)
     changeCreateWatchlistForm(!showCreateWatchlistForm);
-    if (!showCreateWatchlistForm) setCreateWatchlistText('Cancel');
-    else {
-      setCreateWatchlistText('New Watchlist');
-    }
   };
 
-  // useEffect(() => {
-  //   dispatch(loadWatchlists());
-  // }, [dispatch]);
 
   return (
     <div className='watchlistListContainer'>
-      <button onClick={toggleCreateWatchlistForm}>{createWatchlistText}</button>
-      {showCreateWatchlistForm && (
-        <CreateWatchlistForm hideform={toggleCreateWatchlistForm}></CreateWatchlistForm>
+      <div>
+         <button className={"createWatchlistButton"} onClick={toggleCreateWatchlistForm}>{createWatchlistText}</button>
+      {showModal && (
+        <CreateWatchlistForm hideform={toggleCreateWatchlistForm}showModal={showModal} setShowModal={setShowModal}></CreateWatchlistForm>
       )}
-      <ul className='watchlists'>
+      </div>
+        <Tabs>
+      <TabList>
         {watchlists &&
           watchlists.map(watchlist => {
-            return <Watchlist key={'watchlist' + watchlist.id} watchlist={watchlist}></Watchlist>;
+            return <Tab>
+              {watchlist.name}
+            </Tab>
           })}
-      </ul>
+        </TabList>
+        {watchlists.map(watchlist => {
+          return <TabPanel>
+          <Watchlist key={'watchlist' + watchlist.id} watchlist={watchlist}></Watchlist>
+          </TabPanel>
+        })}
+      </Tabs>
     </div>
   );
 }
