@@ -29,11 +29,22 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def to_safe_dict(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+        }
+
     def to_dict(self):
         return {
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
-            # 'buying_power': int(self.buying_power)
+            'assets': [asset.to_dict() for asset in self.assets],
+            'watchlists': [watchlist.to_dict() for watchlist in self.watchlists],
+            'bank_accounts': [bank_account.to_dict() for bank_account in self.bank_accounts],
+            'buying_power': float(self.buying_power)
         }

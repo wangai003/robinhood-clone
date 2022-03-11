@@ -6,7 +6,6 @@ class Asset(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    # name = db.Column(db.String(100), nullable=False)
     symbol = db.Column(db.String(5), nullable=False)
     count = db.Column(db.Integer, nullable=False)
 
@@ -15,7 +14,6 @@ class Asset(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            # 'name': self.name,
             'symbol': self.symbol,
             'count': self.count
         }

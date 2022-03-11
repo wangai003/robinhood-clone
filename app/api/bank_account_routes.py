@@ -1,10 +1,9 @@
-from flask import Blueprint, jsonify, session, request, flash
-from flask_login import login_required
-from app.models import User, db, Bank, BankAccount
+from flask import Blueprint, jsonify, request
+from app.models import db, BankAccount
 from app.forms import AddBankForm, EditBankForm
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_required
 
-account_routes = Blueprint('accounts', __name__)
+bank_account_routes = Blueprint('bank_accounts', __name__)
 
 
 def validation_errors_to_error_messages(validation_errors):
@@ -18,7 +17,8 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 
-@account_routes.route('/')
+@bank_account_routes.route('/')
+@login_required
 def linked():
     """
     gets all bank accounts linked to user
@@ -56,7 +56,8 @@ def linked():
 #     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@account_routes.route('/add', methods=['POST'])
+@bank_account_routes.route('/add', methods=['POST'])
+@login_required
 def add_bank():
     """
     Links new Bank to logged in User
@@ -78,7 +79,8 @@ def add_bank():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@account_routes.route('/delete/<int:id>', methods=['DELETE'])
+@bank_account_routes.route('/delete/<int:id>', methods=['DELETE'])
+@login_required
 def remove_account(id):
     acct = BankAccount.query.get(id)
 
@@ -89,7 +91,8 @@ def remove_account(id):
     return "Bank Account Unlinked"
 
 
-@account_routes.route('/edit/<int:id>', methods=['PUT'])
+@bank_account_routes.route('/edit/<int:id>', methods=['PUT'])
+@login_required
 def update_bank(id):
     post = BankAccount.query.get(id)
 

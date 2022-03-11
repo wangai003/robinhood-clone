@@ -6,13 +6,14 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 
 from .models import db, User
-from .api.user_routes import user_routes
+from .api.buying_power_routes import buying_power_routes
 from .api.auth_routes import auth_routes
 from .api.bank_routes import bank_routes
-from .api.account_routes import account_routes
+from .api.bank_account_routes import bank_account_routes
 from .api.watchlist_routes import watchlist_routes
 from .api.stock_routes import stock_routes
 from .api.asset_routes import asset_routes
+from .api.portfolio_routes import portfolio_routes
 
 from .seeds import seed_commands
 
@@ -34,12 +35,11 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
-app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(portfolio_routes, url_prefix='/api/portfolio')
 app.register_blueprint(bank_routes, url_prefix='/api/banks')
-app.register_blueprint(account_routes, url_prefix='/api/accounts')
-
-app.register_blueprint(watchlist_routes,url_prefix='/api/watchlists')
+app.register_blueprint(bank_account_routes, url_prefix='/api/accounts')
+app.register_blueprint(watchlist_routes, url_prefix='/api/watchlists')
 app.register_blueprint(stock_routes, url_prefix='/api/stocks')
 app.register_blueprint(asset_routes, url_prefix='/api/assets')
 db.init_app(app)
