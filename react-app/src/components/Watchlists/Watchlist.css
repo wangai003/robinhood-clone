@@ -1,0 +1,45 @@
+.deleteWatchlist{
+    background-color: var(--rh-red-base);
+    border-radius: 16px;
+}
+.deleteWatchlist:hover{
+    background-color: var(--rh-red-hover);
+}
+.deleteWatchlist:active{
+    background-color: var(--rh-red-pressed);
+    border-bottom: 2px solid black
+}
+
+
+.watchlistListContainer{
+    background-color: black;
+    color: white;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+
+.watchlistContainer{
+    display: flex;
+
+}
+.stock:hover{
+    color: var(--rh-green-hover)
+}
+.stock:active{
+    color: var(--rh-green-pressed);
+}
+
+.createWatchlistButton{
+    height: 30px;
+    width: 90px;
+    padding: 1px;
+    border-radius: 8px;
+    background-color: black;
+    color: white;
+}
+.createWatchlistButton:hover{
+    color: var(--rh-green-hover);
+
+}

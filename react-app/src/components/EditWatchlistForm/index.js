@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { editWatchlist } from '../../store/portfolio/watchlist';
-const EditWatchlistForm = ({ watchlist, hideform }) => {
+import { Modal2 } from '../BankForm/context/Modal';
+const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   const [title, setTitle] = useState(watchlist.name);
@@ -18,7 +18,7 @@ const EditWatchlistForm = ({ watchlist, hideform }) => {
       button.disabled = false;
       button.style.opacity = 1;
     }
-  }, [title]);
+  }, [title,watchlist.name]);
   const handleSubmit = async e => {
     e.preventDefault();
     const errors = [];
@@ -36,13 +36,15 @@ const EditWatchlistForm = ({ watchlist, hideform }) => {
         setValidationErrors(errors);
       } else if (editedWatchlist) {
         // new watch list was created need to rerender or reload
-        hideform();
+        setShowModal(false)
       }
     }
   };
   let count = 0;
   return (
-    <section>
+    <Modal2  title={`Change Watchlist name from ${watchlist.name}`}
+    onClose={() => setShowModal(false)}
+    show={showModal}>
       <div>
         <form className='createWatchlistForm' onSubmit={handleSubmit}>
           {validationErrors.length > 0 && (
@@ -52,8 +54,7 @@ const EditWatchlistForm = ({ watchlist, hideform }) => {
               })}
             </div>
           )}
-          <label className='titleInputLabel'>
-            Title
+
             <input
               type='textarea'
               id='titleInput'
@@ -61,11 +62,11 @@ const EditWatchlistForm = ({ watchlist, hideform }) => {
               value={title}
               onChange={updateTitle}
             />
-          </label>
+
           <input id='submit' type={'submit'}></input>
         </form>
       </div>
-    </section>
+    </Modal2>
   );
 };
 

@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { deleteStockFromWatchlist, deleteWatchlistReducer } from '../../store/portfolio/watchlist';
 import AddStockForm from '../AddStockForm';
-import CreateWatchlistForm from '../CreateWatchlistform';
 import EditWatchlistForm from '../EditWatchlistForm';
 import './Watchlist.css';
 
 function Watchlist({ watchlist }) {
-  console.log('HIT WATCHLIST');
   const dispatch = useDispatch();
-  // const sessionUser = useSelector(state => state.session.User);
-  // const watchlists = useSelector(state => state.portfolio.watchlists);
-  const [showEditWatchlistForm, changeEditWatchlistForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [showAddStockToWatchlist, setShowAddStockToWatchlist] = useState(false);
-  const toggleEditWatchlistForm = async e => {
-    changeEditWatchlistForm(!showEditWatchlistForm);
+  const [editWatchlistText,setEditWatchlistText] = useState("Edit")
+  const toggleShowModal = async e => {
+    setShowModal(true)
   };
   const toggleShowAddStockToWatchlist = async e => {
     setShowAddStockToWatchlist(!showAddStockToWatchlist);
   };
   const deleteWatchlist = async e => {
-    let response = await dispatch(deleteWatchlistReducer(watchlist.id));
+      await dispatch(deleteWatchlistReducer(watchlist.id));
   };
-
   let editForm;
   let addStockForm;
-  if (showEditWatchlistForm) {
+  if (showModal) {
     editForm = (
       <EditWatchlistForm
-        hideform={toggleEditWatchlistForm}
         watchlist={watchlist}
+        showModal = {showModal}
+        setShowModal = {setShowModal}
       ></EditWatchlistForm>
+
     );
   }
   if (showAddStockToWatchlist) {
@@ -42,23 +41,26 @@ function Watchlist({ watchlist }) {
     <div className='watchListContainer'>
       <ul className='watchList'>
         {watchlist.name}
-        <button onClick={toggleShowAddStockToWatchlist}>Add Stock to Watchlist</button>
-        {addStockForm}
-        <button onClick={toggleEditWatchlistForm}>Edit name of watchlist</button>
+        {/* <button onClick={toggleShowAddStockToWatchlist}>Add Stock to Watchlist</button>
+        {addStockForm} */}
+        <button className='editWatchlist' onClick={toggleShowModal}>{editWatchlistText}</button>
         {editForm}
-        <button onClick={deleteWatchlist}>Delete watchlist</button>
+        <button className='deleteWatchlist' onClick={deleteWatchlist}>Delete</button>
         <ul>
           {watchlist &&
             Object.values(watchlist.stocks).map((stock, i) => (
               <div className='watchListStockContainer' key={i}>
-                <div>{stock.name}</div>
-                <div>{stock.symbol}</div>
+
+                <Link key={i} to={`stocks/${stock.symbol}`}>
+                <span className='stock'>{stock.symbol}
+                </span>
+                </Link>
                 <button
                   onClick={async () =>
                     await dispatch(deleteStockFromWatchlist(stock.id, watchlist))
                   }
                 >
-                  Delete {stock.name}
+                  Remove {stock.name}
                 </button>
               </div>
             ))}
