@@ -24,8 +24,6 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
     const data = await dispatch(addBuyingPower(buyingPower));
 
-    console.log('DATA -----------------> ', data);
-
     if (data) {
       setErrors(data);
     }
@@ -33,6 +31,7 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
     if (data === null) {
       setShowModal(false);
     }
+    setBuyingPower(0);
   };
 
   return (
