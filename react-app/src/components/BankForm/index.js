@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { addAccount, deleteBank } from '../../store/bank';
+import { addBankAccount, deleteBankAccount } from '../../store/portfolio/bankAccount';
 import EditBank from './EditBank';
 import AddBuyingPower from './AddBuyingPower';
-import './Bank.css'
-
+import './Bank.css';
 
 const BankForm = () => {
-
   const [errors, setErrors] = useState([]);
 
   const [bank, setBank] = useState(1);
@@ -16,78 +13,69 @@ const BankForm = () => {
   const [name, setName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
 
-  const [info, setInfo] = useState(false)
+  const [info, setInfo] = useState(false);
 
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   let userId;
   if (user) {
-    userId = user.id
+    userId = user.id;
   }
 
-  let banks = useSelector(state => state.bank?.bank)
-  let myAccounts = Object.values(useSelector(state => state.bank?.linked))
+  let banks = Object.values(useSelector(state => state.banks));
+  let myAccounts = Object.values(useSelector(state => state.portfolio.bank_accounts));
 
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    setErrors([])
+    setErrors([]);
 
-    const data = await dispatch(addAccount(userId, bank, accountNumber, name));
+    const data = await dispatch(addBankAccount(userId, bank, accountNumber, name));
     if (data) {
       setErrors(data);
     }
 
-    setInfo(true)
-
+    setInfo(true);
   };
 
-  const handleClick = async (e) => {
+  const handleClick = async e => {
     e.preventDefault();
 
-    let id = e.target.id
+    let id = e.target.id;
 
-    const data = await dispatch(deleteBank(id));
+    const data = await dispatch(deleteBankAccount(id));
 
     if (data) {
-      alert(data)
+      alert(data);
     }
 
-    setInfo(true)
-  }
+    setInfo(true);
+  };
 
-  const updateBank = (e) => {
-    setBank(e.target.value)
-  }
+  const updateBank = e => {
+    setBank(e.target.value);
+  };
 
-  const updateName = (e) => {
+  const updateName = e => {
     setName(e.target.value);
   };
 
-  const updateAccountNumber = (e) => {
+  const updateAccountNumber = e => {
     setAccountNumber(e.target.value);
   };
 
   return (
-
     <>
       <div className='table-outer-container'>
         <div className='table-inner-container'>
+          {myAccounts?.length > 0 && <h3> My Linked Accounts: </h3>}
 
-          {myAccounts?.length > 0 && (
-            <h3> My Linked Accounts: </h3>
-          )}
-
-          {myAccounts?.length < 1 && (
-            <h3> Please add a bank account: </h3>
-          )}
+          {myAccounts?.length < 1 && <h3> Please add a bank account: </h3>}
 
           <table className='linked-accounts-table'>
             {myAccounts?.length > 0 && (
               <thead>
-
                 <th>Name </th>
                 <th>Bank </th>
                 <th>Account Number </th>
@@ -95,33 +83,40 @@ const BankForm = () => {
                 {/* <th>Edit </th>
               <th>Delete </th> */}
                 {/* <th>Bank ID </th> */}
-
               </thead>
-
-
             )}
             <tbody>
-
               {myAccounts?.map(bank => (
                 <tr>
                   <td>{bank.name}</td>
                   <td>{bank.bank_name}</td>
                   <td>{bank.account_number}</td>
 
-                  <AddBuyingPower userId={userId} name={bank.name} accountNumber={bank.account_number} id={bank.id} bankId={bank.bank_id} />
+                  <AddBuyingPower
+                    userId={userId}
+                    name={bank.name}
+                    accountNumber={bank.account_number}
+                    id={bank.id}
+                    bankId={bank.bank_id}
+                  />
 
-                  <EditBank userId={userId} name={bank.name} accountNumber={bank.account_number} id={bank.id} bankId={bank.bank_id} />
+                  <EditBank
+                    userId={userId}
+                    name={bank.name}
+                    accountNumber={bank.account_number}
+                    id={bank.id}
+                    bankId={bank.bank_id}
+                  />
 
-                  <button id={bank.id} onClick={handleClick}>Delete</button>
+                  <button id={bank.id} onClick={handleClick}>
+                    Delete
+                  </button>
 
                   {/* <td>{bank.id}</td> */}
                 </tr>
               ))}
-
             </tbody>
-
           </table>
-
         </div>
       </div>
 
@@ -131,14 +126,12 @@ const BankForm = () => {
           <form className='bank-form' onSubmit={handleSubmit}>
             <div className='bank-errors'>
               {errors.map((error, ind) => (
-
                 <div key={ind}>{error.split(':')[1]}</div>
-
               ))}
             </div>
 
             <div>
-              <input type="hidden" id="userId" name="userId" value={userId} />
+              <input type='hidden' id='userId' name='userId' value={userId} />
             </div>
 
             <div className='sub-container'>
@@ -152,15 +145,11 @@ const BankForm = () => {
                   onChange={updateBank}
                   required={true}
                 >
-
                   {banks?.map(bank => (
                     <option value={bank.id}> {bank.name} </option>
                   ))}
-
                 </select>
               </div>
-
-
 
               <div>
                 <label htmlFor='accountNumber'>Account Number </label>
@@ -174,7 +163,6 @@ const BankForm = () => {
                 />
               </div>
 
-
               <div>
                 <label htmlFor='name'>Name </label>
                 <input
@@ -186,16 +174,15 @@ const BankForm = () => {
                 />
               </div>
 
-              <button className='add-bank-button' type='submit'>Add Bank</button>
+              <button className='add-bank-button' type='submit'>
+                Add Bank
+              </button>
             </div>
           </form>
         </div>
       </div>
     </>
   );
-
-
-
 };
 
 export default BankForm;

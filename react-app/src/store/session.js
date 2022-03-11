@@ -75,9 +75,7 @@ export const demo = () => async dispatch => {
 
 export const logout = () => async dispatch => {
   const response = await fetch('/api/auth/logout', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    method: 'POST',
   });
 
   if (response.ok) {

@@ -1,19 +1,15 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import session from './session'
-import bankReducer from './bank'
-import bpReducer from './bp'
+import portfolioReducer from './portfolio';
+import session from './session';
+import bankReducer from './bank';
 import stocksReducer from './stocks';
-import watchlistReducer from './watchlist';
-import assetsReducer from './assets';
 
 const rootReducer = combineReducers({
   session,
   stocks: stocksReducer,
-  bank: bankReducer,
-  watchlist: watchlistReducer,
-  bp: bpReducer,
-  assets: assetsReducer
+  banks: bankReducer,
+  portfolio: portfolioReducer,
 });
 
 let enhancer;

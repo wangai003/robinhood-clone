@@ -11,12 +11,12 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    buying_power = db.Column(db.Numeric(10,2), default=0)
     hashed_password = db.Column(db.String(255), nullable=False)
+    buying_power = db.Column(db.Numeric(23, 2), default=0)
 
     assets = db.relationship("Asset", back_populates="user")
     watchlists = db.relationship("Watchlist", back_populates="user")
-    linked_accounts = db.relationship("LinkedAccount", back_populates="user")
+    bank_accounts = db.relationship("BankAccount", back_populates="user")
 
     @property
     def password(self):
@@ -29,11 +29,22 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def to_safe_dict(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+        }
+
     def to_dict(self):
         return {
             'id': self.id,
             'first_name': self.first_name,
-            'last_name' : self.last_name,
+            'last_name': self.last_name,
             'email': self.email,
-            # 'buying_power': int(self.buying_power)
+            'assets': {asset.id: asset.to_dict() for asset in self.assets},
+            'watchlists': {watchlist.id: watchlist.to_dict() for watchlist in self.watchlists},
+            'bank_accounts': {bank_account.id: bank_account.to_dict() for bank_account in self.bank_accounts},
+            'buying_power': float(self.buying_power)
         }

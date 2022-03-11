@@ -3,6 +3,7 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from app.seeds.users import demo_user
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -24,7 +25,7 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return current_user.to_dict()
+        return current_user.to_safe_dict()
     return {'errors': ['Unauthorized']}
 
 
@@ -41,7 +42,7 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        return user.to_dict()
+        return user.to_safe_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
@@ -51,15 +52,15 @@ def demo():
     Logs in as demo user
     """
     # Add the user to the session, we are logged in!
-    user = User.query.filter(User.email == 'demo@aa.io').first()
+    user = User.query.filter(User.email == demo_user.email).first()
     if user:
         login_user(user)
-        return user.to_dict()
+        return user.to_safe_dict()
     else:
         return {'errors': 'Demo user not found.'}
 
 
-@auth_routes.route('/logout')
+@auth_routes.route('/logout', methods=['POST'])
 def logout():
     """
     Logs a user out
@@ -85,7 +86,7 @@ def sign_up():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return user.to_dict()
+        return user.to_safe_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Modal2 } from './context/Modal';
-import { editBank } from '../../store/bank';
-import './Bank.css'
+import { editBankAccount } from '../../store/portfolio/bankAccount';
+import './Bank.css';
 
 function EditBank({ userId, name, accountNumber, id, bankId }) {
   const [showModal, setShowModal] = useState(false);
@@ -19,8 +19,7 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
-
-  const initialAccount = accountNumber
+  const initialAccount = accountNumber;
 
   const updateName = e => {
     setUpdatedname(e.target.value);
@@ -30,7 +29,7 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
     setUpdatedAccountNumber(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setErrors([]);
     let data = [];
@@ -43,14 +42,13 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
       id,
     };
 
-
-    data = await dispatch(editBank(newBank));
+    data = await dispatch(editBankAccount(newBank));
 
     if (data) {
       setErrors(data);
     }
 
-    if(data === null) {
+    if (data === null) {
       setShowModal(false);
     }
   };
@@ -60,8 +58,11 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
       <button onClick={() => setShowModal(true)}>Edit Bank</button>
 
       {showModal && (
-        <Modal2 title={`Edit bank information for ${name}:`} onClose={() => setShowModal(false)} show={showModal}>
-
+        <Modal2
+          title={`Edit bank information for ${name}:`}
+          onClose={() => setShowModal(false)}
+          show={showModal}
+        >
           {/* <h1>name: {name}</h1>
           <h1>account: {accountNumber}</h1>
           <h1>id: {id}</h1>
@@ -70,11 +71,9 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
 
           <form onSubmit={handleSubmit}>
             <div className='bank-errors'>
-
               {errors?.map((error, ind) => (
                 <div key={ind}>{error.split(':')[1]}</div>
               ))}
-
             </div>
 
             <div>

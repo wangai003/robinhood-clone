@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Modal2 } from './context/Modal';
-import { addBp } from '../../store/bp';
-import './Bank.css'
+import { addBuyingPower } from '../../store/portfolio/buyingPower';
 
 function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
-
   const [showModal, setShowModal] = useState(false);
 
   const [buyingPower, setBuyingPower] = useState(0);
@@ -16,32 +14,22 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
-
   const updateBp = e => {
-    setBuyingPower(e.target.value)
-  }
+    setBuyingPower(e.target.value);
+  };
 
-
-
-  const handleSubmit = async (e) => {
-
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    let bp = {
-      userId: user.id,
-      buyingPower
-    };
+    const data = await dispatch(addBuyingPower(buyingPower));
 
-    const data = await dispatch(addBp(bp));
-
-
-    console.log('DATA -----------------> ', data)
+    console.log('DATA -----------------> ', data);
 
     if (data) {
       setErrors(data);
     }
 
-    if(data === null) {
+    if (data === null) {
       setShowModal(false);
     }
   };
@@ -51,8 +39,11 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
       <button onClick={() => setShowModal(true)}>Add BP</button>
 
       {showModal && (
-        <Modal2 title={`Transfer funds from ${name}`} onClose={() => setShowModal(false)} show={showModal}>
-
+        <Modal2
+          title={`Transfer funds from ${name}`}
+          onClose={() => setShowModal(false)}
+          show={showModal}
+        >
           {/* <h1>name: {name}</h1>
           <h1>account: {accountNumber}</h1>
           <h1>id: {id}</h1>
@@ -65,7 +56,6 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
               {errors?.map((error, ind) => (
                 <div key={ind}>{error.split(':')[1]}</div>
               ))}
-
             </div>
 
             <div>
@@ -76,8 +66,8 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
               <label htmlFor='buyingPower'>Buying Power </label>
               <input
                 name='buyingPower'
-                type='text'
-                placeholder='Buying Power'
+                type='number'
+                // placeholder='Buying Power'
                 required={true}
                 value={buyingPower}
                 onChange={updateBp}

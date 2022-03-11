@@ -12,19 +12,19 @@ import Dashboard from './components/Dashboard';
 import Stock from './components/Stock';
 import BankForm from './components/BankForm';
 import { getBanks } from './store/bank';
-import { getAccounts } from './store/bank';
+import { loadPortfolio } from './store/portfolio';
 
 function App() {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const [loaded, setLoaded] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
-      await dispatch(getBanks());
-      await dispatch(getAccounts());
       await dispatch(getAllStocks());
+      await dispatch(loadPortfolio());
+      await dispatch(getBanks());
 
       setLoaded(true);
     })();
