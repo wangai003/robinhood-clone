@@ -199,6 +199,7 @@ function Stock() {
           >Sell {symbol.toUpperCase()}
           </button>
         </div>
+
         {isLoaded && showBuySell &&
           < BuySellStockForm
             symbol={symbol.toUpperCase()}
@@ -236,9 +237,12 @@ function Stock() {
       </div>
       {
         showWatchlistForm &&
-        <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
-          <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
-        </div>
+        <AddToWatchlist
+          showModal={showWatchlistForm}
+          setShowModal={setShowWatchlistform}
+          symbol={symbol}
+          stock={stock}
+        />
       }
     </div>
   );
