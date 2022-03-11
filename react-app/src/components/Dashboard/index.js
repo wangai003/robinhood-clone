@@ -62,9 +62,9 @@ const Dashboard = () => {
         i++;
         setTimes(times);
         setPrices(values);
-        setCurrValue(values[values.length - 1]);
+        setCurrValue(values[values.length - 1] * 1);
         setActiveValue(values[values.length - 1]);
-        setChange((values[0] - values[values.length - 1]).toFixed(2))
+        setChange((values[values.length - 1] - values[0]).toFixed(2))
       }
     })();
   }, [isLoaded]);
