@@ -52,7 +52,6 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
           <form onSubmit={handleSubmit}>
             <div className='bank-errors'>
-
               {errors?.map((error, ind) => (
                 <div key={ind}>{error.split(':')[1]}</div>
               ))}

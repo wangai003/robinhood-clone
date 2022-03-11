@@ -14,7 +14,7 @@ nav>button {
 .interval-bar {
   border-bottom: 2px solid var(--rh-dark-pressed);
   width: 100%;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 .interval-btn {
@@ -165,7 +165,7 @@ nav>button {
   margin-bottom: 6px;
 }
 
-.stock-financials-list > li > div {
+.stock-financials-list>li>div {
   font-size: 14px;
 }
 
