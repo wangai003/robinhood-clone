@@ -24,8 +24,6 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
     const data = await dispatch(addBuyingPower(buyingPower));
 
-    console.log('DATA -----------------> ', data);
-
     if (data) {
       setErrors(data);
     }
