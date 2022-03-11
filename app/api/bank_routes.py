@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, session, request, flash
 from flask_login import login_required
-from app.models import User, db, Bank, LinkedAccount
+from app.models import User, db, Bank, BankAccount
 from app.forms import AddBankForm, EditBankForm
 from flask_login import current_user, login_user, logout_user, login_required
 

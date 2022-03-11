@@ -1,11 +1,10 @@
 from flask import Blueprint, jsonify, session, request, flash
 from flask_login import login_required
-from app.models import User, db, Bank, LinkedAccount
+from app.models import User, db, Bank, BankAccount
 from app.forms import AddBankForm, EditBankForm
 from flask_login import current_user, login_user, logout_user, login_required
 
 account_routes = Blueprint('accounts', __name__)
-
 
 
 def validation_errors_to_error_messages(validation_errors):
@@ -21,15 +20,14 @@ def validation_errors_to_error_messages(validation_errors):
 
 @account_routes.route('/')
 def linked():
-  """
-  gets all bank accounts linked to user
-  """
-  current_user_id = int(current_user.id)
+    """
+    gets all bank accounts linked to user
+    """
+    current_user_id = int(current_user.id)
 
-  accounts = LinkedAccount.query.filter_by(user_id=current_user_id).all()
+    accounts = BankAccount.query.filter_by(user_id=current_user_id).all()
 
-  return jsonify({account.id: {'id': account.id, 'name': account.name, 'user': account.user_id, 'bank_id': account.bank_id, 'bank_name': account.bank.name, 'account_number': account.account_number} for account in accounts})
-
+    return jsonify({account.id: {'id': account.id, 'name': account.name, 'user': account.user_id, 'bank_id': account.bank_id, 'bank_name': account.bank.name, 'account_number': account.account_number} for account in accounts})
 
 
 # @account_routes.route('/add', methods=['POST'])
@@ -40,7 +38,7 @@ def linked():
 #     form = AddBankForm()
 #     form['csrf_token'].data = request.cookies['csrf_token']
 #     if form.validate_on_submit():
-#         bank = LinkedAccount(
+#         bank = BankAccount(
 #             user_id=form.data['user_id'],
 #             bank_id=form.data['bank_id'],
 #             name=form.data['name'],
@@ -66,7 +64,7 @@ def add_bank():
     form = AddBankForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        bank = LinkedAccount(
+        bank = BankAccount(
             user_id=form.data['user_id'],
             bank_id=form.data['bank_id'],
             name=form.data['name'],
@@ -80,22 +78,20 @@ def add_bank():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-
 @account_routes.route('/delete/<int:id>', methods=['DELETE'])
 def remove_account(id):
-    acct = LinkedAccount.query.get(id)
+    acct = BankAccount.query.get(id)
 
     if(current_user.id == acct.user_id):
-      db.session.delete(acct)
-      db.session.commit()
+        db.session.delete(acct)
+        db.session.commit()
 
     return "Bank Account Unlinked"
 
 
-
 @account_routes.route('/edit/<int:id>', methods=['PUT'])
 def update_bank(id):
-    post = LinkedAccount.query.get(id)
+    post = BankAccount.query.get(id)
 
     form = EditBankForm()
     form['csrf_token'].data = request.cookies['csrf_token']
