@@ -61,7 +61,7 @@ function Stock() {
         setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
       }
     })();
-  })
+  }, [isLoaded])
 
   useEffect(() => {
     (async () => {
@@ -164,7 +164,8 @@ function Stock() {
         </div>
       </div>
       <div className='stock-btn-container'>
-        <div cla>
+        <div className='stock-owned-container'>
+          {isLoaded && console.log("**************", assets)}
           {
             isLoaded && assets[symbol.toUpperCase()] &&
             <div>

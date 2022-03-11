@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Stock from '.';
 import { buyAssets, tradeAssets, sellAllAssets } from '../../store/portfolio/assets';
 import { addBuyingPower, subtractBuyingPower } from '../../store/portfolio/buyingPower';
+import './BuySellStock.css';
 
 function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
     const [count, setCount] = useState(0);
@@ -88,7 +89,7 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
     };
 
     return (
-        <div>
+        <div className='buy-sell-stock-form-container'>
             {errors.map(error => (
                 <div key={error}>{error}</div>
             ))}
