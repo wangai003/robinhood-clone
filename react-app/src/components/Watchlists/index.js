@@ -2,24 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CreateWatchlistForm from '../CreateWatchlistform';
 import Watchlist from './Watchlist';
-import { loadWatchlists } from '../../store/watchlist';
+// import { loadWatchlists } from '../../store/portfolio/watchlist';
 //probably dont need this since the loading is just done on the main page
 
 function WatchlistList() {
-  const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.User);
-  const watchlists = useSelector(state => state.watchlist.watchlists);
+  // const dispatch = useDispatch();
+  // const sessionUser = useSelector(state => state.session.User);
+  const watchlists = Object.values(useSelector(state => state.portfolio.watchlists));
   const [showCreateWatchlistForm, changeCreateWatchlistForm] = useState(false);
-  const [createWatchlistText,setCreateWatchlistText] = useState("New Watchlist")
+  const [createWatchlistText, setCreateWatchlistText] = useState('New Watchlist');
   const toggleCreateWatchlistForm = async e => {
     changeCreateWatchlistForm(!showCreateWatchlistForm);
-    if(!showCreateWatchlistForm)setCreateWatchlistText("Cancel")
-    else{ setCreateWatchlistText("New Watchlist")}
+    if (!showCreateWatchlistForm) setCreateWatchlistText('Cancel');
+    else {
+      setCreateWatchlistText('New Watchlist');
+    }
   };
 
-  useEffect(() => {
-    dispatch(loadWatchlists());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadWatchlists());
+  // }, [dispatch]);
 
   return (
     <div className='watchlistListContainer'>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
-import { loadAssets } from '../../store/assets'
+// import { loadAssets } from '../../store/portfolio/assets';
 import Graph from '../Graph';
 import './Stock.css';
 
@@ -24,7 +24,7 @@ function Stock() {
   const [showBuySell, SetShowBuySell] = useState(false);
   const [assetsValue, setAssetsValue] = useState(0);
 
-  const assets = useSelector((state) => state.assets);
+  const assets = useSelector(state => state.portfolio.assets);
 
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ function Stock() {
 
   const closeBuySellForm = () => {
     SetShowBuySell(false);
-  }
+  };
 
   useEffect(() => {
     if (!symbol) {
@@ -47,10 +47,11 @@ function Stock() {
       const stock = await response1.json();
       const response2 = await fetch(`/api/stocks/${symbol}/financials`);
       stock.financials = await response2.json();
-      dispatch(loadAssets());
+      // dispatch(loadAssets());
       setStock(stock);
       setActivePrice(stock.current);
-      if (assets[symbol.toUpperCase()]) setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
+      if (assets[symbol.toUpperCase()])
+        setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2));
       setIsLoaded(true);
     })();
   }, [symbol]);
@@ -152,24 +153,19 @@ function Stock() {
     return unixDates;
   };
 
-  const fixMarketCap = (marketCap) => {
+  const fixMarketCap = marketCap => {
     if (marketCap < 1000) {
       return marketCap.toFixed(2).toString();
-    }
-    else if (marketCap < 1000000) {
-      return (marketCap / 1000).toFixed(2).toString() + "K";
-    }
-    else if (marketCap < 1000000000) {
-      return (marketCap / 1000000).toFixed(2).toString() + "M";
-    }
-    else if (marketCap < 1000000000000) {
-      return (marketCap / 1000000000).toFixed(2).toString() + "B";
-    }
-    else if (marketCap > 1000000000000) {
-      return (marketCap / 1000000000000).toFixed(2).toString() + "T";
-    }
-    else return marketCap;
-  }
+    } else if (marketCap < 1000000) {
+      return (marketCap / 1000).toFixed(2).toString() + 'K';
+    } else if (marketCap < 1000000000) {
+      return (marketCap / 1000000).toFixed(2).toString() + 'M';
+    } else if (marketCap < 1000000000000) {
+      return (marketCap / 1000000000).toFixed(2).toString() + 'B';
+    } else if (marketCap > 1000000000000) {
+      return (marketCap / 1000000000000).toFixed(2).toString() + 'T';
+    } else return marketCap;
+  };
 
   const getInterval = () => {
     let today = new Date();
@@ -214,13 +210,16 @@ function Stock() {
             <div className='interval-long'>{intervalLong}</div>
           </div>
         </div>
-        {isLoaded && <Graph
-          symbol={symbol}
-          color={color}
-          times={times}
-          prices={prices}
-          stock={stock}
-          setActivePrice={setActivePrice} />}
+        {isLoaded && (
+          <Graph
+            symbol={symbol}
+            color={color}
+            times={times}
+            prices={prices}
+            stock={stock}
+            setActivePrice={setActivePrice}
+          />
+        )}
         <nav className='interval-bar'>
           <button
             className={
@@ -275,25 +274,45 @@ function Stock() {
         <div className='stock-financials-container'>
           <h3 className='stock-dtls-title'>Key Statistics</h3>
           <ul className='stock-financials-list'>
-            <li id="market-cap">
+            <li id='market-cap'>
               <div className='financials-title'>Market Cap</div>
-              <div>{stock.financials && stock.financials.market_cap ? fixMarketCap(stock.financials.market_cap) : "-"}</div>
+              <div>
+                {stock.financials && stock.financials.market_cap
+                  ? fixMarketCap(stock.financials.market_cap)
+                  : '-'}
+              </div>
             </li>
-            <li id="pe-ratio">
+            <li id='pe-ratio'>
               <div className='financials-title'>Price-Earnings ratio</div>
-              <div>{stock.financials && stock.financials.pe_ratio ? stock.financials.pe_ratio.toFixed(1) : "-"}</div>
+              <div>
+                {stock.financials && stock.financials.pe_ratio
+                  ? stock.financials.pe_ratio.toFixed(1)
+                  : '-'}
+              </div>
             </li>
-            <li id="dividend-yield">
+            <li id='dividend-yield'>
               <div className='financials-title'>Dividend yield</div>
-              <div>{stock.financials && stock.financials.dividend_yield ? stock.financials.dividend_yield.toFixed(2) : "-"}</div>
+              <div>
+                {stock.financials && stock.financials.dividend_yield
+                  ? stock.financials.dividend_yield.toFixed(2)
+                  : '-'}
+              </div>
             </li>
-            <li id="fifty-two-week-high">
+            <li id='fifty-two-week-high'>
               <div className='financials-title'>52 Week high</div>
-              <div>{stock.financials && stock.financials["52_week_high"] ? `$${stock.financials["52_week_high"].toFixed(2)}` : "-"}</div>
+              <div>
+                {stock.financials && stock.financials['52_week_high']
+                  ? `$${stock.financials['52_week_high'].toFixed(2)}`
+                  : '-'}
+              </div>
             </li>
-            <li id="fifty-two-week-low">
+            <li id='fifty-two-week-low'>
               <div className='financials-title'>52 Week low</div>
-              <div>{stock.financials && stock.financials["52_week_low"] ? `$${stock.financials["52_week_low"].toFixed(2)}` : "-"}</div>
+              <div>
+                {stock.financials && stock.financials['52_week_low']
+                  ? `$${stock.financials['52_week_low'].toFixed(2)}`
+                  : '-'}
+              </div>
             </li>
           </ul>
         </div>
@@ -305,25 +324,24 @@ function Stock() {
       >
         &#10003; Add to Lists
       </button>
-      {
-        showWatchlistForm &&
+      {showWatchlistForm && (
         <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
           <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
         </div>
-      }
-      {
-        isLoaded && assets[symbol.toUpperCase()] &&
+      )}
+      {isLoaded && assets[symbol.toUpperCase()] && (
         <div>
           <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
         </div>
-      }
+      )}
       <button
         id='buy-stock-btn'
         className={`${color}`}
         onClick={() => {
           setBuySell('buy');
           SetShowBuySell(true);
-        }}>
+        }}
+      >
         Buy {symbol.toUpperCase()}
       </button>
       <button
@@ -333,15 +351,17 @@ function Stock() {
           setBuySell('sell');
           SetShowBuySell(true);
         }}
-      >Sell {symbol.toUpperCase()}
+      >
+        Sell {symbol.toUpperCase()}
       </button>
-      {isLoaded && showBuySell &&
-        < BuySellStockForm
+      {isLoaded && showBuySell && (
+        <BuySellStockForm
           symbol={symbol.toUpperCase()}
           stock={stock}
           buySell={buySell}
-          hideForm={closeBuySellForm} />
-      }
+          hideForm={closeBuySellForm}
+        />
+      )}
     </div>
   );
 }

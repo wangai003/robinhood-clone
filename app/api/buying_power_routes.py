@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import User, db
 from app.forms import AddBuyingPowerForm
 from decimal import *
@@ -20,8 +20,8 @@ def validation_errors_to_error_messages(validation_errors):
 
 @buying_power_routes.route('/add', methods=['PUT'])
 @login_required
-def add_bp(id):
-    user = User.query.get(id)
+def add_bp():
+    user = User.query.get(current_user.id)
 
     form = AddBuyingPowerForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -33,15 +33,15 @@ def add_bp(id):
         db.session.add(user)
         db.session.commit()
 
-        return float(user.buying_power)
+        return str(user.buying_power)
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
 @buying_power_routes.route('/subtract', methods=['PUT'])
 @login_required
-def subtract_bp(id):
-    user = User.query.get(id)
+def subtract_bp():
+    user = User.query.get(current_user.id)
 
     form = AddBuyingPowerForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -53,6 +53,6 @@ def subtract_bp(id):
         db.session.add(user)
         db.session.commit()
 
-        return float(user.buying_power)
+        return str(user.buying_power)
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

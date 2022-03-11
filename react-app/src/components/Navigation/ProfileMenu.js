@@ -3,22 +3,17 @@ import { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { logout } from '../../store/session';
 import './ProfileMenu.css';
-import { getBp } from '../../store/bp';
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(state => state.session.user);
-  const bp = useSelector(state => state.bp)
+  const bp = useSelector(state => state.portfolio.buying_power);
 
   const onLogout = async e => {
     await dispatch(logout());
     history.push('/login');
   };
-
-  useEffect(() => {
-    dispatch(getBp(user.id));
-  }, [dispatch]);
 
   if (!user) return null;
 
@@ -34,7 +29,9 @@ const ProfileMenu = () => {
             <p className='description'>Portfolio Value</p>
           </div>
           <div className='buyingPower'>
-            <p className='value'>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+            <p className='value'>
+              {bp.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+            </p>
             <p className='description'>Buying Power</p>
           </div>
         </div>

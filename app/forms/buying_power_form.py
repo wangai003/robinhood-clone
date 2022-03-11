@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired, Email, ValidationError, Length
 from app.models import User, db, BankAccount
 
@@ -19,4 +19,4 @@ from app.models import User, db, BankAccount
 
 
 class AddBuyingPowerForm(FlaskForm):
-    buying_power = StringField('buying_power', validators=[DataRequired()])
+    buying_power = IntegerField('buying_power', validators=[DataRequired()])
