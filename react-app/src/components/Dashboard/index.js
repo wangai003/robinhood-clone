@@ -28,15 +28,6 @@ const Dashboard = () => {
     currency: 'USD',
   });
 
-  // const assets = assetList.map(async asset => {
-  //   const res = await fetch(`/api/stocks/${asset.symbol}/quote`);
-  //   const quote = await res.json();
-
-  //   asset.current = quote.current;
-  //   asset.change = quote.change;
-  //   return asset;
-  // });
-
   useEffect(() => {
     (async () => {
       let i = 0;
@@ -141,19 +132,19 @@ const Dashboard = () => {
             <div className='listContainer'>
               <header className='listTitle'>Stocks</header>
               {assetList.map(asset => (
-                <div className='stockContainer' key={asset.id}>
-                  <Link className='stockDetails' to={`/stocks/${asset.symbol}`}>
+                <Link className='stockContainer' key={asset.id} to={`/stocks/${asset.symbol}`}>
+                  <div className='stockDetails'>
                     <span className='stockSymbol'>{asset.symbol}</span>
                     <span className='stockCount'>{`${asset.count} ${
                       asset.count === 1 ? 'Share' : 'Shares'
                     }`}</span>
-                  </Link>
+                  </div>
                   <div className='miniGraph'></div>
                   <div className='stockQuote'>
                     <span className='stockPrice'>$100</span>
                     <span className='stockChange'>-10%</span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
