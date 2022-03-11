@@ -6,6 +6,7 @@
 }
 
 .leftContainer {
+  width: 680px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,11 +27,9 @@
 }
 
 .graphContainer {
-  margin: 20px 0;
-  height: 300px;
-  width: 680px;
-  background-color: black;
-  color: black;
+  margin: 10px 0;
+  /* background-color: black;
+  color: black; */
 
 }
 
@@ -90,4 +89,74 @@
   width: 100%;
   font-size: 15px;
   font-weight: 700;
+}
+
+.rightWrapper {
+  position: relative;
+  width: 275px;
+  max-height: calc(100vh - 148px);
+}
+
+.rightContainer {
+  width: inherit;
+  max-height: inherit;
+  display: flex;
+  overflow-y: scroll;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--rh-dark-base);
+  border: 1px solid var(--rh-dark-border);
+  border-radius: 4px;
+  position: fixed;
+}
+
+.rightContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.rightContainer * {
+  width: 100%;
+}
+
+.listTitle, .stockContainer {
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listTitle {
+  height: 52px;
+  font-size: 15px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--rh-dark-border);
+}
+
+.stockContainer {
+  height: 60px;
+}
+
+.stockContainer:hover {
+  cursor: pointer;
+  background-color: var(--rh-dark-hover);
+}
+
+.stockDetails, .stockQuote {
+  display: flex;
+  flex-direction: column;
+}
+
+.stockQuote {
+  text-align: right;
+}
+
+.stockSymbol {
+  line-height: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stockCount, .stockPrice, .stockChange {
+  line-height: 20px;
+  font-size: 13px;
 }
