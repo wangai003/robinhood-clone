@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
 import { loadAssets } from '../../store/assets'
+import GraphBar from '../Graph/GraphBar';
 import Graph from '../Graph';
 import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
 import { fixMarketCap } from '../utils/stockUtils';
@@ -60,7 +61,6 @@ function Stock() {
   useEffect(() => {
     (async () => {
       if (assets[symbol.toUpperCase()]) {
-        console.log("in assets value**********************")
         setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
       }
     })();
@@ -111,55 +111,9 @@ function Stock() {
           color={color}
           times={times}
           prices={prices}
-          stock={stock}
+          current={stock.current}
           setActivePrice={setActivePrice} />}
-        <nav className='interval-bar'>
-          <button
-            className={
-              interval === '1D' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML, setFunctions)}
-          >
-            1D
-          </button>
-          <button
-            className={
-              interval === '1W' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML, setFunctions)}
-          >
-            1W
-          </button>
-          <button
-            className={
-              interval === '1M' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML, setFunctions)}
-          >
-            1M
-          </button>
-          <button
-            className={
-              interval === '3M' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML, setFunctions)}
-          >
-            3M
-          </button>
-          <button
-            className={
-              interval === '1Y' ? `interval-btn selected ${color}` : `interval-btn ${color}`
-            }
-            onClick={e => handleClick(e.target.innerHTML, setFunctions)}
-          >
-            1Y
-          </button>
-          {/* <button
-                        className={interval === '5Y' ? `interval-btn selected ${color}` : `interval-btn ${color}`}
-                        onClick={(e) => handleClick(e.target.innerHTML, setFunctions)}>
-                        5Y
-                    </button> */}
-        </nav>
+        <GraphBar color={color} interval={interval} setFunctions={setFunctions} />
         <div className='stock-about-container'>
           <h3 className='stock-dtls-title'>About</h3>
           {stocks[symbol.toUpperCase()] &&

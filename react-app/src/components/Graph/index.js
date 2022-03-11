@@ -5,7 +5,7 @@ import { Chart as ChartJS } from 'chart.js/auto';
 
 import './Graph.css';
 
-function Graph({ times, prices, color, stock, setActivePrice }) {
+function Graph({ times, prices, color, current, setActivePrice }) {
   const chartRef = useRef();
 
   const data = {
@@ -101,7 +101,7 @@ function Graph({ times, prices, color, stock, setActivePrice }) {
         ctx.restore();
       }
       else {
-        setActivePrice(stock.current)
+        setActivePrice(current)
       }
     }
   }
