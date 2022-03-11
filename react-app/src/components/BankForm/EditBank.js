@@ -12,14 +12,10 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
   const [updatedName, setUpdatedname] = useState(name);
   const [updatedAccountNumber, setUpdatedAccountNumber] = useState(accountNumber);
 
-  const [updatedId, setUpdatedId] = useState(id);
-
   const [errors, setErrors] = useState([]);
 
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
-
-  const initialAccount = accountNumber;
 
   const updateName = e => {
     setUpdatedname(e.target.value);
