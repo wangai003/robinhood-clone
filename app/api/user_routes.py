@@ -31,13 +31,16 @@ def add_bp(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
 
-            val = Decimal(user.buying_power) + Decimal(form.data['buying_power'])
-            user.buying_power = val
+            try:
+                val = Decimal(user.buying_power) + Decimal(form.data['buying_power'])
+                user.buying_power = val
 
-            db.session.add(user)
-            db.session.commit()
+                db.session.add(user)
+                db.session.commit()
 
-            return str(user.buying_power)
+                return str(user.buying_power)
+            except:
+                return {'errors': ['buying_power : Invalid value. Please enter a numeric value.']}, 401
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

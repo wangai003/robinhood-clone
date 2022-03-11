@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Modal2 } from './context/Modal';
 import { addBp } from '../../store/bp';
+import './Bank.css'
 
 function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
@@ -59,7 +60,7 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
           <h1>userId: {userId}</h1> */}
 
           <form onSubmit={handleSubmit}>
-            <div>
+            <div className='bank-errors'>
 
               {errors?.map((error, ind) => (
                 <div key={ind}>{error.split(':')[1]}</div>
