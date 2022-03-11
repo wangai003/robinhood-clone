@@ -44,7 +44,7 @@ export const subtractBuyingPower = bp => async dispatch => {
     headers: { 'Content-Type': 'application/json' },
 
     body: JSON.stringify({
-      buying_power: bp.buyingPower,
+      buying_power: Number(bp),
     }),
   });
 

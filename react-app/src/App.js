@@ -12,7 +12,6 @@ import Dashboard from './components/Dashboard';
 import Stock from './components/Stock';
 import BankForm from './components/BankForm';
 import { getBanks } from './store/bank';
-import { loadPortfolio } from './store/portfolio';
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +22,6 @@ function App() {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getAllStocks());
-      await dispatch(loadPortfolio());
       await dispatch(getBanks());
 
       setLoaded(true);
