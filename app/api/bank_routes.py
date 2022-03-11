@@ -9,4 +9,4 @@ bank_routes = Blueprint('banks', __name__)
 def banks():
     banks = Bank.query.all()
     # return jsonify({bank.id: bank.name for bank in banks})
-    return jsonify([{'name': bank.name, 'id': bank.id} for bank in banks])
+    return jsonify({bank.id: {'name': bank.name, 'id': bank.id} for bank in banks})

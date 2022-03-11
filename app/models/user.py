@@ -43,8 +43,8 @@ class User(db.Model, UserMixin):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
-            'assets': [asset.to_dict() for asset in self.assets],
-            'watchlists': [watchlist.to_dict() for watchlist in self.watchlists],
-            'bank_accounts': [bank_account.to_dict() for bank_account in self.bank_accounts],
+            'assets': {asset.id: asset.to_dict() for asset in self.assets},
+            'watchlists': {watchlist.id: watchlist.to_dict() for watchlist in self.watchlists},
+            'bank_accounts': {bank_account.id: bank_account.to_dict() for bank_account in self.bank_accounts},
             'buying_power': float(self.buying_power)
         }

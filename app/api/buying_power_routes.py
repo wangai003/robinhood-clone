@@ -40,7 +40,7 @@ def add_bp(id):
 
 @buying_power_routes.route('/subtract', methods=['PUT'])
 @login_required
-def add_bp(id):
+def subtract_bp(id):
     user = User.query.get(id)
 
     form = AddBuyingPowerForm()

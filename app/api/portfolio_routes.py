@@ -1,12 +1,15 @@
 from flask import Blueprint, jsonify, request, session
 from flask_login import current_user, login_required
 from app.models import User
+from .buying_power_routes import buying_power_routes
 from .bank_account_routes import bank_account_routes
 from .asset_routes import asset_routes
 from .watchlist_routes import watchlist_routes
 
 portfolio_routes = Blueprint('portfolio', __name__)
 
+portfolio_routes.register_blueprint(
+    buying_power_routes, url_prefix='/buying-power')
 portfolio_routes.register_blueprint(
     bank_account_routes, url_prefix='/bank-accounts')
 portfolio_routes.register_blueprint(asset_routes, url_prefix='/assets')

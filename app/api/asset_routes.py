@@ -21,7 +21,7 @@ def buy_assets():
     if(form.validate_on_submit()):
         asset = Asset(
             user_id=current_user.id,
-            name=form.data['name'],
+            # name=form.data['name'],
             symbol=form.data['symbol'],
             count=form.data['count']
         )
