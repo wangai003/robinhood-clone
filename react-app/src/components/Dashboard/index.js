@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Watchlists from '../Watchlists';
-import { loadAssets } from '../../store/assets'
+// import { loadAssets } from '../../store/portfolio/assets'
 import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
 import GraphBar from '../Graph/GraphBar';
 import Graph from '../Graph';
@@ -22,13 +22,13 @@ const Dashboard = () => {
   const [currValue, setCurrValue] = useState(0);
   const [activeValue, setActiveValue] = useState(0);
 
-  const assets = useSelector((state) => Object.values(state.assets));
+  const assets = useSelector((state) => Object.values(state.portfolio.assets));
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      await dispatch(loadAssets());
+      // await dispatch(loadAssets());
       setIsLoaded(true);
     })();
   }, []);

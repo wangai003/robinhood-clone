@@ -1,11 +1,8 @@
-from crypt import methods
-from ntpath import join
 import requests
 from os import environ
 from flask import Blueprint, jsonify, request
 import datetime
 import pytz
-from app.forms import search_form
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -40,13 +37,13 @@ def stock_symbols():
 def test(query):
     print(query)
     AMEX = [line.strip().split('\t')
-        for line in open('app/utils/AMEX.txt')][1:]
+            for line in open('app/utils/AMEX.txt')][1:]
     NASDAQ = [line.strip().split('\t')
-        for line in open('app/utils/NASDAQ.txt')][1:]
+              for line in open('app/utils/NASDAQ.txt')][1:]
     NYSE = [line.strip().split('\t')
-        for line in open('app/utils/NYSE.txt')][1:]
+            for line in open('app/utils/NYSE.txt')][1:]
     data = [{'symbol': stock[0], 'name': stock[1]}
-        for stock in sorted(AMEX + NASDAQ + NYSE) if len(stock) == 2]
+            for stock in sorted(AMEX + NASDAQ + NYSE) if len(stock) == 2]
     # data is a list of objects
     res = []
     print("asdkbasjhdbasjhdbasjhb")
@@ -57,8 +54,6 @@ def test(query):
             res.append(something)
     print(res)
     return jsonify(res)
-
-
 
 
 @stock_routes.route('/<symbol>/quote')

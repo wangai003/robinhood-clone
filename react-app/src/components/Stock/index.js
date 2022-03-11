@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
-import { loadAssets } from '../../store/assets'
-import GraphBar from '../Graph/GraphBar';
+// import { loadAssets } from '../../store/portfolio/assets';
 import Graph from '../Graph';
+import GraphBar from '../Graph/GraphBar';
 import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
 import { fixMarketCap } from '../utils/stockUtils';
 import './Stock.css';
@@ -27,10 +27,9 @@ function Stock() {
   const [showBuySell, SetShowBuySell] = useState(false);
   const [assetsValue, setAssetsValue] = useState(0);
 
-  const assets = useSelector((state) => state.assets);
-  const stocks = useSelector((state) => state.stocks);
+  const assets = useSelector(state => state.portfolio.assets);
+  const stocks = useSelector(state => state.stocks);
 
-  const dispatch = useDispatch();
 
   const { symbol } = useParams();
 
@@ -40,7 +39,7 @@ function Stock() {
 
   const closeBuySellForm = () => {
     SetShowBuySell(false);
-  }
+  };
 
   useEffect(() => {
     if (!symbol) {
@@ -51,7 +50,7 @@ function Stock() {
       const stock = await response1.json();
       const response2 = await fetch(`/api/stocks/${symbol}/financials`);
       stock.financials = await response2.json();
-      dispatch(loadAssets());
+      // dispatch(loadAssets());
       setStock(stock);
       setActivePrice(stock.current);
       setIsLoaded(true);
@@ -123,25 +122,45 @@ function Stock() {
         <div className='stock-financials-container'>
           <h3 className='stock-dtls-title'>Key Statistics</h3>
           <ul className='stock-financials-list'>
-            <li id="market-cap">
+            <li id='market-cap'>
               <div className='financials-title'>Market Cap</div>
-              <div>{stock.financials && stock.financials.market_cap ? fixMarketCap(stock.financials.market_cap) : "-"}</div>
+              <div>
+                {stock.financials && stock.financials.market_cap
+                  ? fixMarketCap(stock.financials.market_cap)
+                  : '-'}
+              </div>
             </li>
-            <li id="pe-ratio">
+            <li id='pe-ratio'>
               <div className='financials-title'>Price-Earnings ratio</div>
-              <div>{stock.financials && stock.financials.pe_ratio ? stock.financials.pe_ratio.toFixed(1) : "-"}</div>
+              <div>
+                {stock.financials && stock.financials.pe_ratio
+                  ? stock.financials.pe_ratio.toFixed(1)
+                  : '-'}
+              </div>
             </li>
-            <li id="dividend-yield">
+            <li id='dividend-yield'>
               <div className='financials-title'>Dividend yield</div>
-              <div>{stock.financials && stock.financials.dividend_yield ? stock.financials.dividend_yield.toFixed(2) : "-"}</div>
+              <div>
+                {stock.financials && stock.financials.dividend_yield
+                  ? stock.financials.dividend_yield.toFixed(2)
+                  : '-'}
+              </div>
             </li>
-            <li id="fifty-two-week-high">
+            <li id='fifty-two-week-high'>
               <div className='financials-title'>52 Week high</div>
-              <div>{stock.financials && stock.financials["52_week_high"] ? `$${stock.financials["52_week_high"].toFixed(2)}` : "-"}</div>
+              <div>
+                {stock.financials && stock.financials['52_week_high']
+                  ? `$${stock.financials['52_week_high'].toFixed(2)}`
+                  : '-'}
+              </div>
             </li>
-            <li id="fifty-two-week-low">
+            <li id='fifty-two-week-low'>
               <div className='financials-title'>52 Week low</div>
-              <div>{stock.financials && stock.financials["52_week_low"] ? `$${stock.financials["52_week_low"].toFixed(2)}` : "-"}</div>
+              <div>
+                {stock.financials && stock.financials['52_week_low']
+                  ? `$${stock.financials['52_week_low'].toFixed(2)}`
+                  : '-'}
+              </div>
             </li>
           </ul>
         </div>
