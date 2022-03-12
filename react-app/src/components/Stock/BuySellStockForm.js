@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Stock from '.';
 import { buyAssets, tradeAssets, sellAllAssets } from '../../store/portfolio/assets';
 import { addBuyingPower, subtractBuyingPower } from '../../store/portfolio/buyingPower';
+import './BuySellStock.css';
 
 function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
     const [count, setCount] = useState(0);
@@ -88,29 +88,35 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
     };
 
     return (
-        <div>
+        <div className='buy-sell-stock-form-container'>
             {errors.map(error => (
-                <div key={error}>{error}</div>
+                <div className='buy-sell-errors' key={error}>{error}</div>
             ))}
-            {buySell === 'buy' && <div>{`Buy ${count} shares for $${cost}`}</div>}
+            {buySell === 'buy' && <div>{`Buy ${count} shares for ${Number(cost).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`}</div>}
             {buySell === 'buy' && (
-                <form onSubmit={e => handleSubmit(e, 'buy')}>
+                <form className='buy-sell-form' onSubmit={e => handleSubmit(e, 'buy')}>
                     <input
                         type='number'
                         value={count}
                         onChange={e => handleChangeBuy(e.target.value)}
                     ></input>
-                    <button>Buy</button>
+                    <div className='buy-sell-btn-container'>
+                        <button id="buy-btn" className='buy-sell-btn btn-filled'>Confirm Purchase</button>
+                        <button id="cancel-btn" className='buy-sell-btn btn-filled' onClick={hideForm}>Cancel</button>
+                    </div>
                 </form>
             )}
-            {buySell === 'sell' && asset && <div>{`Sell ${count} shares for $${cost}`}</div>}
+            {buySell === 'sell' && asset && <div>{`Sell ${count} shares for ${Number(cost).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`}</div>}
             {buySell === 'sell' && asset && (
-                <form onSubmit={e => handleSubmit(e, 'sell')}>
+                <form className='buy-sell-form' onSubmit={e => handleSubmit(e, 'sell')}>
                     <input type='number' value={count} onChange={e => handleChangeSell(e.target.value)} />
-                    <button>Sell</button>
+                    <div className='buy-sell-btn-container'>
+                        <button id="buy-btn" className='buy-sell-btn btn-filled'>Confirm Sale</button>
+                        <button id="cancel-btn" className='buy-sell-btn btn-filled' onClick={hideForm}>Cancel</button>
+                    </div>
                 </form>
             )}
-            <button onClick={hideForm}>Cancel</button>
+            {/* <button onClick={hideForm}>Cancel</button> */}
         </div>
     );
 }

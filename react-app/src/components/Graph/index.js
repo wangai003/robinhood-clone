@@ -16,7 +16,7 @@ function Graph({ times, prices, color, current, setActivePrice }) {
         data: prices,
         pointStyle: 'circle',
         pointRadius: 0,
-        borderColor: color === 'green' ? '#00a004' : 'red',
+        borderColor: color === 'green' ? 'rgb(0, 200, 5)' : 'rgb(255, 80, 0)',
       },
     ],
   };
@@ -91,7 +91,7 @@ function Graph({ times, prices, color, current, setActivePrice }) {
         const ctx = chart.ctx;
         ctx.save();
         const activePoint = chart.tooltip._active[0];
-        setActivePrice(Number(activePoint.element["$context"].raw).toFixed(2))
+        setActivePrice(Number(activePoint.element["$context"].raw))
         ctx.beginPath();
         ctx.moveTo(activePoint.element.x, chart.chartArea.top);
         ctx.lineTo(activePoint.element.x, chart.chartArea.bottom)

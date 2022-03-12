@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Watchlists from '../Watchlists';
-import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
+import { convertTimes, getInterval } from '../utils/graphUtils';
 import GraphBar from '../Graph/GraphBar';
 import Graph from '../Graph';
 import './Dashboard.css';
@@ -56,13 +56,14 @@ const Dashboard = () => {
         i++;
       }
       if (Object.keys(assetList).length) {
-        const change = (values[values.length - 1] - values[0]).toFixed(2);
+        const change = (values[values.length - 1] - values[0]);
         const changePercent = ((100 * change) / values[0]).toFixed(2);
         const color = change > 0 ? 'green' : 'red';
 
         setTimes(times);
-        setCurrValue(values[values.length - 1].toFixed(2));
-        setActiveValue(values[values.length - 1].toFixed(2));
+        setColor(color);
+        setCurrValue(values[values.length - 1]);
+        setActiveValue(values[values.length - 1]);
         setChange(change);
         setChangePercent(changePercent);
         setPrices(values);
@@ -77,12 +78,12 @@ const Dashboard = () => {
     <div className='dashboardContainer'>
       <div className='leftContainer'>
         <div className='portfolioContainer'>
-          <div className='portfolioValue'>{`$${activeValue}`}</div>
+          <div className='portfolioValue'>{activeValue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
           <div className='priceChange'>
             <span>
               {change > 0
-                ? `$${change} (${changePercent}%)`
-                : `-$${change * -1} (${changePercent}%)`}
+                ? `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`
+                : `-${(change).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
             </span>
             <span className='timeFrame'>Today</span>
           </div>
@@ -136,9 +137,8 @@ const Dashboard = () => {
                 <Link className='stockContainer' key={asset.id} to={`/stocks/${asset.symbol}`}>
                   <div className='stockDetails'>
                     <span className='stockSymbol'>{asset.symbol}</span>
-                    <span className='stockCount'>{`${asset.count} ${
-                      asset.count === 1 ? 'Share' : 'Shares'
-                    }`}</span>
+                    <span className='stockCount'>{`${asset.count} ${asset.count === 1 ? 'Share' : 'Shares'
+                      }`}</span>
                   </div>
                   <div className='miniGraph'></div>
                   <div className='stockQuote'>

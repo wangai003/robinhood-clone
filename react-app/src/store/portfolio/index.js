@@ -36,15 +36,16 @@ export default function reducer(state = null, action) {
       return action.portfolio;
 
     case TRADE_ASSETS:
-      const buyState = state.assets;
-      if (buyState[action.asset.id]) {
-        buyState[action.asset.id].count = action.asset.count;
-      } else buyState[action.asset.id] = action.asset;
-      return { ...state, ...buyState };
+      const buyState = { ...state };
+      if (buyState.assets[action.asset.symbol]) {
+        buyState.assets[action.asset.symbol].count = action.asset.count;
+      } else buyState.assets[action.asset.symbol] = action.asset;
+      return { ...buyState };
     case SELL_ALL_ASSETS:
-      const sellAllState = state.assets;
-      if (sellAllState[action.id]) delete sellAllState[action.id];
-      return { ...state, ...sellAllState };
+      console.log(action);
+      const sellAllState = { ...state };
+      if (sellAllState.assets[action.symbol]) delete sellAllState.assets[action.symbol];
+      return { ...sellAllState };
 
     case REMOVE_BANK_ACCOUNT:
       newState = JSON.parse(JSON.stringify(state));

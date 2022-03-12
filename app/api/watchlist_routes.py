@@ -23,11 +23,10 @@ def checkWatchlistName(name):
         return False
 
 
-def checkStockInWatchlist(symbol, company, watchlistId):
+def checkStockInWatchlist(symbol, watchlistId):
     print(symbol)
-    print(company)
-    stocks = WatchlistStock.query.filter(WatchlistStock.watchlist_id == watchlistId).filter(func.lower(
-        WatchlistStock.name) == func.lower(company)).filter(func.lower(WatchlistStock.symbol) == func.lower(symbol)).all()
+    # print(company)
+    stocks = WatchlistStock.query.filter(WatchlistStock.watchlist_id == watchlistId).filter(func.lower(WatchlistStock.symbol) == func.lower(symbol)).all()
     if(stocks):
         print("exists")
         return True
@@ -114,16 +113,15 @@ def deleteOrEditWatchlist(id):
 @login_required
 def addStockToWatchlist(id):
     print(id)
-    split = request.json['name'].split()
-    symbol = split.pop()
-    joined = ' '.join(str(e) for e in split)
-    print(symbol)
-    print(joined)
+    symbol = request.json['name']
+    # joined = ' '.join(str(e) for e in split)
+    # print(symbol)
+    # print(joined)
     stock = WatchlistStock(
         watchlist_id=id,
-        name=joined,
+        # name=joined,
         symbol=symbol)
-    if(checkStockInWatchlist(symbol, joined, id)):
+    if(checkStockInWatchlist(symbol, id)):
         return {"error": "Stock already exists within watchlist"}
     db.session.add(stock)
     db.session.commit()

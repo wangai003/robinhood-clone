@@ -87,7 +87,8 @@ const BankForm = () => {
             )}
             <tbody>
               {myAccounts?.map(bank => (
-                <tr>
+
+                <tr key={bank.id}>
                   <td>{bank.name}</td>
                   <td>{bank.bank_name}</td>
                   <td>{bank.account_number}</td>
@@ -146,7 +147,7 @@ const BankForm = () => {
                   required={true}
                 >
                   {banks?.map(bank => (
-                    <option value={bank.id}> {bank.name} </option>
+                    <option key={bank.id} value={bank.id}> {bank.name} </option>
                   ))}
                 </select>
               </div>

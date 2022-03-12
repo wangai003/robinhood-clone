@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useParams, Link } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
-// import { loadAssets } from '../../store/portfolio/assets';
 import Graph from '../Graph';
 import GraphBar from '../Graph/GraphBar';
-import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
+import { convertTimes, getInterval } from '../utils/graphUtils';
 import { fixMarketCap } from '../utils/stockUtils';
 import './Stock.css';
 
 function Stock() {
+  const [showMenu, setShowMenu] = useState(false);
   const [stock, setStock] = useState({});
   const [activePrice, setActivePrice] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -28,6 +28,7 @@ function Stock() {
   const [assetsValue, setAssetsValue] = useState(0);
   const assets = useSelector(state => state.portfolio.assets);
   const stocks = useSelector(state => state.stocks);
+  const bp = useSelector(state => state.portfolio.buying_power);
 
   const { symbol } = useParams();
 
@@ -48,7 +49,7 @@ function Stock() {
       const stock = await response1.json();
       const response2 = await fetch(`/api/stocks/${symbol}/financials`);
       stock.financials = await response2.json();
-      // dispatch(loadAssets());
+
       setStock(stock);
       setActivePrice(stock.current);
       setIsLoaded(true);
@@ -58,10 +59,10 @@ function Stock() {
   useEffect(() => {
     (async () => {
       if (assets[symbol.toUpperCase()]) {
-        setAssetsValue((assets[symbol.toUpperCase()].count * stock.current).toFixed(2))
+        setAssetsValue((assets[symbol.toUpperCase()].count * stock.current))
       }
     })();
-  })
+  }, [isLoaded])
 
   useEffect(() => {
     (async () => {
@@ -82,7 +83,7 @@ function Stock() {
       const changePercent = (100 * change / prices[0]).toFixed(2);
       const color = change > 0 ? 'green' : 'red';
 
-      setChange(change.toFixed(2));
+      setChange(change);
       setChangePercent(changePercent);
       setColor(color);
       setTimes(times);
@@ -97,9 +98,11 @@ function Stock() {
       <div className='stock-container'>
         <div className='stock-symbol-price-container'>
           <h2 id='stock-symbol'>{symbol.toUpperCase()}</h2>
-          <h2 id='stock-current-price'>{`$${activePrice}`}</h2>
+          <h2 id='stock-current-price'>{activePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
           <div id='stock-price-change'>
-            {change > 0 ? `$${change} (${changePercent}%)` : `-$${change * -1} (${changePercent}%)`}
+            {change > 0 ?
+              `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)` :
+              `-$${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' } * -1)} (${changePercent}%)`}
             <div className='interval-long'>{intervalLong}</div>
           </div>
         </div>
@@ -148,7 +151,7 @@ function Stock() {
               <div className='financials-title'>52 Week high</div>
               <div>
                 {stock.financials && stock.financials['52_week_high']
-                  ? `$${stock.financials['52_week_high'].toFixed(2)}`
+                  ? `${stock.financials['52_week_high'].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`
                   : '-'}
               </div>
             </li>
@@ -156,7 +159,7 @@ function Stock() {
               <div className='financials-title'>52 Week low</div>
               <div>
                 {stock.financials && stock.financials['52_week_low']
-                  ? `$${stock.financials['52_week_low'].toFixed(2)}`
+                  ? `${stock.financials['52_week_low'].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`
                   : '-'}
               </div>
             </li>
@@ -164,12 +167,10 @@ function Stock() {
         </div>
       </div>
       <div className='stock-btn-container'>
-        <div cla>
+        <div className='stock-owned-container'>
           {
             isLoaded && assets[symbol.toUpperCase()] &&
-            <div>
-              <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth $${assetsValue}`}</div>
-            </div>
+            <div>{`You own ${assets[symbol.toUpperCase()].count} shares worth ${assetsValue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`}</div>
           }
         </div>
         <button
@@ -182,7 +183,7 @@ function Stock() {
         <div className='buy-sell-btn-container'>
           <button
             id='buy-stock-btn'
-            className={`${color}`}
+            className={`${color}` + `${buySell === 'buy' && showBuySell ? ' trade-selected' : ''}`}
             onClick={() => {
               setBuySell('buy');
               SetShowBuySell(true);
@@ -191,7 +192,7 @@ function Stock() {
           </button>
           <button
             id='sell-stock-btn'
-            className={`${color}`}
+            className={`${color}` + `${buySell === 'sell' && showBuySell ? ' trade-selected' : ''}`}
             onClick={() => {
               setBuySell('sell');
               SetShowBuySell(true);
@@ -199,6 +200,7 @@ function Stock() {
           >Sell {symbol.toUpperCase()}
           </button>
         </div>
+
         {isLoaded && showBuySell &&
           < BuySellStockForm
             symbol={symbol.toUpperCase()}
@@ -207,12 +209,41 @@ function Stock() {
             name={stocks[symbol.toUpperCase()].name}
             hideForm={closeBuySellForm} />
         }
+        <div className={'stock buyingPowerContainer' + `${showMenu ? ' selected' : ''}`}>
+          <div className='bpHeader noSelect' onClick={() => setShowMenu(!showMenu)}>
+            <span>Buying Power</span>
+            {!showMenu && <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>}
+          </div>
+          {showMenu && (
+            <div className='bpBody'>
+              <div className='bpDetails'>
+                <div className='cash'>
+                  <span>Brokerage Cash</span>
+                  <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                </div>
+                <div className='power'>
+                  <span>Buying Power</span>
+                  <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                </div>
+                <Link className='btn btn-filled deposit' to='/add-funds'>
+                  Deposit Funds
+                </Link>
+              </div>
+              <div className='bpMessage'>
+                Buying Power represents the total value of assets you can purchase.
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       {
         showWatchlistForm &&
-        <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
-          <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
-        </div>
+        <AddToWatchlist
+          showModal={showWatchlistForm}
+          setShowModal={setShowWatchlistform}
+          symbol={symbol.toUpperCase()}
+          stock={stock}
+        />
       }
     </div>
   );
