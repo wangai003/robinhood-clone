@@ -16,7 +16,7 @@ function Graph({ times, prices, color, current, setActivePrice }) {
         data: prices,
         pointStyle: 'circle',
         pointRadius: 0,
-        borderColor: color === 'green' ? '#00a004' : 'red',
+        borderColor: color === 'green' ? 'rgb(0, 200, 5)' : 'rgb(255, 80, 0)',
       },
     ],
   };

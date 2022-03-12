@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Watchlists from '../Watchlists';
-import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
+import { convertTimes, getInterval } from '../utils/graphUtils';
 import GraphBar from '../Graph/GraphBar';
 import Graph from '../Graph';
 import './Dashboard.css';
@@ -56,7 +56,7 @@ const Dashboard = () => {
         i++;
       }
       if (Object.keys(assetList).length) {
-        const change = (values[values.length - 1] - values[0]).toFixed(2);
+        const change = (values[values.length - 1] - values[0]);
         const changePercent = ((100 * change) / values[0]).toFixed(2);
         const color = change > 0 ? 'green' : 'red';
 
@@ -82,8 +82,8 @@ const Dashboard = () => {
           <div className='priceChange'>
             <span>
               {change > 0
-                ? `$${change} (${changePercent}%)`
-                : `-$${change * -1} (${changePercent}%)`}
+                ? `$${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`
+                : `-$${(change * -1).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
             </span>
             <span className='timeFrame'>Today</span>
           </div>
