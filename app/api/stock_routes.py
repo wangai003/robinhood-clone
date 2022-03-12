@@ -1,7 +1,10 @@
+from calendar import month
+from tempfile import gettempdir
 import requests
-from os import environ
+from os import environ, times
 from flask import Blueprint, jsonify, request
-import datetime
+from datetime import datetime, time
+from dateutil.relativedelta import relativedelta
 import pytz
 
 stock_routes = Blueprint('stocks', __name__)
@@ -13,6 +16,10 @@ SANDBOX_API_KEY = environ.get('SANDBOX_API_KEY')
 TOKEN = API_KEY if IN_PRODUCTION else SANDBOX_API_KEY
 
 BASE_URL = 'https://finnhub.io/api/v1'
+
+
+def get_time_stamp(time):
+    return int(pytz.timezone('America/New_York').localize(time).timestamp())
 
 
 @stock_routes.route('/')
@@ -81,27 +88,61 @@ def stock_quote(symbol):
 @stock_routes.route('/<symbol>/candles')
 def stock_candles(symbol):
     symbol = symbol.upper()
-    # Open pre-hours for Robinhood at 9AM EST in unix timestamp
-    open = int(pytz.timezone('America/New_York').localize(datetime.datetime.today().replace(
-        hour=9, minute=0, second=0)).timestamp())
-    # Close after-hours for Robinhood at 4PM EST in unix timestamp
-    close = int(pytz.timezone('America/New_York').localize(datetime.datetime.today().replace(
-        hour=18, minute=0, second=0)).timestamp())
+    time_frame = request.args.get('time-frame')
+
+    if time_frame not in ['1D', '1W', '1M', '3M', '1Y']:
+        return {'error': 'Time frame out of scope.'}, 404
+
+    initial_open = datetime.today().replace(
+        hour=9, minute=0, second=0)
+
+    open_times = {
+        '1D': get_time_stamp(initial_open),
+        '1W': get_time_stamp(initial_open + relativedelta(weeks=-1, days=+1)),
+        '1M': get_time_stamp(initial_open + relativedelta(months=-1, days=+1)),
+        '3M': get_time_stamp(initial_open + relativedelta(months=-3, days=+1)),
+        '1Y': get_time_stamp(initial_open + relativedelta(years=-1))
+    }
+
+    for key, timestamp in open_times.items():
+        print(key, ' ', datetime.fromtimestamp(timestamp))
+
+    open = open_times[time_frame]
+    close = get_time_stamp(
+        datetime.today().replace(hour=18, minute=1, second=0))
+
+    print('close ', datetime.fromtimestamp(close))
+
+    resolutions = {
+        '1D': '5',
+        '1W': '5',
+        '1M': '60',
+        '3M': 'D',
+        '1Y': 'D'
+    }
+
     params = {
         'symbol': symbol,
-        'resolution': request.args.get('resolution') or 5,
-        'from': request.args.get('from') or open,
-        'to': request.args.get('to') or close,
+        'resolution': resolutions[time_frame],
+        'from': open,
+        'to': close,
         'token': TOKEN
     }
     res = requests.get(f'{BASE_URL}/stock/candle', params=params).json()
 
-    data = [{'time': t, 'price': c} for t, c in zip(res['t'], res['c'])]
+    data = [{'time': datetime.fromtimestamp(
+        t), 't': t, 'price': c} for t, c in zip(res['t'], res['c'])]
+
+    # Filters times from data that are between 6:30AM PST and 1AM PST
+    if time_frame in ['1W', '1M']:
+        data = [d for d in data if time(datetime.fromtimestamp(d['t']).hour, datetime.fromtimestamp(d['t']).minute) >= time(6, 30)
+                and time(datetime.fromtimestamp(d['t']).hour, datetime.fromtimestamp(d['t']).minute) < time(13, 0)
+                and datetime.fromtimestamp(d['t']).minute % 10 == 0]
 
     return jsonify(data)
 
 
-@stock_routes.route('<symbol>/financials')
+@ stock_routes.route('<symbol>/financials')
 def stock_financials(symbol):
     symbol = symbol.upper()
     params = {
