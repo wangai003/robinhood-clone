@@ -35,7 +35,7 @@ const LoginForm = ({ user }) => {
       <img id='login-form-img' src="/static/rh-login-image.jpg" />
       <div className='login-form-container'>
         <form className="login-form" onSubmit={onLogin}>
-          <h2>Log in to Robinhood</h2>
+          <h2>Log in to Robinsock</h2>
           <div>
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
@@ -55,11 +55,11 @@ const LoginForm = ({ user }) => {
               onChange={updatePassword}
             />
             <div>
-            <button className='login-button' type='submit'>Login</button>
-            <button className='login-button' type='button' onClick={() => dispatch(demo())}>
+              <button className='login-button' type='submit'>Login</button>
+              <button className='login-button' type='button' onClick={() => dispatch(demo())}>
 
-              Login as demo
-            </button>
+                Login as demo
+              </button>
 
             </div>
             <div>
