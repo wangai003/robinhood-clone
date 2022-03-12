@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
-// import { loadAssets } from '../../store/portfolio/assets';
 import Graph from '../Graph';
 import GraphBar from '../Graph/GraphBar';
-import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
+import { convertTimes, getInterval } from '../utils/graphUtils';
 import { fixMarketCap } from '../utils/stockUtils';
 import './Stock.css';
 

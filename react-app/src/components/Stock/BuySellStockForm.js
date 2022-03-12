@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Stock from '.';
 import { buyAssets, tradeAssets, sellAllAssets } from '../../store/portfolio/assets';
 import { addBuyingPower, subtractBuyingPower } from '../../store/portfolio/buyingPower';
 import './BuySellStock.css';
