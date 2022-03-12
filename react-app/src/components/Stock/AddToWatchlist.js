@@ -16,11 +16,9 @@ function AddToWatchlist({ symbol, showModal, setShowModal }) {
 
     useEffect(() => {
         if (currWatchlist !== '') setErrors([]);
-        console.log(currWatchlist);
     }, [currWatchlist])
 
     useEffect(() => {
-        console.log(watchlists)
         setIsLoaded(true)
     }, [])
 
@@ -35,10 +33,10 @@ function AddToWatchlist({ symbol, showModal, setShowModal }) {
             const watchlist = findWatchlist();
 
             const added = await dispatch(addStockToWatchlist(symbol, watchlist))
-            if (!errors.length && !added.error) {
+
+            if (!errors.length && !added) {
                 setShowModal(false);
                 setShowErrors(false);
-                //add stock to watchlist
             } else {
                 errors.push('Something went wrong')
             }
