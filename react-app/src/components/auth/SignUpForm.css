@@ -83,6 +83,10 @@
   margin-bottom: 20px;
 }
 
+.sign-up-button:hover {
+  cursor: pointer;
+}
+
 .sign-up-form input:hover {
   border: 2px solid green;
   border-radius: 2px;

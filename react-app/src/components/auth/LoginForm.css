@@ -68,6 +68,10 @@
     margin-right: 20px;
   }
 
+  .login-button:hover {
+    cursor: pointer;
+  }
+
   .login-form input:hover {
     border: 2px solid green;
     border-radius: 2px;
