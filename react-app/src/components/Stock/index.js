@@ -101,7 +101,7 @@ function Stock() {
           <h2 id='stock-symbol'>{symbol.toUpperCase()}</h2>
           <h2 id='stock-current-price'>{activePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
           <div id='stock-price-change'>
-            {change > 0 ? `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)` : `-$${change * -1} (${changePercent.toFixed(2)}%)`}
+            {change > 0 ? `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)` : `-$${change * -1} (${changePercent}%)`}
             <div className='interval-long'>{intervalLong}</div>
           </div>
         </div>
