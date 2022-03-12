@@ -1,5 +1,3 @@
-/* <img id='login-form-img' src="/static/rh-login-image.jpg" /> */
-
 .signup-page-container {
   display: flex;
   flex-direction: row;
@@ -14,6 +12,7 @@
   height: 100%;
   object-fit:cover;
   overflow: hidden;
+  bottom: 0;
 }
 
 .signup-form-container {
