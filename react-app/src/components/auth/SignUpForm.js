@@ -74,7 +74,7 @@ const SignUpForm = ({ user }) => {
             <input type='password' name='password' onChange={updatePassword} value={password}></input>
           </div>
           <div>
-            <label>Repeat Password</label>
+            <label>Confirm Password</label>
             <input
               type='password'
               name='repeat_password'
