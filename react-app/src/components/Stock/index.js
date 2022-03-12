@@ -240,7 +240,7 @@ function Stock() {
         <AddToWatchlist
           showModal={showWatchlistForm}
           setShowModal={setShowWatchlistform}
-          symbol={symbol}
+          symbol={symbol.toUpperCase()}
           stock={stock}
         />
       }

@@ -1,36 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import { Modal2 } from '../BankForm/context/Modal';
-// import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addStockToWatchlist } from '../../store/portfolio/watchlist.js'
 import './AddToWatchlist.css'
 
-function AddToWatchlist({ symbol, stock, showModal, setShowModal }) {
+function AddToWatchlist({ symbol, showModal, setShowModal }) {
     const [currWatchlist, setCurrWatchlist] = useState('');
     const [showErrors, setShowErrors] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [errors, setErrors] = useState([]);
-    // const watchlists = useSelector(state => state.watchlists)
-    const watchlists = [{ name: "crypto", id: 1 }, { name: "tech", id: 2 }]
+    const watchlists = useSelector(state => state.portfolio.watchlists)
+    const stocks = useSelector(state => state.stocks);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (currWatchlist !== '') setErrors([]);
+        console.log(currWatchlist);
     }, [currWatchlist])
 
-    const submit = (e) => {
+    useEffect(() => {
+        console.log(watchlists)
+        setIsLoaded(true)
+    }, [])
+
+    const submit = async (e) => {
         e.preventDefault();
         const errors = [];
+        setShowErrors(true);
         if (currWatchlist === '') {
             errors.push("Please select a watchlist");
         }
-        const payload = {
-            id: stock.id,
-            name: stock.name,
-            symbol: stock.symbol
+        else {
+            const watchlist = findWatchlist();
+
+            const added = await dispatch(addStockToWatchlist(symbol, watchlist))
+            if (!errors.length && !added.error) {
+                setShowModal(false);
+                setShowErrors(false);
+                //add stock to watchlist
+            } else {
+                errors.push('Something went wrong')
+            }
         }
         setErrors(errors);
-        setShowErrors(true);
-        if (!errors.length) {
-            setShowModal(false);
-            setShowErrors(false);
-            //add stock to watchlist
+    }
+
+    const findWatchlist = () => {
+        const watchlistArr = Object.values(watchlists);
+        // console.log(watchlistArr)
+        for (const watchlist of watchlistArr) {
+            // console.log(watchlist.name)
+            if (watchlist.name === currWatchlist) return watchlist;
         }
     }
 
@@ -42,7 +63,7 @@ function AddToWatchlist({ symbol, stock, showModal, setShowModal }) {
                     onClose={() => setShowModal(false)}
                     show={showModal}
                 >
-                    <form onSubmit={(e) => submit(e)}>
+                    {isLoaded && <form className='stock-watchlist-form' onSubmit={(e) => submit(e)}>
                         {showErrors && errors.map(error => (
                             <div
                                 className='stock-watchlist-form-error'
@@ -55,12 +76,12 @@ function AddToWatchlist({ symbol, stock, showModal, setShowModal }) {
                             value={currWatchlist}
                             onChange={(e) => setCurrWatchlist(e.target.value)}>
                             <option value={''}>Select a Watchlist</option>
-                            {watchlists.map(watchlist => (
+                            {Object.values(watchlists).map(watchlist => (
                                 <option key={watchlist.id}>{watchlist.name}</option>
                             ))}
                         </select>
                         <button id="stock-add-to-watchlist-submit">Submit</button>
-                    </form>
+                    </form>}
                 </Modal2>
             )
             }
