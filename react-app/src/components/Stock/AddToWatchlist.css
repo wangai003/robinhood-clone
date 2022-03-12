@@ -1,70 +1,56 @@
-#stock-add-to-watchlist-x {
-    cursor: pointer;
+.stock-add-to-watchlist-container .modal-content {
+    /* height: 15rem; */
+    background-color: var(--rh-dark-base);
+    border: 1px solid var(--rh-dark-base2);
+    border-radius: 5px;
     padding: 1rem;
-    margin-left: 10rem;
-    display: flex;
-    justify-content: flex-end;
-    background-color: var(--rh-dark-base);
-    border: none;
+
+}
+
+.stock-add-to-watchlist-container h4 {
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
-.stock-add-to-watchlist-container {
-    padding: 0 1rem 1rem 1rem;
-    min-height: 12rem;
-    min-width: 15rem;
-    margin-top: 12rem;
-    background-color: var(--rh-dark-base);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    border-radius: 0.5rem;
-}
-
-.stock-add-to-watchlist-container > form {
-    display: flex;
-    height: 10rem;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-#stock-add-to-watchlist-select {
-    height: 2.5rem;
-    padding: 5px;
-    font-size: 1rem;
-    border: 1px solid var(--rh-green-base);
-    border-radius: 0.5rem;
-    background-color: var(--rh-dark-base);
-    cursor: pointer;
+.stock-add-to-watchlist-container .button {
+    background-color: black;
     color: white;
-}
-
-#stock-add-to-watchlist-select > option {
-    cursor: pointer;
-}
-
-#stock-add-to-watchlist-submit {
+    padding: 0.5rem;
     height: 3rem;
-    background-color: var(--rh-green-base);
-    border: 1px solid var(--rh-green-base);
+    width: 8rem;
+    border: 1px solid var(--rh-dark-base2);
     border-radius: 1.5rem;
     font-size: 1rem;
-    font-weight: bold;
-    color: var(--rh-dark-base);
     cursor: pointer;
 }
 
-#stock-add-to-watchlist-submit:hover {
-    background-color: var(--rh-dark-green-hover);
-    color: var(--rh-green-base)
-}
-
-#stock-add-to-watchlist-x:hover {
-    color:var(--rh-dark-base2)
+.stock-add-to-watchlist-container .button:hover {
+    background-color: var(--rh-dark-base);
 }
 
 .stock-watchlist-form-error {
     color: red;
+}
+
+#stock-add-to-watchlist-select,
+#stock-add-to-watchlist-submit {
+    font-size: 1rem;
+    margin: 0.5rem;
+    background-color: var(--rh-dark-base);
+    border: 1px solid var(--rh-dark-base2);
+    padding: 5px;
+    color: white;
+    height: 3rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#stock-add-to-watchlist-submit {
+    width: 6rem;
+    border-radius: 1.5rem;
+}
+
+#stock-add-to-watchlist-submit:hover {
+    background-color: black;
+    border: 1px solid white;
 }
