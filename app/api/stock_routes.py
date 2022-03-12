@@ -13,7 +13,8 @@ IN_PRODUCTION = environ.get('FLASK_ENV') == 'production'
 
 API_KEY = environ.get('API_KEY')
 SANDBOX_API_KEY = environ.get('SANDBOX_API_KEY')
-TOKEN = API_KEY if IN_PRODUCTION else SANDBOX_API_KEY
+# TOKEN = API_KEY if IN_PRODUCTION else SANDBOX_API_KEY
+TOKEN = 'c8lu8i2ad3ie52go2ls0'
 
 BASE_URL = 'https://finnhub.io/api/v1'
 
@@ -93,8 +94,10 @@ def stock_candles(symbol):
     if time_frame not in ['1D', '1W', '1M', '3M', '1Y']:
         return {'error': 'Time frame out of scope.'}, 404
 
-    initial_open = datetime.today().replace(
-        hour=9, minute=0, second=0)
+    today = datetime.today() if datetime.today().isoweekday() <= 5 else datetime.today(
+    ).replace(hour=9, minute=0, second=0) + relativedelta(days=-1)
+
+    initial_open = today.replace(hour=9, minute=0, second=0)
 
     open_times = {
         '1D': get_time_stamp(initial_open),
@@ -104,14 +107,8 @@ def stock_candles(symbol):
         '1Y': get_time_stamp(initial_open + relativedelta(years=-1))
     }
 
-    for key, timestamp in open_times.items():
-        print(key, ' ', datetime.fromtimestamp(timestamp))
-
     open = open_times[time_frame]
-    close = get_time_stamp(
-        datetime.today().replace(hour=18, minute=1, second=0))
-
-    print('close ', datetime.fromtimestamp(close))
+    close = get_time_stamp(today.replace(hour=18, minute=1, second=0))
 
     resolutions = {
         '1D': '5',
@@ -130,14 +127,13 @@ def stock_candles(symbol):
     }
     res = requests.get(f'{BASE_URL}/stock/candle', params=params).json()
 
-    data = [{'time': datetime.fromtimestamp(
-        t), 't': t, 'price': c} for t, c in zip(res['t'], res['c'])]
+    data = [{'time': t, 'price': c} for t, c in zip(res['t'], res['c'])]
 
     # Filters times from data that are between 6:30AM PST and 1AM PST
     if time_frame in ['1W', '1M']:
-        data = [d for d in data if time(datetime.fromtimestamp(d['t']).hour, datetime.fromtimestamp(d['t']).minute) >= time(6, 30)
-                and time(datetime.fromtimestamp(d['t']).hour, datetime.fromtimestamp(d['t']).minute) < time(13, 0)
-                and datetime.fromtimestamp(d['t']).minute % 10 == 0]
+        data = [d for d in data if time(datetime.fromtimestamp(d['time']).hour, datetime.fromtimestamp(d['time']).minute) >= time(6, 30)
+                and time(datetime.fromtimestamp(d['time']).hour, datetime.fromtimestamp(d['time']).minute) < time(13, 0)
+                and datetime.fromtimestamp(d['time']).minute % 10 == 0]
 
     return jsonify(data)
 
