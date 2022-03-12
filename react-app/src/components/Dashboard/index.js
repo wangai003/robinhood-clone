@@ -61,6 +61,7 @@ const Dashboard = () => {
         const color = change > 0 ? 'green' : 'red';
 
         setTimes(times);
+        setColor(color);
         setCurrValue(values[values.length - 1]);
         setActiveValue(values[values.length - 1]);
         setChange(change);
