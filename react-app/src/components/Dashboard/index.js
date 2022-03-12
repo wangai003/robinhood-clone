@@ -61,8 +61,8 @@ const Dashboard = () => {
         const color = change > 0 ? 'green' : 'red';
 
         setTimes(times);
-        setCurrValue(values[values.length - 1].toFixed(2));
-        setActiveValue(values[values.length - 1].toFixed(2));
+        setCurrValue(values[values.length - 1]);
+        setActiveValue(values[values.length - 1]);
         setChange(change);
         setChangePercent(changePercent);
         setPrices(values);
@@ -77,7 +77,7 @@ const Dashboard = () => {
     <div className='dashboardContainer'>
       <div className='leftContainer'>
         <div className='portfolioContainer'>
-          <div className='portfolioValue'>{`$${activeValue}`}</div>
+          <div className='portfolioValue'>{activeValue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
           <div className='priceChange'>
             <span>
               {change > 0
@@ -136,9 +136,8 @@ const Dashboard = () => {
                 <Link className='stockContainer' key={asset.id} to={`/stocks/${asset.symbol}`}>
                   <div className='stockDetails'>
                     <span className='stockSymbol'>{asset.symbol}</span>
-                    <span className='stockCount'>{`${asset.count} ${
-                      asset.count === 1 ? 'Share' : 'Shares'
-                    }`}</span>
+                    <span className='stockCount'>{`${asset.count} ${asset.count === 1 ? 'Share' : 'Shares'
+                      }`}</span>
                   </div>
                   <div className='miniGraph'></div>
                   <div className='stockQuote'>
