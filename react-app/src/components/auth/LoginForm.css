@@ -25,12 +25,7 @@
     height: 100%;
 }
 
-
-
 /*      */
-
-
-
 
 .login-form-container {
     /* background-color: rgb(255, 164, 164); */
@@ -66,18 +61,6 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
   }
-  /*
-
-  .sign-up-form:hover {
-    box-shadow: 0 0 10px 0.1em rgb(149, 225, 255);
-  } */
-
-  .sign-up-button {
-    margin-top: 10px;
-    width: 100px;
-    height: 35  px;
-    font-size: 16px ;
-  }
 
   .login-button {
     margin-top: 20px;
@@ -85,7 +68,7 @@
     margin-right: 20px;
   }
 
-  .sign-up-form input:hover {
+  .login-form input:hover {
     border: 2px solid green;
-    border-radius: 5px;
+    border-radius: 2px;
   }
