@@ -2,7 +2,19 @@
 
 Robinhoot is a clone of Robinhood. On Robinhoot you can see the prices and history of hundreds of stocks. You can create Watchlists and add stocks to those watchlists to better keep track of the movements of your assets or future assets. You can pretend to link a bank account, or several, and pull pretend money from those banks into your Robinhoot account. Using the fake money you now have in your account, known as Buying Power, you can pretend to purchase stocks to add to your portfolio. Then later on when those assets increase, or more likely decrease, you can sell those assets to make a profit/loss. While you have assets you can see the performance of your own portfolio on your Dashboard as a graph similar to the one that shows you individual stock performances.
 
-Getting started:
+# Technologies Used
+
+* Frontend:
+  * Javascript
+  * React
+  * Redux
+  * HTML/CSS
+* Backend:
+  * Python
+  * Flask
+  * SQLAlchemy
+
+## Getting started:
 
 1. Clone with ```https://github.com/pierikm/robinhood-clone.git```
 2. Run ```pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt``` in the root directory to install dependencies
