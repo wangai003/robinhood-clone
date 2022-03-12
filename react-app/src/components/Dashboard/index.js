@@ -82,8 +82,8 @@ const Dashboard = () => {
           <div className='priceChange'>
             <span>
               {change > 0
-                ? `$${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`
-                : `-$${(change * -1).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
+                ? `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`
+                : `-${(change).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
             </span>
             <span className='timeFrame'>Today</span>
           </div>

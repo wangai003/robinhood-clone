@@ -133,7 +133,7 @@ nav>button {
 #add-to-list-btn.red:hover,
 #buy-stock-btn.red:hover,
 #sell-stock-btn.red:hover {
-  background-color: var(--rh-red-hover);
+  background-color: var(--rh-red-hover2);
 }
 
 #buy-stock-btn.green.trade-selected,
