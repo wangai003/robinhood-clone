@@ -31,12 +31,12 @@ nav>button {
 }
 
 .red.selected {
-  color: red;
-  border-bottom: 2px solid red;
+  color: var(--rh-red-base);
+  border-bottom: 2px solid var(--rh-red-base);
 }
 
 .red:hover {
-  color: red;
+  color: var(--rh-red-base);
 }
 
 .green.selected {
@@ -130,6 +130,12 @@ nav>button {
   background-color: var(--rh-dark-green-hover);
 }
 
+#add-to-list-btn.red:hover,
+#buy-stock-btn.red:hover,
+#sell-stock-btn.red:hover {
+  background-color: var(--rh-red-hover);
+}
+
 #buy-stock-btn.green.trade-selected,
 #sell-stock-btn.green.trade-selected {
   background-color: var(--rh-dark-green-hover);
@@ -138,8 +144,8 @@ nav>button {
 #add-to-list-btn.red,
 #buy-stock-btn.red,
 #sell-stock-btn.red {
-  border: 2px solid red;
-  color: red;
+  border: 2px solid var(--rh-red-base);
+  color: var(--rh-red-base);
 }
 
 .stock-add-to-watchlist-form {
