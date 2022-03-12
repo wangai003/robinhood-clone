@@ -54,12 +54,16 @@ const LoginForm = ({ user }) => {
               value={password}
               onChange={updatePassword}
             />
-            <button type='submit'>Login</button>
-            <button type='button' onClick={() => dispatch(demo())}>
+            <div>
+            <button className='login-button' type='submit'>Login</button>
+            <button className='login-button' type='button' onClick={() => dispatch(demo())}>
+
               Login as demo
             </button>
+
+            </div>
             <div>
-              <span>Not on Robinhood?</span>
+              <span>Not on Robinhood? </span>
               <Link to='/signup'>Create an account</Link>
             </div>
           </div>
