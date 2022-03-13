@@ -1,3 +1,6 @@
+.watchlistListContainer{
+    padding-bottom: 0px;
+}
 .deleteWatchlist{
     background-color: var(--rh-red-base);
     height: fit-content !important;
@@ -37,17 +40,6 @@
 
 .notActiveWatchlist{
         padding: 0;
-        overflow: hidden;
-        height: 40px;
-}
-
-.notActiveWatchlist:hover{
-    background-color: var(--rh-dark-hover);
-}
-
-.activeWatchlist{
-    height: fit-content;
-    display: flex;
 }
 
 .editWatchlist{
@@ -72,18 +64,24 @@
     justify-content: center;
     position: absolute;
     left: 0px;
+    height: fit-content;
 }
 
+.watchListContainer{
+    height:fit-content;
+}
 
 .watchList{
 padding-left: 0px;
 position: relative;
 bottom: 10px;
-cursor: pointer;
+margin-bottom: 0px;
+margin-top: 10px;
 }
 
 .nameAndMenuIcon{
-    padding-bottom: 15px;
+    font-size: 20px !important;
+    margin-left: 10px;
 }
 
 
@@ -106,15 +104,18 @@ cursor: pointer;
 .watchlistStockContainer{
     display: flex;
     width: 100px;
+    height: 60px;
+
 }
 
 .watchlistStockContainer:hover{
-    background-color: var(--rh-dark-base)
+    background-color: var(--rh-dark-hover)
 }
 .leftSide{
     display: flex;
     flex-direction: column;
     margin-left: 24px;
+    justify-content: center;
 }
 
 .rightSide{
@@ -122,6 +123,7 @@ cursor: pointer;
     flex-direction: column;
     text-align: right;
     margin-right: 24px;
+    justify-content: center;
 }
 
 .outerDiv{
