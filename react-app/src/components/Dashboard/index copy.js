@@ -2,25 +2,26 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Watchlists from '../Watchlists';
+import { convertTimes, getInterval, handleClick } from '../utils/graphUtils';
 import GraphBar from '../Graph/GraphBar';
 import Graph from '../Graph';
-import { getCandle } from '../../store/candles';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [timeFrameText, setTimeFrameText] = useState('Today');
-  const [timeFrame, setTimeFrame] = useState('1D');
+  const [interval, setInterval] = useState('1D');
+  const [intervalLong, setIntervalLong] = useState('Today');
+  const [resolution, setResolution] = useState('5');
+  const [prices, setPrices] = useState([]);
+  const [times, setTimes] = useState([]);
   const [color, setColor] = useState('green');
   const [change, setChange] = useState(0);
   const [changePercent, setChangePercent] = useState(0);
-  const [activePrice, setActivePrice] = useState(0);
-  const candlesList = useSelector(state => state.candles);
+  const [currValue, setCurrValue] = useState(0);
+  const [activeValue, setActiveValue] = useState(0);
 
   const assetList = useSelector(state => Object.values(state.portfolio.assets));
-  const assetSymbols = assetList.map(asset => asset.symbol);
   const bp = useSelector(state => state.portfolio.buying_power).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -28,90 +29,73 @@ const Dashboard = () => {
 
   useEffect(() => {
     (async () => {
-      for (const symbol of assetSymbols) {
-        const candle = candlesList[timeFrame]?.[symbol];
-
-        if (!candle) {
-          await dispatch(getCandle(timeFrame, symbol));
+      let i = 0;
+      const values = [];
+      const times = [];
+      for (const asset of assetList) {
+        const fromTo = getInterval(interval);
+        const response = await fetch(
+          `/api/stocks/${asset.symbol}/candles?from=${fromTo[0]}&to=${fromTo[1]}&resolution=${resolution}`
+        );
+        const data = await response.json();
+        if (i === 0) {
+          for (const obj of data) {
+            let price = obj.price * asset.count;
+            values.push(price);
+            times.push(convertTimes(obj.time, interval));
+          }
+        } else {
+          let j = 0;
+          const count = asset.count;
+          for (const obj of data) {
+            values[j] += obj.price * count;
+            j++;
+          }
         }
+        i++;
       }
+      if (Object.keys(assetList).length) {
+        const change = (values[values.length - 1] - values[0]).toFixed(2);
+        const changePercent = ((100 * change) / values[0]).toFixed(2);
+        const color = change > 0 ? 'green' : 'red';
+
+        setTimes(times);
+        setCurrValue(values[values.length - 1].toFixed(2));
+        setActiveValue(values[values.length - 1].toFixed(2));
+        setChange(change);
+        setChangePercent(changePercent);
+        setPrices(values);
+      }
+      setIsLoaded(true);
     })();
+  }, [isLoaded, interval]);
 
-    setIsLoaded(true);
-  }, [timeFrame]);
-
-  // Some stocks are missing timestamps in candle data... so have to filter those time frames out
-  const candles = {};
-  for (const [symbol, data] of Object.entries(candlesList[timeFrame] || {})) {
-    if (assetSymbols.includes(symbol)) {
-      data.forEach(d => {
-        candles[d.time] = {
-          ...candles[d.time],
-          [symbol]: d.price * assetList.find(asset => asset.symbol === symbol).count,
-        };
-      });
-    }
-  }
-
-  // Filters out incomplete timestamp datas and returns as {timestamp: summed price}
-  const filtedCandles = Object.fromEntries(
-    Object.entries(candles)
-      .filter(candle => Object.keys(candle[1]).length === assetSymbols.length)
-      .map(candle => [candle[0], Object.values(candle[1]).reduce((price, sum) => price + sum)])
-  );
-
-  const times = Object.keys(filtedCandles);
-  const prices = Object.values(filtedCandles);
-  const startingPrice = prices[0];
-  const lastPrice = prices[prices.length - 1];
-
-  useEffect(() => {
-    setActivePrice(lastPrice);
-    if (lastPrice - startingPrice < 0) {
-      setColor('red');
-    }
-  }, [lastPrice]);
-
-  useEffect(() => {
-    const change = activePrice - startingPrice;
-    const percentChange = (change * 100) / startingPrice;
-    setChange(change);
-    setChangePercent(percentChange);
-  }, [activePrice]);
+  const setFunctions = { setInterval, setIntervalLong, setResolution };
 
   return (
     <div className='dashboardContainer'>
       <div className='leftContainer'>
         <div className='portfolioContainer'>
-          <div className='portfolioValue'>{`${(activePrice || lastPrice)?.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          })}`}</div>
+          <div className='portfolioValue'>{`$${activeValue}`}</div>
           <div className='priceChange'>
             <span>
-              {`${change.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })} (${changePercent.toFixed(2)}%)`}
+              {change > 0
+                ? `$${change} (${changePercent}%)`
+                : `-$${change * -1} (${changePercent}%)`}
             </span>
-            <span className='timeFrame'> {timeFrameText}</span>
+            <span className='timeFrame'>Today</span>
           </div>
           <div className='graphContainer'>
-            {isLoaded && (
+            {isLoaded && prices.length && (
               <Graph
+                color={color}
                 times={times}
                 prices={prices}
-                color={color}
-                inverval={timeFrame}
-                setActivePrice={setActivePrice}
+                current={currValue}
+                setActivePrice={setActiveValue}
               />
             )}
-            <GraphBar
-              color={color}
-              timeFrame={timeFrame}
-              setTimeFrame={setTimeFrame}
-              setTimeFrameText={setTimeFrameText}
-            />
+            <GraphBar color={color} interval={interval} setFunctions={setFunctions} />
           </div>
           <div className={'buyingPowerContainer' + `${showMenu ? ' selected' : ''}`}>
             <div className='bpHeader noSelect' onClick={() => setShowMenu(!showMenu)}>

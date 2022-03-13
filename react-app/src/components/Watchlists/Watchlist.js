@@ -7,7 +7,6 @@ import EditWatchlistForm from '../EditWatchlistForm';
 import './Watchlist.css';
 
 function Watchlist({ watchlist }) {
-  console.log('HIT WATCHLIST');
   const dispatch = useDispatch();
   // const sessionUser = useSelector(state => state.session.User);
   // const watchlists = useSelector(state => state.portfolio.watchlists);

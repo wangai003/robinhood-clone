@@ -1,18 +1,18 @@
 const GET_CANDLE = 'candles/GET';
 
-const get = (symbol, timeFrame, data) => ({
+const get = (timeFrame, symbol, data) => ({
   type: GET_CANDLE,
-  symbol,
   timeFrame,
+  symbol,
   data,
 });
 
-export const getCandle = (symbol, timeFrame) => async dispatch => {
+export const getCandle = (timeFrame, symbol) => async dispatch => {
   const response = await fetch(`/api/stocks/${symbol}/candles?time-frame=${timeFrame}`);
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(get(symbol, timeFrame, data));
+    dispatch(get(timeFrame, symbol, data));
 
     return data;
   } else if (response.status < 500) {
@@ -29,7 +29,7 @@ const reducer = (state = {}, action) => {
   switch (action.type) {
     case GET_CANDLE:
       const newState = JSON.parse(JSON.stringify(state));
-      newState[action.symbol] = { ...newState[action.symbol], [action.timeFrame]: action.data };
+      newState[action.timeFrame] = { ...newState[action.timeFrame], [action.symbol]: action.data };
       return newState;
     default:
       return state;
