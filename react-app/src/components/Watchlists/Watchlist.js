@@ -5,26 +5,26 @@ import { deleteStockFromWatchlist, deleteWatchlistReducer } from '../../store/po
 import AddStockForm from '../AddStockForm';
 import EditWatchlistForm from '../EditWatchlistForm';
 import WatchlistMenu from './watchlistMenu';
-import Hamburger from 'hamburger-react';
+// import Hamburger from 'hamburger-react';
 import './Watchlist.css';
 
 function Watchlist({ watchlist }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [showAddStockToWatchlist, setShowAddStockToWatchlist] = useState(false);
-  const [editWatchlistText,setEditWatchlistText] = useState("Edit")
+  const [editWatchlistText, setEditWatchlistText] = useState("Edit")
   const [isOpen, setOpen] = useState(false)
-  const [menuText,setMenuText] = useState("+")
-  const toggleIsOpen = (e) =>{
+  const [menuText, setMenuText] = useState("+")
+  const toggleIsOpen = (e) => {
     setOpen(!isOpen)
-    if(isOpen) setMenuText("+")
-    else{setMenuText("-")}
+    if (isOpen) setMenuText("+")
+    else { setMenuText("-") }
   }
 
 
   useEffect(() => {
     if (!isOpen) {
-     setMenuText("+")
+      setMenuText("+")
       return;
     }
     const closeMenu = () => {
@@ -52,8 +52,8 @@ function Watchlist({ watchlist }) {
     editForm = (
       <EditWatchlistForm
         watchlist={watchlist}
-        showModal = {showModal}
-        setShowModal = {setShowModal}
+        showModal={showModal}
+        setShowModal={setShowModal}
       ></EditWatchlistForm>
 
     );
@@ -74,41 +74,41 @@ function Watchlist({ watchlist }) {
         <Hamburger className={"stopit"}size={12} toggled={isOpen} >
              </Hamburger>
              </div> */}
-             <div className='nameAndMenuIcon stockSymbol'>
-            {watchlist.name}
-        <span className={"menuSpan"} onClick={(e) =>  toggleIsOpen(e)}> {menuText}
-        {isOpen &&<WatchlistMenu watchlist={watchlist}></WatchlistMenu>}
-         </span>
+        <div className='nameAndMenuIcon stockSymbol'>
+          {watchlist.name}
+          <span className={"menuSpan"} onClick={(e) => toggleIsOpen(e)}> {menuText}
+            {isOpen && <WatchlistMenu watchlist={watchlist}></WatchlistMenu>}
+          </span>
 
-             </div>
-          {watchlist &&
-            Object.values(watchlist.stocks).map((stock, i) => (
-              <div key={i} className={"outerDiv"}>
+        </div>
+        {watchlist &&
+          Object.values(watchlist.stocks).map((stock, i) => (
+            <div key={i} className={"outerDiv"}>
               <Link to={`stocks/${stock.symbol}`}>
-              <div className='watchlistStockContainer' key={i}>
-                <div className='leftSide'>
-                <span className='stockSymbol one'>{stock.symbol}
-                </span>
-                <span className='removeStockFromList stockSymbol'
-                  onClick={async (e) =>{
-                    e.stopPropagation()
-                    e.preventDefault()
-                    await dispatch(deleteStockFromWatchlist(stock.id, watchlist))
-                  }}
-                >
-                  Remove {stock.name}
-                </span>
-                </div>
-                <div className='rightSide'>
-                <span className='stockPrice'>info1</span>
-                <span className='stockChange'>info2</span>
+                <div className='watchlistStockContainer' key={i}>
+                  <div className='leftSide'>
+                    <span className='stockSymbol one'>{stock.symbol}
+                    </span>
+                    <span className='removeStockFromList stockSymbol'
+                      onClick={async (e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        await dispatch(deleteStockFromWatchlist(stock.id, watchlist))
+                      }}
+                    >
+                      Remove {stock.name}
+                    </span>
+                  </div>
+                  <div className='rightSide'>
+                    <span className='stockPrice'>info1</span>
+                    <span className='stockChange'>info2</span>
 
                   </div>
-              </div>
+                </div>
               </Link>
-              </div>
-            ))}
-        </ul>
+            </div>
+          ))}
+      </ul>
     </div>
   );
 }
