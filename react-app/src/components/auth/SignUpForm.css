@@ -91,3 +91,29 @@
   border: 2px solid green;
   border-radius: 2px;
 }
+
+.sign-up-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  text-decoration: none;
+  color: white;
+  display: inline;
+  font-family: helvetica;
+  padding: 4px 7px;
+  border: solid black 1px;
+  border-radius: 3px;
+  background-color: black;
+}
+
+.sign-up-button:hover{
+  background-color: white;
+  color: black;
+  box-shadow: 1px 1px .2em rgb(170, 170, 170);
+  cursor: pointer;
+}
+
+.page-link {
+    font-weight: bold;
+    text-decoration: underline;
+}

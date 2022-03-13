@@ -105,14 +105,50 @@ label {
   padding-bottom: 10px;
 }
 
-.add-bank-button {
-  margin-top: 20px;
-  width: 90px;
-  height: 30px;
-  font-size: 14px ;
-}
 
 .bank-errors {
   color: red;
   font-size: 14px;
+}
+
+
+.bank-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  text-decoration: none;
+  color: rgb(0, 200, 5);
+  display: inline;
+  font-family: helvetica;
+  border: solid rgb(0, 200, 5) 1px;
+  border-radius: 3px;
+  background-color: black;
+}
+
+.bank-button:hover{
+  background-color: rgb(0, 200, 5);
+  color: black;
+  cursor: pointer;
+}
+
+.add-bank-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  width: 90px;
+  height: 30px;
+  font-size: 14px ;
+  text-decoration: none;
+  color: rgb(0, 200, 5);
+  display: inline;
+  font-family: helvetica;
+  border: solid rgb(0, 200, 5) 1px;
+  border-radius: 3px;
+  background-color: black;
+}
+
+.add-bank-button:hover{
+  background-color: rgb(0, 200, 5);
+  color: black;
+  cursor: pointer;
 }

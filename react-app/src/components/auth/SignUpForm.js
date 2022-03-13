@@ -86,7 +86,7 @@ const SignUpForm = ({ user }) => {
           <button className='sign-up-button' type='submit'>Sign Up</button>
           <div>
             <span>Already a user? </span>
-            <Link to='/login'>Log in here</Link>
+            <Link className='page-link' to='/login'>Log in here</Link>
           </div>
         </form>
       </div>
