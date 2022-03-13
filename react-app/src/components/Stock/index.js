@@ -62,7 +62,7 @@ function Stock() {
         setAssetsValue((assets[symbol.toUpperCase()].count * stock.current))
       }
     })();
-  }, [isLoaded])
+  })
 
   useEffect(() => {
     (async () => {
@@ -102,7 +102,7 @@ function Stock() {
           <div id='stock-price-change'>
             {change > 0 ?
               `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)` :
-              `-$${(change * -1).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
+              `-${(change * -1).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
             <div className='interval-long'>{intervalLong}</div>
           </div>
         </div>
@@ -207,7 +207,8 @@ function Stock() {
             stock={stock}
             buySell={buySell}
             name={stocks[symbol.toUpperCase()].name}
-            hideForm={closeBuySellForm} />
+            hideForm={closeBuySellForm}
+            setIsLoaded={setIsLoaded} />
         }
         <div className={'stock buyingPowerContainer' + `${showMenu ? ' selected' : ''}`}>
           <div className='bpHeader noSelect' onClick={() => setShowMenu(!showMenu)}>
