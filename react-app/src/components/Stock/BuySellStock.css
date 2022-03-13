@@ -41,9 +41,13 @@
 }
 
 #cancel-btn {
-    background-color: red;
+    background-color: var(--rh-red-base);
 }
 
 #cancel-btn:hover {
-    background-color: rgb(251, 86, 86);
+    background-color: var(--rh-red-hover);
+}
+
+.buy-sell-errors {
+    color: var(--rh-red-base);
 }

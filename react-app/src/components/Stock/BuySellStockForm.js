@@ -4,7 +4,7 @@ import { buyAssets, tradeAssets, sellAllAssets } from '../../store/portfolio/ass
 import { addBuyingPower, subtractBuyingPower } from '../../store/portfolio/buyingPower';
 import './BuySellStock.css';
 
-function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
+function BuySellStockForm({ symbol, buySell, hideForm, stock, setIsLoaded }) {
     const [count, setCount] = useState(0);
     const [cost, setCost] = useState(0);
     const [errors, setErrors] = useState([]);
@@ -75,13 +75,16 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock }) {
                 if (asset.count === count && buySell === 'sell') {
                     await dispatch(sellAllAssets(payload, asset.id));
                     await dispatch(addBuyingPower(price))
+                    hideForm();
                 } else {
                     await manageBuyingPower(buySell, price);
                     await dispatch(tradeAssets(payload, asset.id));
+                    hideForm();
                 }
             } else {
                 await dispatch(subtractBuyingPower(price));
                 await dispatch(buyAssets(payload));
+                hideForm();
             }
         }
         setCount(0);
