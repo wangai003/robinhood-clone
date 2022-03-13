@@ -1,6 +1,11 @@
 .deleteWatchlist{
     background-color: var(--rh-red-base);
-    border-radius: 16px;
+    height: fit-content !important;
+    margin-bottom: 10px;
+    width: fit-content !important;
+    right: 0px;
+    position: absolute;
+    top: 0px;
 }
 .deleteWatchlist:hover{
     background-color: var(--rh-red-hover);
@@ -10,20 +15,6 @@
     border-bottom: 2px solid black
 }
 
-
-.watchlistListContainer{
-    background-color: black;
-    color: white;
-    width: fit-content;
-    display: flex;
-    justify-content: center;
-    background-color: black;
-}
-
-.watchlistContainer{
-    display: flex;
-
-}
 .stock:hover{
     color: var(--rh-green-hover)
 }
@@ -42,4 +33,104 @@
 .createWatchlistButton:hover{
     color: var(--rh-green-hover);
 
+}
+
+.notActiveWatchlist{
+        padding: 0;
+        overflow: hidden;
+        height: 40px;
+}
+
+.notActiveWatchlist:hover{
+    background-color: var(--rh-dark-hover);
+}
+
+.activeWatchlist{
+    height: fit-content;
+    display: flex;
+}
+
+.editWatchlist{
+    width: 30px;
+    height: 20px;
+    padding-bottom: 10px;
+}
+
+
+
+.testing{
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden{
+    display: hidden;
+}
+
+.watchlistContainer{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0px;
+}
+
+
+.watchList{
+padding-left: 0px;
+position: relative;
+bottom: 10px;
+cursor: pointer;
+}
+
+.nameAndMenuIcon{
+    padding-bottom: 15px;
+}
+
+
+.editWatchlist{
+    width: 55px !important;
+    background-color: red;
+    position: absolute;
+    right: 55px;
+    top: 0;
+    height: 22px;
+}
+
+.removeStockFromList{
+    width: fit-content !important;
+}
+
+.removeStockFromList:hover{
+    color: var(--rh-red-hover);
+}
+.watchlistStockContainer{
+    display: flex;
+    width: 100px;
+}
+
+.watchlistStockContainer:hover{
+    background-color: var(--rh-dark-base)
+}
+.leftSide{
+    display: flex;
+    flex-direction: column;
+    margin-left: 24px;
+}
+
+.rightSide{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-right: 24px;
+}
+
+.outerDiv{
+    width: 273px !important;
+}
+
+.menuSpan{
+    cursor: pointer;
+}
+.menuSpan:hover{
+    color: var(--rh-green-hover)
 }

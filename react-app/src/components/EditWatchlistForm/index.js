@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editWatchlist } from '../../store/portfolio/watchlist';
-import { Modal2 } from '../BankForm/context/Modal';
+import { Modal2 } from '../Watchlists/context/Modal';
 const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();

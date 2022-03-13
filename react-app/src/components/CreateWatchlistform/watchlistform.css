@@ -1,3 +1,11 @@
 .errorsContainer{
     color: red;
 }
+
+
+.modalWatchlist{
+    background-color: yellow;
+    right: initial;
+    bottom: initial;
+    width: 200px !important;
+}

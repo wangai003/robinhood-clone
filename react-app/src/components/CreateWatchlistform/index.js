@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createWatchlist } from '../../store/portfolio/watchlist';
-import { Modal2 } from '../BankForm/context/Modal';
+import { Modal2 } from '../Watchlists/context/Modal';
 import './watchlistform.css';
 const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
   const sessionUser = useSelector(state => state.session.user);
@@ -10,16 +10,6 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
   const [validationErrors, setValidationErrors] = useState([]);
 
   const updateTitle = e => setTitle(e.target.value);
-  // useEffect(() => {
-  //   const button = document.getElementById('submit');
-  //   if (title === '') {
-  //     button.disabled = true;
-  //     button.style.opacity = 0.4;
-  //   } else {
-  //     button.disabled = false;
-  //     button.style.opacity = 1;
-  //   }
-  // }, [title]);
   const handleSubmit = async e => {
     e.preventDefault();
     const errors = [];
@@ -31,7 +21,6 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
       titleInput.disabled = true;
       let createdWatchlist = await dispatch(createWatchlist(title, sessionUser.id));
       if (createdWatchlist.error) {
-        console.log('akdjbasjhdbajh');
         errors.push(createdWatchlist.error);
         button.disabled = false;
         titleInput.disabled = false;
@@ -45,6 +34,7 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
   let count = 0;
   return (
     <Modal2
+    className={"modalWatchlist"}
     title={`Create Watchlist`}
           onClose={() => setShowModal(false)}
           show={showModal}>

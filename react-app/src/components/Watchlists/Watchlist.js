@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { deleteStockFromWatchlist, deleteWatchlistReducer } from '../../store/portfolio/watchlist';
 import AddStockForm from '../AddStockForm';
 import EditWatchlistForm from '../EditWatchlistForm';
+import WatchlistMenu from './watchlistMenu';
+import Hamburger from 'hamburger-react';
 import './Watchlist.css';
 
 function Watchlist({ watchlist }) {
@@ -11,15 +13,39 @@ function Watchlist({ watchlist }) {
   const [showModal, setShowModal] = useState(false);
   const [showAddStockToWatchlist, setShowAddStockToWatchlist] = useState(false);
   const [editWatchlistText,setEditWatchlistText] = useState("Edit")
+  const [isOpen, setOpen] = useState(false)
+  const [menuText,setMenuText] = useState("+")
+  const toggleIsOpen = (e) =>{
+    setOpen(!isOpen)
+    if(isOpen) setMenuText("+")
+    else{setMenuText("-")}
+  }
+
+
+  useEffect(() => {
+    if (!isOpen) {
+     setMenuText("+")
+      return;
+    }
+    const closeMenu = () => {
+      setOpen(false);
+    };
+
+    setMenuText("-")
+    document.addEventListener('click', closeMenu);
+
+    return () => document.removeEventListener('click', closeMenu);
+  }, [isOpen]);
+
+
+
   const toggleShowModal = async e => {
     setShowModal(true)
   };
   const toggleShowAddStockToWatchlist = async e => {
     setShowAddStockToWatchlist(!showAddStockToWatchlist);
   };
-  const deleteWatchlist = async e => {
-      await dispatch(deleteWatchlistReducer(watchlist.id));
-  };
+
   let editForm;
   let addStockForm;
   if (showModal) {
@@ -40,32 +66,49 @@ function Watchlist({ watchlist }) {
   return (
     <div className='watchListContainer'>
       <ul className='watchList'>
-        {watchlist.name}
         {/* <button onClick={toggleShowAddStockToWatchlist}>Add Stock to Watchlist</button>
         {addStockForm} */}
-        <button className='editWatchlist' onClick={toggleShowModal}>{editWatchlistText}</button>
-        {editForm}
-        <button className='deleteWatchlist' onClick={deleteWatchlist}>Delete</button>
-        <ul>
+        {/* <button className='editWatchlist' onClick={toggleShowModal}>{editWatchlistText}</button>
+        {editForm} */}
+        {/* <div className='hamburgerDiv' onClick={toggleIsOpen}>
+        <Hamburger className={"stopit"}size={12} toggled={isOpen} >
+             </Hamburger>
+             </div> */}
+             <div className='nameAndMenuIcon stockSymbol'>
+            {watchlist.name}
+        <span className={"menuSpan"} onClick={(e) =>  toggleIsOpen(e)}> {menuText}
+        {isOpen &&<WatchlistMenu watchlist={watchlist}></WatchlistMenu>}
+         </span>
+
+             </div>
           {watchlist &&
             Object.values(watchlist.stocks).map((stock, i) => (
-              <div className='watchListStockContainer' key={i}>
-
-                <Link key={i} to={`stocks/${stock.symbol}`}>
-                <span className='stock'>{stock.symbol}
+              <div key={i} className={"outerDiv"}>
+              <Link to={`stocks/${stock.symbol}`}>
+              <div className='watchlistStockContainer' key={i}>
+                <div className='leftSide'>
+                <span className='stockSymbol one'>{stock.symbol}
                 </span>
-                </Link>
-                <button
-                  onClick={async () =>
+                <span className='removeStockFromList stockSymbol'
+                  onClick={async (e) =>{
+                    e.stopPropagation()
+                    e.preventDefault()
                     await dispatch(deleteStockFromWatchlist(stock.id, watchlist))
-                  }
+                  }}
                 >
                   Remove {stock.name}
-                </button>
+                </span>
+                </div>
+                <div className='rightSide'>
+                <span className='stockPrice'>info1</span>
+                <span className='stockChange'>info2</span>
+
+                  </div>
+              </div>
+              </Link>
               </div>
             ))}
         </ul>
-      </ul>
     </div>
   );
 }
