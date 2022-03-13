@@ -32,13 +32,15 @@
     height: 30px;
     width: 90px;
     padding: 1px;
+    border: 1px solid var(--rh-dark-base2);
     border-radius: 8px;
     background-color: black;
     color: white;
+    cursor: pointer;
 }
 .createWatchlistButton:hover{
     color: var(--rh-green-hover);
-
+    background-color: var(--rh-dark-base);
 }
 
 .notActiveWatchlist{

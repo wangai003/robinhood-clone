@@ -41,7 +41,7 @@
 }
 
 #submitCreateWatchlist{
-    width: 6rem;
+    width: 8rem;
     border-radius: 1.5rem;
     font-size: 1rem;
     margin: 0.5rem;
@@ -51,4 +51,8 @@
     color: white;
     height: 3rem;
     cursor: pointer;
+}
+
+#submitCreateWatchlist:hover {
+    background-color: var(--rh-dark-base2)
 }
