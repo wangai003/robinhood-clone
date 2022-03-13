@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editWatchlist } from '../../store/portfolio/watchlist';
 import { Modal2 } from '../Watchlists/context/Modal';
+import './editwatchlist.css'
 const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
 
   const updateTitle = e => setTitle(e.target.value);
   useEffect(() => {
-    const button = document.getElementById('submit');
+    const button = document.getElementById('submitEditWatchlist');
     if (title === '' || title.toLowerCase() === watchlist.name.toLowerCase()) {
       button.disabled = true;
       button.style.opacity = 0.4;
@@ -23,7 +24,7 @@ const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
     e.preventDefault();
     const errors = [];
     if (title) {
-      const button = document.getElementById('submit');
+      const button = document.getElementById('submitEditWatchlist');
       const titleInput = document.getElementById('titleInput');
 
       button.disabled = true;
@@ -42,11 +43,13 @@ const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
   };
   let count = 0;
   return (
+    <div className='edit-watchlist-container'>
     <Modal2  title={`Change Watchlist name from ${watchlist.name}`}
     onClose={() => setShowModal(false)}
     show={showModal}>
       <div>
-        <form className='createWatchlistForm' onSubmit={handleSubmit}>
+        <form className='editWatchlistForm' onSubmit={handleSubmit}>
+          <div>
           {validationErrors.length > 0 && (
             <div className='errorsContainer'>
               {validationErrors.map(currError => {
@@ -54,7 +57,7 @@ const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
               })}
             </div>
           )}
-
+</div>
             <input
               type='textarea'
               id='titleInput'
@@ -63,10 +66,11 @@ const EditWatchlistForm = ({ watchlist ,showModal,setShowModal}) => {
               onChange={updateTitle}
             />
 
-          <input id='submit' type={'submit'}></input>
+          <input id='submitEditWatchlist' type={'submit'}></input>
         </form>
       </div>
     </Modal2>
+    </div>
   );
 };
 

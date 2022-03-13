@@ -12,18 +12,21 @@
     background-color: black;
     color: white;
 }
-.createWatchlistForm{
+.editWatchlistForm{
     display: flex;
     justify-content: center;
 }
-.create-watchlist-container .modal-content{
+.edit-watchlist-container .modal-content{
     background-color: var(--rh-dark-base);
     border: 1px solid var(--rh-dark-base2);
     border-radius: 5px;
     padding: 1rem;
 }
+.edit-watchlist-container .modal-content:hover{
+    cursor:default;
+}
 
-.create-watchlist-container .button {
+.edit-watchlist-container .button {
     background-color: black;
     color: white;
     padding: 0.5rem;
@@ -35,12 +38,12 @@
     cursor: pointer;
 }
 
-.create-watchlist-container h4 {
+.edit-watchlist-container h4 {
     color: white;
     font-size: 1.2rem;
 }
 
-#submitCreateWatchlist{
+#submitEditWatchlist{
     width: 6rem;
     border-radius: 1.5rem;
     font-size: 1rem;
@@ -51,4 +54,9 @@
     color: white;
     height: 3rem;
     cursor: pointer;
+}
+
+.edit-watchlist-container .errorsContainer {
+    font-weight: normal;
+    font-size: medium;
 }

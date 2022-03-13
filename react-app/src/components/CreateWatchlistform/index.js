@@ -14,7 +14,7 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
     e.preventDefault();
     const errors = [];
     if (title) {
-      const button = document.getElementById('submit');
+      const button = document.getElementById('submitCreateWatchlist');
       const titleInput = document.getElementById('titleInput');
 
       button.disabled = true;
@@ -33,6 +33,7 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
   };
   let count = 0;
   return (
+    <div className='create-watchlist-container'>
     <Modal2
     className={"modalWatchlist"}
     title={`Create Watchlist`}
@@ -40,6 +41,7 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
           show={showModal}>
       <div>
         <form className='createWatchlistForm' onSubmit={handleSubmit}>
+          <div>
           {validationErrors.length > 0 && (
             <div className='errorsContainer'>
               {validationErrors.map(currError => {
@@ -47,8 +49,8 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
               })}
             </div>
           )}
-          <label className='titleInputLabel'>
-            Title
+            </div>
+
             <input
               type='textarea'
               id='titleInput'
@@ -56,11 +58,11 @@ const CreateWatchlistForm = ({ hideform,showModal,setShowModal }) => {
               value={title}
               onChange={updateTitle}
             />
-          </label>
-          <input id='submit' type={'submit'}></input>
+          <input id='submitCreateWatchlist' type={'submit'}></input>
         </form>
       </div>
     </Modal2>
+    </div>
   );
 };
 
