@@ -27,9 +27,10 @@ function Stock() {
   const [prices, setPrices] = useState([]);
   const [startingPrice, setStartingPrice] = useState(0);
   const [currPrice, setCurrPrice] = useState(0);
+  const [asset, setAsset] = useState({});
   const candlesList = useSelector(state => state.candles);
 
-  const assets = useSelector(state => state.portfolio.assets);
+  const assets = useSelector(state => Object.values(state.portfolio.assets));
   const stocks = useSelector(state => state.stocks);
 
   const symbol = useParams().symbol.toUpperCase();
@@ -54,11 +55,13 @@ function Stock() {
       setStock(stock);
       setCurrPrice(stock.current);
     })();
-  }, []);
+  }, [symbol]);
 
   useEffect(() => {
-    if (assets[symbol]) {
-      setAssetsValue((assets[symbol].count * stock.current).toFixed(2));
+    const asset = assets.find(asset => asset.symbol === symbol);
+    if (asset) {
+      setAssetsValue((asset.count * stock.current).toFixed(2));
+      setAsset(asset);
     }
   });
 
@@ -71,7 +74,7 @@ function Stock() {
       }
     })();
     setIsLoaded(true);
-  }, [timeFrame]);
+  }, [symbol, timeFrame]);
 
   useEffect(() => {
     const currCandles = candlesList[timeFrame]?.[symbol];
@@ -81,7 +84,7 @@ function Stock() {
       setTimes(Object.keys(candles));
       setPrices(Object.values(candles));
     }
-  }, [candlesList, timeFrame]);
+  }, [symbol, candlesList, timeFrame]);
 
   useEffect(() => {
     setStartingPrice(prices[0]);
@@ -104,7 +107,7 @@ function Stock() {
     <div className='stock-page-container'>
       <div className='stock-container'>
         <div className='stock-symbol-price-container'>
-          <h2 id='stock-symbol'>{symbol.toUpperCase()}</h2>
+          <h2 id='stock-symbol'>{symbol}</h2>
           <h2 id='stock-current-price'>{`$${(activePrice || stock.current)?.toLocaleString(
             'en-US',
             {
@@ -137,7 +140,7 @@ function Stock() {
         />
         <div className='stock-about-container'>
           <h3 className='stock-dtls-title'>About</h3>
-          {stocks[symbol.toUpperCase()] && <p>{stocks[symbol.toUpperCase()].name}</p>}
+          {stocks[symbol] && <p>{stocks[symbol].name}</p>}
         </div>
         <div className='stock-financials-container'>
           <h3 className='stock-dtls-title'>Key Statistics</h3>
@@ -187,11 +190,9 @@ function Stock() {
       </div>
       <div className='stock-btn-container'>
         <div cla>
-          {isLoaded && assets[symbol.toUpperCase()] && (
+          {asset && (
             <div>
-              <div>{`You own ${
-                assets[symbol.toUpperCase()].count
-              } shares worth $${assetsValue}`}</div>
+              <div>{`You own ${asset.count} shares worth $${assetsValue}`}</div>
             </div>
           )}
         </div>
@@ -211,7 +212,7 @@ function Stock() {
               SetShowBuySell(true);
             }}
           >
-            Buy {symbol.toUpperCase()}
+            Buy {symbol}
           </button>
           <button
             id='sell-stock-btn'
@@ -221,15 +222,15 @@ function Stock() {
               SetShowBuySell(true);
             }}
           >
-            Sell {symbol.toUpperCase()}
+            Sell {symbol}
           </button>
         </div>
         {isLoaded && showBuySell && (
           <BuySellStockForm
-            symbol={symbol.toUpperCase()}
+            symbol={symbol}
             stock={stock}
             buySell={buySell}
-            name={stocks[symbol.toUpperCase()].name}
+            name={stocks[symbol].name}
             hideForm={closeBuySellForm}
           />
         )}
