@@ -170,3 +170,11 @@ label {
   cursor: pointer;
 }
 
+
+.add-buying-power-container .modal-content{
+  background-color: var(--rh-dark-base);
+  border: 1px solid var(--rh-dark-base2);
+  border-radius: 5px;
+  padding: 1rem;
+  color: white;
+}
