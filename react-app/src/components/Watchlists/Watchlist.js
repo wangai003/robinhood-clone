@@ -99,8 +99,13 @@ function Watchlist({ watchlist, quotes }) {
                     </span>
                   </div>
                   <div className='rightSide'>
-                    <span className='stockPrice'>{quotes[stock.symbol]?.current}</span>
-                    <span className='stockChange'>{quotes[stock.symbol]?.change}</span>
+                    <span className='stockPrice'>
+                      {quotes[stock.symbol]?.current.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      })}
+                    </span>
+                    <span className='stockChange'>{quotes[stock.symbol]?.change}%</span>
                   </div>
                 </div>
               </Link>
