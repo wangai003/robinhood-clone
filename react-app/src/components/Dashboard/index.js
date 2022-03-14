@@ -24,6 +24,8 @@ const Dashboard = () => {
 
   const assetList = useSelector(state => Object.values(state.portfolio.assets));
   const assetSymbols = assetList.map(asset => asset.symbol);
+  const watchlists = Object.values(useSelector(state => state.portfolio.watchlists));
+
   const bp = useSelector(state => state.portfolio.buying_power).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -39,6 +41,25 @@ const Dashboard = () => {
         sum += quote.current * assetList.find(asset => asset.symbol === symbol).count;
         quotes[symbol] = quote;
       }
+
+      const watchlistSet = new Set();
+      for (const watchlist of watchlists) {
+        for (const stock of Object.values(watchlist.stocks)) {
+          if (!assetSymbols.includes(stock.symbol)) {
+            watchlistSet.add(stock.symbol);
+          }
+        }
+      }
+
+      console.log(watchlistSet);
+      for (const symbol of watchlistSet) {
+        const res = await fetch(`/api/stocks/${symbol}/quote`);
+        const quote = await res.json();
+        quotes[symbol] = quote;
+      }
+
+      console.log(quotes);
+
       setCurrPrice(sum);
       setQuotes(quotes);
     })();
@@ -187,7 +208,7 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-          <Watchlists />
+          <Watchlists quotes={quotes} />
         </div>
       </div>
     </div>
