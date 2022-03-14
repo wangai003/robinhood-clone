@@ -49,6 +49,22 @@ a {
   color: inherit;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  height: 35px;
+}
+
+.logoImg {
+  height: 100%;
+  margin-left: 10px;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: 700;
+}
+
 .btn {
   cursor: pointer;
   width: fit-content;
