@@ -67,7 +67,7 @@ const BankForm = () => {
 
   return (
     <>
-      <div className='table-outer-container'>
+      <div className='table-outer-container add-buying-power-container'>
         <div className='table-inner-container'>
           {myAccounts?.length > 0 && <h3> My Linked Accounts: </h3>}
 
@@ -75,15 +75,16 @@ const BankForm = () => {
 
           <table className='linked-accounts-table'>
             {myAccounts?.length > 0 && (
-              <thead>
-                <th>Name </th>
-                <th>Bank </th>
-                <th>Account Number </th>
-
+              <tbody>
+                <tr>
+                <td>Name </td>
+                <td>Bank </td>
+                <td>Account Number </td>
+                </tr>
                 {/* <th>Edit </th>
               <th>Delete </th> */}
                 {/* <th>Bank ID </th> */}
-              </thead>
+              </tbody>
             )}
             <tbody>
               {myAccounts?.map(bank => (
@@ -92,7 +93,7 @@ const BankForm = () => {
                   <td>{bank.name}</td>
                   <td>{bank.bank_name}</td>
                   <td>{bank.account_number}</td>
-
+                <td>
                   <AddBuyingPower
                     className='bank-button'
                     userId={userId}
@@ -114,7 +115,7 @@ const BankForm = () => {
                   <button className='bank-button' id={bank.id} onClick={handleClick}>
                     Delete
                   </button>
-
+                  </td>
                   {/* <td>{bank.id}</td> */}
                 </tr>
               ))}

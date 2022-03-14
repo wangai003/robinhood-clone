@@ -39,6 +39,7 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
       <button className='bank-button' onClick={() => setShowModal(true)}>Add BP</button>
 
       {showModal && (
+
         <Modal2
           title={`Transfer funds from ${name}`}
           onClose={() => setShowModal(false)}
@@ -73,9 +74,10 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
               />
             </div>
 
-            <button type='submit'>Add BP</button>
+            <button className='submit-button' type='submit'>Add BP</button>
           </form>
         </Modal2>
+
       )}
     </>
   );
