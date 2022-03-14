@@ -8,8 +8,11 @@ const Splash = ({ user }) => {
     <div className='splash main'>
       <nav>
         <div className='navbar'>
-          <div className='logo'>
-            <Link to='/'>HOME</Link>
+          <div className='home'>
+            <Link className='logo' to='/'>
+              <span className='logoText'>Robinsock</span>
+              <img className='logoImg' src='/favicon.ico' alt='' />
+            </Link>
           </div>
           <div className='auth'>
             <Link className='btn login' to='/login'>

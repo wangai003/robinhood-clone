@@ -9,7 +9,10 @@ const NavBar = () => {
     <nav>
       <div className='navbar'>
         <div className='home'>
-          <Link to='/'>Home</Link>
+          <Link className='logo' to='/'>
+            <span className='logoText'>Robinsock</span>
+            <img className='logoImg' src='/favicon.ico' alt='' />
+          </Link>
         </div>
         <SearchBar />
         <div className='navMenuContainer'>

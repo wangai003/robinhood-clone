@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { signUp } from '../../store/session';
-import './SignUpForm.css'
+import './SignUpForm.css';
 
 const SignUpForm = ({ user }) => {
   const [errors, setErrors] = useState([]);
@@ -50,7 +50,7 @@ const SignUpForm = ({ user }) => {
   return (
     <div className='signup-page-container'>
       <div id='signup-img-wrapper'>
-      <img id='signup-form-img' src="/static/signup2.png" />
+        <img id='signup-form-img' src='/static/signup-rockets.png' />
       </div>
       <div className='signup-form-container'>
         <form className='sign-up-form' onSubmit={onSignUp}>
@@ -61,19 +61,47 @@ const SignUpForm = ({ user }) => {
           </div>
           <div>
             <label>First Name</label>
-            <input type='text' name='firstName' onChange={updateFirstName} value={firstName}></input>
+            <input
+              type='text'
+              name='firstName'
+              onChange={updateFirstName}
+              value={firstName}
+              required={true}
+              placeholder='First name'
+            ></input>
           </div>
           <div>
             <label>Last Name</label>
-            <input type='text' name='lastName' onChange={updateLastName} value={lastName}></input>
+            <input
+              type='text'
+              name='lastName'
+              onChange={updateLastName}
+              value={lastName}
+              required={true}
+              placeholder='Last Name'
+            ></input>
           </div>
           <div>
             <label>Email</label>
-            <input type='text' name='email' onChange={updateEmail} value={email}></input>
+            <input
+              type='text'
+              name='email'
+              onChange={updateEmail}
+              value={email}
+              required={true}
+              placeholder='Email'
+            ></input>
           </div>
           <div>
             <label>Password</label>
-            <input type='password' name='password' onChange={updatePassword} value={password}></input>
+            <input
+              type='password'
+              name='password'
+              onChange={updatePassword}
+              value={password}
+              required={true}
+              placeholder='Password'
+            ></input>
           </div>
           <div>
             <label>Confirm Password</label>
@@ -83,12 +111,17 @@ const SignUpForm = ({ user }) => {
               onChange={updateRepeatPassword}
               value={repeatPassword}
               required={true}
+              placeholder='Confirm Password'
             ></input>
           </div>
-          <button className='sign-up-button' type='submit'>Sign Up</button>
+          <button className='sign-up-button' type='submit'>
+            Sign Up
+          </button>
           <div>
             <span>Already a user? </span>
-            <Link className='page-link' to='/login'>Log in here</Link>
+            <Link className='page-link' to='/login'>
+              Log in here
+            </Link>
           </div>
         </form>
       </div>
