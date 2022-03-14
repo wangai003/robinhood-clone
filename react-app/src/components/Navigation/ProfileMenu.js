@@ -38,7 +38,8 @@ const ProfileMenu = () => {
       </div>
       <div className='body'>
         <Link className='menu' to='/add-funds'>
-          Transfer
+          <i className='fa-solid fa-building-columns fa-xl'></i>
+          Transfers
         </Link>
       </div>
       <div className='footer'>
