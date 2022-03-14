@@ -10,8 +10,7 @@ const MainWrapper = props => {
 
   useEffect(() => {
     (async () => {
-      if(props.user)
-        await dispatch(loadPortfolio());
+      if (props.user) await dispatch(loadPortfolio());
 
       setLoaded(true);
     })();
@@ -20,12 +19,10 @@ const MainWrapper = props => {
   return (
     loaded && (
       <main>
-        <div className='content'>
-          <Route {...props}>
-            <NavBar user={props.user} />
-            {props.children}
-          </Route>
-        </div>
+        <Route {...props}>
+          <NavBar user={props.user} />
+          <div className='content'>{props.children}</div>
+        </Route>
       </main>
     )
   );
