@@ -107,7 +107,7 @@ function Stock() {
       <div className='stock-container'>
         <div className='stock-symbol-price-container'>
           <h2 id='stock-symbol'>{symbol}</h2>
-          <h2 id='stock-current-price'>{`$${(activePrice || stock.current)?.toLocaleString(
+          <h2 id='stock-current-price'>{`${(activePrice || stock.current)?.toLocaleString(
             'en-US',
             {
               style: 'currency',
@@ -173,9 +173,9 @@ function Stock() {
               <div>
                 {stock.financials && stock.financials['52_week_high']
                   ? `${stock.financials['52_week_high'].toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    })}`
+                    style: 'currency',
+                    currency: 'USD',
+                  })}`
                   : '-'}
               </div>
             </li>
@@ -184,9 +184,9 @@ function Stock() {
               <div>
                 {stock.financials && stock.financials['52_week_low']
                   ? `${stock.financials['52_week_low'].toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    })}`
+                    style: 'currency',
+                    currency: 'USD',
+                  })}`
                   : '-'}
               </div>
             </li>
