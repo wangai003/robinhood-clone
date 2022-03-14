@@ -1,13 +1,11 @@
 import { useRef } from 'react';
-
 import { Line, getElementAtEvent } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
+import { convertTimes } from '../utils/graphUtils';
 
 import './Graph.css';
 
-function Graph({ times, prices, color, current, setActivePrice }) {
-  const chartRef = useRef();
-
+function Graph({ times, prices, inverval, color, setActivePrice }) {
   const data = {
     labels: times,
     datasets: [
@@ -29,42 +27,26 @@ function Graph({ times, prices, color, current, setActivePrice }) {
       },
       title: {
         display: false,
-        text: 'Chart.js Line Chart',
       },
       tooltip: {
         usePointStyle: true,
-        mode: 'nearest',
+        mode: 'index',
         intersect: false,
         displayColors: false,
         yAlign: 'bottom',
-        caretPadding: 10,
+        caretPadding: 100,
+        bodyAlign: 'center',
         callbacks: {
-          label: function (context) {
-            let label = context.dataset.label || '';
-
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              }).format(context.parsed.y);
-            }
-            return label;
+          title: () => null,
+          label: context => {
+            return convertTimes(Number(context.label), inverval);
           },
           labelColor: () => {
             return {
               borderColor: 'white',
               borderWidth: 2,
-            }
+            };
           },
-          labelPointStyle: (context) => {
-            return {
-              pointStyle: 'circle',
-              pointRadius: 3
-            }
-          }
         },
       },
     },
@@ -94,25 +76,18 @@ function Graph({ times, prices, color, current, setActivePrice }) {
         setActivePrice(Number(activePoint.element["$context"].raw))
         ctx.beginPath();
         ctx.moveTo(activePoint.element.x, chart.chartArea.top);
-        ctx.lineTo(activePoint.element.x, chart.chartArea.bottom)
+        ctx.lineTo(activePoint.element.x, chart.chartArea.bottom);
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'grey';
         ctx.stroke();
         ctx.restore();
-      }
-      else {
-        setActivePrice(current)
-      }
-    }
-  }
+      } else setActivePrice(null);
+    },
+  };
 
   return (
     <div className='graph-container'>
-      <Line
-        data={data}
-        options={options}
-        plugins={[tooltipLine]}
-      />
+      <Line data={data} options={options} plugins={[tooltipLine]} />
     </div>
   );
 }
