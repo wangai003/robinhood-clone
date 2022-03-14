@@ -28,10 +28,9 @@ function Stock() {
   const [prices, setPrices] = useState([]);
   const [startingPrice, setStartingPrice] = useState(0);
   const [currPrice, setCurrPrice] = useState(0);
-  const [asset, setAsset] = useState({});
   const candlesList = useSelector(state => state.candles);
 
-  const assets = useSelector(state => Object.values(state.portfolio.assets));
+  const assets = useSelector(state => state.portfolio.assets);
   const bp = useSelector(state => state.portfolio.buying_power);
   const stocks = useSelector(state => state.stocks);
 
@@ -60,10 +59,8 @@ function Stock() {
   }, [symbol]);
 
   useEffect(() => {
-    const asset = assets.find(asset => asset.symbol === symbol);
-    if (asset) {
-      setAssetsValue(asset.count * stock.current);
-      setAsset(asset);
+    if (assets[symbol]) {
+      setAssetsValue(assets[symbol].count * stock.current);
     }
   });
 
@@ -198,11 +195,14 @@ function Stock() {
       </div>
       <div className='stock-btn-container'>
         <div className='stock-owned-container'>
-          {isLoaded && Object.keys(asset).length !== 0 && (
-            <div>{`You own ${asset.count} shares worth ${assetsValue.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}`}</div>
+          {isLoaded && assets[symbol] && (
+            <div>{`You own ${assets[symbol].count} shares worth ${assetsValue.toLocaleString(
+              'en-US',
+              {
+                style: 'currency',
+                currency: 'USD',
+              }
+            )}`}</div>
           )}
         </div>
         <button
@@ -230,6 +230,7 @@ function Stock() {
               setBuySell('sell');
               SetShowBuySell(true);
             }}
+            disabled={!assets[symbol]}
           >
             Sell {symbol}
           </button>
