@@ -72,22 +72,24 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock, setIsLoaded }) {
                 payload.count = -payload.count;
             }
             if (asset) {
-                if (asset.count === count && buySell === 'sell') {
+                console.log(asset.count, count)
+                if (asset.count === Number(count) && buySell === 'sell') {
                     await dispatch(sellAllAssets(payload, asset.id));
                     await dispatch(addBuyingPower(price))
-                    hideForm();
+                    // hideForm();
                 } else {
                     await manageBuyingPower(buySell, price);
                     await dispatch(tradeAssets(payload, asset.id));
-                    hideForm();
+                    // hideForm();
                 }
             } else {
                 await dispatch(subtractBuyingPower(price));
                 await dispatch(buyAssets(payload));
-                hideForm();
+                // hideForm();
             }
         }
         setCount(0);
+        hideForm();
     };
 
     return (
