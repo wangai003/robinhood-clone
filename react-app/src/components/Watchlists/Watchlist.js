@@ -75,7 +75,7 @@ function Watchlist({ watchlist }) {
              </Hamburger>
              </div> */}
         <div className='nameAndMenuIcon stockSymbol'>
-          {watchlist.name}
+         <span id='watchlistNameMain'> {watchlist.name} </span>
           <span className={"menuSpan"} onClick={(e) => toggleIsOpen(e)}> {menuText}
             {isOpen && <WatchlistMenu watchlist={watchlist}></WatchlistMenu>}
           </span>
