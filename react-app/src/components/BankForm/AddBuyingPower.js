@@ -36,7 +36,7 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Add BP</button>
+      <button className='bank-button' onClick={() => setShowModal(true)}>Add BP</button>
 
       {showModal && (
         <Modal2

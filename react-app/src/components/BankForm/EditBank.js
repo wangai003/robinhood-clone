@@ -51,7 +51,7 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Edit Bank</button>
+      <button className='bank-button' onClick={() => setShowModal(true)}>Edit Bank</button>
 
       {showModal && (
         <Modal2

@@ -94,6 +94,7 @@ const BankForm = () => {
                   <td>{bank.account_number}</td>
 
                   <AddBuyingPower
+                    className='bank-button'
                     userId={userId}
                     name={bank.name}
                     accountNumber={bank.account_number}
@@ -102,6 +103,7 @@ const BankForm = () => {
                   />
 
                   <EditBank
+                    className='bank-button'
                     userId={userId}
                     name={bank.name}
                     accountNumber={bank.account_number}
@@ -109,7 +111,7 @@ const BankForm = () => {
                     bankId={bank.bank_id}
                   />
 
-                  <button id={bank.id} onClick={handleClick}>
+                  <button className='bank-button' id={bank.id} onClick={handleClick}>
                     Delete
                   </button>
 

@@ -63,8 +63,8 @@ const LoginForm = ({ user }) => {
 
             </div>
             <div>
-              <span>Not on Robinhood? </span>
-              <Link to='/signup'>Create an account</Link>
+              <span>Not on Robinsock? </span>
+              <Link className='page-link' to='/signup'>Create an account</Link>
             </div>
           </div>
         </form>
