@@ -74,22 +74,27 @@ export const handleClick = (int, { setInterval, setIntervalLong, setResolution }
         case '1D':
             setIntervalLong('Today');
             setResolution('5');
+            // console.log("***************** 1")
             break;
         case '1W':
             setIntervalLong('Past Week');
             setResolution('30');
+            // console.log("***************** 2")
             break;
         case '1M':
             setIntervalLong('Past Month');
             setResolution('60');
+            // console.log("***************** 3")
             break;
         case '3M':
             setIntervalLong('Past 3 Months');
             setResolution('D');
+            // console.log("***************** 4")
             break;
         case '1Y':
             setIntervalLong('Past Year');
             setResolution('D');
+            // console.log("***************** 5")
             break;
         // case ('5Y'):
         //     setResolution("W");
