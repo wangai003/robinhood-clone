@@ -97,16 +97,13 @@ def stock_candles(symbol):
     today = datetime.today()
     # Moves day beack 1 if current time is before 9am
     if today.hour < 9:
-        today = today.replace(hour=9, minute=0, second=0) + \
-            relativedelta(days=-1)
+        today = today + relativedelta(days=-1)
 
     # Changes day to Friday if its a weekend
     if today.isoweekday() == 6:
-        today = today.replace(hour=9, minute=0, second=0) + \
-            relativedelta(days=-1)
+        today = today + relativedelta(days=-1)
     elif today.isoweekday() == 7:
-        today = today.replace(hour=9, minute=0, second=0) + \
-            relativedelta(days=-2)
+        today = today + relativedelta(days=-2)
 
     initial_open = today.replace(hour=9, minute=0, second=0)
 
@@ -119,7 +116,8 @@ def stock_candles(symbol):
     }
 
     open = open_times[time_frame]
-    close = get_time_stamp(today.replace(hour=18, minute=1, second=0))
+    close = get_time_stamp(
+        datetime.today().replace(hour=18, minute=1, second=0))
 
     resolutions = {
         '1D': '5',
