@@ -25,6 +25,8 @@ function Stock() {
   const [assetsValue, setAssetsValue] = useState(0);
   const [times, setTimes] = useState([]);
   const [prices, setPrices] = useState([]);
+  const [startingPrice, setStartingPrice] = useState(0);
+  const [currPrice, setCurrPrice] = useState(0);
   const candlesList = useSelector(state => state.candles);
 
   const assets = useSelector(state => state.portfolio.assets);
@@ -50,6 +52,7 @@ function Stock() {
       const response2 = await fetch(`/api/stocks/${symbol}/financials`);
       stock.financials = await response2.json();
       setStock(stock);
+      setCurrPrice(stock.current);
     })();
   }, []);
 
@@ -80,21 +83,22 @@ function Stock() {
     }
   }, [candlesList, timeFrame]);
 
-  const startingPrice = stock.open;
-  const lastPrice = stock.current;
+  useEffect(() => {
+    setStartingPrice(prices[0]);
+  }, [prices]);
 
   useEffect(() => {
-    if (lastPrice - startingPrice < 0) {
+    if (currPrice - startingPrice < 0) {
       setColor('red');
     }
-  }, [lastPrice]);
+  }, [currPrice, startingPrice]);
 
   useEffect(() => {
-    const change = activePrice - startingPrice;
+    const change = (activePrice || currPrice) - startingPrice;
     const percentChange = (change * 100) / startingPrice;
     setChange(change);
     setChangePercent(percentChange);
-  }, [activePrice]);
+  }, [currPrice, activePrice, startingPrice]);
 
   return (
     <div className='stock-page-container'>

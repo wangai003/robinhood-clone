@@ -17,6 +17,8 @@ const Dashboard = () => {
   const [change, setChange] = useState(0);
   const [changePercent, setChangePercent] = useState(0);
   const [activePrice, setActivePrice] = useState(0);
+  const [startingPrice, setStartingPrice] = useState(0);
+  const [currPrice, setCurrPrice] = useState(0);
   const candlesList = useSelector(state => state.candles);
 
   const assetList = useSelector(state => Object.values(state.portfolio.assets));
@@ -25,6 +27,18 @@ const Dashboard = () => {
     style: 'currency',
     currency: 'USD',
   });
+
+  useEffect(() => {
+    (async () => {
+      let sum = 0;
+      for (const symbol of assetSymbols) {
+        const res = await fetch(`/api/stocks/${symbol}/quote`);
+        const quote = await res.json();
+        sum += quote.current * assetList.find(asset => asset.symbol === symbol).count;
+      }
+      setCurrPrice(sum);
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -62,28 +76,29 @@ const Dashboard = () => {
 
   const times = Object.keys(filtedCandles);
   const prices = Object.values(filtedCandles);
-  const startingPrice = prices[0];
-  const lastPrice = prices[prices.length - 1];
 
   useEffect(() => {
-    setActivePrice(lastPrice);
-    if (lastPrice - startingPrice < 0) {
+    setStartingPrice(prices[0]);
+  }, [prices]);
+
+  useEffect(() => {
+    if (currPrice - startingPrice < 0) {
       setColor('red');
     }
-  }, [lastPrice]);
+  }, [currPrice, startingPrice]);
 
   useEffect(() => {
-    const change = activePrice - startingPrice;
+    const change = (activePrice || currPrice) - startingPrice;
     const percentChange = (change * 100) / startingPrice;
     setChange(change);
     setChangePercent(percentChange);
-  }, [activePrice]);
+  }, [currPrice, activePrice, startingPrice]);
 
   return (
     <div className='dashboardContainer'>
       <div className='leftContainer'>
         <div className='portfolioContainer'>
-          <div className='portfolioValue'>{`${(activePrice || lastPrice)?.toLocaleString('en-US', {
+          <div className='portfolioValue'>{`${(activePrice || currPrice)?.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
           })}`}</div>

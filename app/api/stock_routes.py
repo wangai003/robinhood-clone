@@ -14,7 +14,7 @@ IN_PRODUCTION = environ.get('FLASK_ENV') == 'production'
 API_KEY = environ.get('API_KEY')
 SANDBOX_API_KEY = environ.get('SANDBOX_API_KEY')
 # TOKEN = API_KEY if IN_PRODUCTION else SANDBOX_API_KEY
-TOKEN = 'c8lu8i2ad3ie52go2ls0'
+TOKEN = API_KEY
 
 BASE_URL = 'https://finnhub.io/api/v1'
 
