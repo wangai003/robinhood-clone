@@ -1,9 +1,7 @@
-from calendar import month
-from tempfile import gettempdir
 import requests
-from os import environ, times
+from os import environ
 from flask import Blueprint, jsonify, request
-from datetime import datetime, time
+from datetime import datetime, time, tzinfo
 from dateutil.relativedelta import relativedelta
 import pytz
 
@@ -17,6 +15,12 @@ SANDBOX_API_KEY = environ.get('SANDBOX_API_KEY')
 TOKEN = API_KEY
 
 BASE_URL = 'https://finnhub.io/api/v1'
+
+
+timezone = pytz.timezone('America/New_York')
+time_diff = datetime.now().hour - datetime.now(timezone).hour \
+    if datetime.now().day - datetime.now(timezone).day >= 0 \
+    else datetime.now().hour - datetime.now(timezone).hour - 24
 
 
 def get_time_stamp(time):
@@ -138,10 +142,10 @@ def stock_candles(symbol):
 
     data = [{'time': t, 'price': c} for t, c in zip(res['t'], res['c'])]
 
-    # Filters times from data that are between 6:30AM PST and 1AM PST
+    # Filters times from data that are between 9:30AM PST and 4AM EST
     if time_frame in ['1W', '1M']:
-        data = [d for d in data if time(datetime.fromtimestamp(d['time']).hour, datetime.fromtimestamp(d['time']).minute) >= time(6, 30)
-                and time(datetime.fromtimestamp(d['time']).hour, datetime.fromtimestamp(d['time']).minute) < time(13, 0)
+        data = [d for d in data if time(datetime.fromtimestamp(d['time']).hour, datetime.fromtimestamp(d['time']).minute) >= time(9 + time_diff, 30)
+                and time(datetime.fromtimestamp(d['time']).hour, datetime.fromtimestamp(d['time']).minute) < time(16 + time_diff, 0)
                 and datetime.fromtimestamp(d['time']).minute % 10 == 0]
 
     return jsonify(data)
