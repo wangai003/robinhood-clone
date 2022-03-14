@@ -105,7 +105,16 @@ function Watchlist({ watchlist, quotes }) {
                         currency: 'USD',
                       })}
                     </span>
-                    <span className='stockChange'>{quotes[stock.symbol]?.change}%</span>
+                    <span
+                      className={`stockChange ${
+                        quotes[stock.symbol]?.change > 0 ? 'green' : 'red'
+                      }`}
+                    >
+                      {`${quotes[stock.symbol]?.change > 0 ? '+' : ''}${
+                        quotes[stock.symbol]?.change
+                      }`}
+                      %
+                    </span>
                   </div>
                 </div>
               </Link>

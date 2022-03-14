@@ -112,10 +112,10 @@ function Stock() {
             currency: 'USD',
           })}`}</h2>
           <div id='stock-price-change'>
-            {`${change.toLocaleString('en-US', {
+            {`${change > 0 ? '+' : ''}${change.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
-            })} (${changePercent.toFixed(2)}%)`}
+            })} (${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%)`}
             <div className='interval-long'> {timeFrameText}</div>
           </div>
         </div>
@@ -170,9 +170,9 @@ function Stock() {
               <div>
                 {stock.financials && stock.financials['52_week_high']
                   ? `${stock.financials['52_week_high'].toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                  })}`
+                      style: 'currency',
+                      currency: 'USD',
+                    })}`
                   : '-'}
               </div>
             </li>
@@ -181,9 +181,9 @@ function Stock() {
               <div>
                 {stock.financials && stock.financials['52_week_low']
                   ? `${stock.financials['52_week_low'].toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                  })}`
+                      style: 'currency',
+                      currency: 'USD',
+                    })}`
                   : '-'}
               </div>
             </li>

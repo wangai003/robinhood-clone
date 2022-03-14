@@ -160,3 +160,11 @@
   line-height: 20px;
   font-size: 13px;
 }
+
+.stockChange.red {
+  color: var(--rh-red-base)
+}
+
+.stockChange.green {
+  color: var(--rh-green-base)
+}

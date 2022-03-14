@@ -129,10 +129,10 @@ const Dashboard = () => {
           })}`}</div>
           <div className='priceChange'>
             <span>
-              {`${change.toLocaleString('en-US', {
+              {`${change > 0 ? '+' : ''}${change.toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
-              })} (${changePercent.toFixed(2)}%)`}
+              })} (${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%)`}
             </span>
             <span className='timeFrame'> {timeFrameText}</span>
           </div>
@@ -202,7 +202,16 @@ const Dashboard = () => {
                         currency: 'USD',
                       })}
                     </span>
-                    <span className='stockChange'>{quotes[asset.symbol]?.change}%</span>
+                    <span
+                      className={`stockChange ${
+                        quotes[asset.symbol]?.change > 0 ? 'green' : 'red'
+                      }`}
+                    >
+                      {`${quotes[asset.symbol]?.change > 0 ? '+' : ''}${
+                        quotes[asset.symbol]?.change
+                      }`}
+                      %
+                    </span>
                   </div>
                 </Link>
               ))}
