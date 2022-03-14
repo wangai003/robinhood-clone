@@ -99,7 +99,7 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
               />
             </div>
 
-            <button type='submit'>Submit Changes</button>
+            <button className='submit-button' type='submit'>Submit Changes</button>
           </form>
         </Modal2>
       )}

@@ -119,3 +119,21 @@
 .modal-body div {
   margin-bottom: 20px;
 }
+
+
+.button {
+  text-decoration: none;
+  color: white;
+  display: inline;
+  font-family: helvetica;
+  border: solid black 1px;
+  border-radius: 3px;
+  background-color: black;
+}
+
+.button:hover{
+  background-color: white;
+  color: black;
+  box-shadow: 1px 1px .2em rgb(170, 170, 170);
+  cursor: pointer;
+}
