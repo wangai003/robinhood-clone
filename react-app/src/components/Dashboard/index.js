@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [activePrice, setActivePrice] = useState(0);
   const [startingPrice, setStartingPrice] = useState(0);
   const [currPrice, setCurrPrice] = useState(0);
+  const [quotes, setQuotes] = useState({});
   const candlesList = useSelector(state => state.candles);
 
   const assetList = useSelector(state => Object.values(state.portfolio.assets));
@@ -31,12 +32,15 @@ const Dashboard = () => {
   useEffect(() => {
     (async () => {
       let sum = 0;
+      const quotes = {};
       for (const symbol of assetSymbols) {
         const res = await fetch(`/api/stocks/${symbol}/quote`);
         const quote = await res.json();
         sum += quote.current * assetList.find(asset => asset.symbol === symbol).count;
+        quotes[symbol] = quote;
       }
       setCurrPrice(sum);
+      setQuotes(quotes);
     })();
   }, []);
 
@@ -171,8 +175,13 @@ const Dashboard = () => {
                   </div>
                   <div className='miniGraph'></div>
                   <div className='stockQuote'>
-                    <span className='stockPrice'>$100</span>
-                    <span className='stockChange'>-10%</span>
+                    <span className='stockPrice'>
+                      {quotes[asset.symbol]?.current.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      })}
+                    </span>
+                    <span className='stockChange'>{quotes[asset.symbol]?.change}%</span>
                   </div>
                 </Link>
               ))}
