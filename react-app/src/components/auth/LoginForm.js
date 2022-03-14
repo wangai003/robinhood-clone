@@ -32,7 +32,9 @@ const LoginForm = ({ user }) => {
 
   return (
     <div className='login-page-container'>
+
       <img id='login-form-img' src="/static/rh-login-image.jpg" />
+
       <div className='login-form-container'>
         <form className="login-form" onSubmit={onLogin}>
           <h2>Log in to Robinsock</h2>

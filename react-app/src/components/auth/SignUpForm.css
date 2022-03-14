@@ -7,11 +7,19 @@
   flex-grow: 1;
 }
 
+#signup-img-wrapper{
+    display: inline-block;
+    overflow: hidden;
+    height: 934px;
+    width: 1000px;
+  }
 #signup-form-img {
   flex: 1 1 50%;
   height: 100%;
+  width: 100%;
   object-fit:cover;
   overflow: hidden;
+  background-size: cover;
   bottom: 0;
 }
 

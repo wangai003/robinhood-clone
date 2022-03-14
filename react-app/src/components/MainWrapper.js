@@ -10,7 +10,8 @@ const MainWrapper = props => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(loadPortfolio());
+      if(props.user)
+        await dispatch(loadPortfolio());
 
       setLoaded(true);
     })();
