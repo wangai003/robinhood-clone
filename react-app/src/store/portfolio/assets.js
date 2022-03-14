@@ -49,7 +49,7 @@ export const sellAllAssets = (payload, id) => async dispatch => {
   });
   if (response.ok) {
     const asset = await response.json();
-    console.log(asset);
+    // console.log(asset);
     await dispatch(sellAll(asset.symbol));
   }
 };
