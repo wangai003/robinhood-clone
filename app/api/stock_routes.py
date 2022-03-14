@@ -94,13 +94,18 @@ def stock_candles(symbol):
     if time_frame not in ['1D', '1W', '1M', '3M', '1Y']:
         return {'error': 'Time frame out of scope.'}, 404
 
-    # Changes day to Friday if its a weekend
     today = datetime.today()
+    # Moves day beack 1 if current time is before 9am
+    if today.hour < 9:
+        today = today.replace(hour=9, minute=0, second=0) + \
+            relativedelta(days=-1)
+
+    # Changes day to Friday if its a weekend
     if today.isoweekday() == 6:
-        today = datetime.today().replace(hour=9, minute=0, second=0) + \
+        today = today.replace(hour=9, minute=0, second=0) + \
             relativedelta(days=-1)
     elif today.isoweekday() == 7:
-        today = datetime.today().replace(hour=9, minute=0, second=0) + \
+        today = today.replace(hour=9, minute=0, second=0) + \
             relativedelta(days=-2)
 
     initial_open = today.replace(hour=9, minute=0, second=0)
