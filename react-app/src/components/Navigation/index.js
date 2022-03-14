@@ -7,7 +7,7 @@ import './Navbar.css';
 const NavBar = () => {
   return (
     <nav>
-      <div className='navbar'>
+      <div className='main-navbar'>
         <div className='home'>
           <Link className='logo' to='/'>
             <span className='logoText'>Robinsock</span>
