@@ -107,13 +107,10 @@ function Stock() {
       <div className='stock-container'>
         <div className='stock-symbol-price-container'>
           <h2 id='stock-symbol'>{symbol}</h2>
-          <h2 id='stock-current-price'>{`${(activePrice || stock.current)?.toLocaleString(
-            'en-US',
-            {
-              style: 'currency',
-              currency: 'USD',
-            }
-          )}`}</h2>
+          <h2 id='stock-current-price'>{`${(activePrice || stock.current)?.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          })}`}</h2>
           <div id='stock-price-change'>
             {`${change.toLocaleString('en-US', {
               style: 'currency',
