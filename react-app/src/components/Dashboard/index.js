@@ -85,7 +85,7 @@ const Dashboard = () => {
                 ? `${change.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`
                 : `-${(change).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} (${changePercent}%)`}
             </span>
-            <span className='timeFrame'>Today</span>
+            <span className='timeFrame'>{intervalLong}</span>
           </div>
           <div className='graphContainer'>
             {isLoaded && prices.length && (
