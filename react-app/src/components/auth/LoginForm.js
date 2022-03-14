@@ -32,11 +32,10 @@ const LoginForm = ({ user }) => {
 
   return (
     <div className='login-page-container'>
-
-      <img id='login-form-img' src="/static/rh-login-image.jpg" />
+      <img id='login-form-img' src='/static/rh-login-image.jpg' />
 
       <div className='login-form-container'>
-        <form className="login-form" onSubmit={onLogin}>
+        <form className='login-form' onSubmit={onLogin}>
           <h2>Log in to Robinsock</h2>
           <div>
             {errors.map((error, ind) => (
@@ -45,7 +44,14 @@ const LoginForm = ({ user }) => {
           </div>
           <div>
             <label htmlFor='email'>Email</label>
-            <input name='email' type='text' placeholder='Email' value={email} onChange={updateEmail} />
+            <input
+              name='email'
+              type='text'
+              placeholder='Email'
+              value={email}
+              required={true}
+              onChange={updateEmail}
+            />
           </div>
           <div>
             <label htmlFor='password'>Password</label>
@@ -54,19 +60,22 @@ const LoginForm = ({ user }) => {
               type='password'
               placeholder='Password'
               value={password}
+              required={true}
               onChange={updatePassword}
             />
             <div>
-              <button className='login-button' type='submit'>Login</button>
+              <button className='login-button' type='submit'>
+                Login
+              </button>
               <button className='login-button' type='button' onClick={() => dispatch(demo())}>
-
                 Login as demo
               </button>
-
             </div>
             <div>
               <span>Not on Robinsock? </span>
-              <Link className='page-link' to='/signup'>Create an account</Link>
+              <Link className='page-link' to='/signup'>
+                Create an account
+              </Link>
             </div>
           </div>
         </form>
