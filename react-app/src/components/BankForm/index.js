@@ -87,12 +87,14 @@ const BankForm = () => {
             )}
             <tbody>
               {myAccounts?.map(bank => (
-                <tr>
+
+                <tr key={bank.id}>
                   <td>{bank.name}</td>
                   <td>{bank.bank_name}</td>
                   <td>{bank.account_number}</td>
 
                   <AddBuyingPower
+                    className='bank-button'
                     userId={userId}
                     name={bank.name}
                     accountNumber={bank.account_number}
@@ -101,6 +103,7 @@ const BankForm = () => {
                   />
 
                   <EditBank
+                    className='bank-button'
                     userId={userId}
                     name={bank.name}
                     accountNumber={bank.account_number}
@@ -108,7 +111,7 @@ const BankForm = () => {
                     bankId={bank.bank_id}
                   />
 
-                  <button id={bank.id} onClick={handleClick}>
+                  <button className='bank-button' id={bank.id} onClick={handleClick}>
                     Delete
                   </button>
 
@@ -146,7 +149,7 @@ const BankForm = () => {
                   required={true}
                 >
                   {banks?.map(bank => (
-                    <option value={bank.id}> {bank.name} </option>
+                    <option key={bank.id} value={bank.id}> {bank.name} </option>
                   ))}
                 </select>
               </div>

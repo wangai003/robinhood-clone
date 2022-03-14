@@ -30,32 +30,6 @@ def linked():
     return jsonify({account.id: {'id': account.id, 'name': account.name, 'user': account.user_id, 'bank_id': account.bank_id, 'bank_name': account.bank.name, 'account_number': account.account_number} for account in accounts})
 
 
-# @account_routes.route('/add', methods=['POST'])
-# def add_bank():
-#     """
-#     Links new Bank to logged in User
-#     """
-#     form = AddBankForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     if form.validate_on_submit():
-#         bank = BankAccount(
-#             user_id=form.data['user_id'],
-#             bank_id=form.data['bank_id'],
-#             name=form.data['name'],
-#             account_number=form.data['account_number']
-#         )
-#         try:
-#           db.session.add(bank)
-#           db.session.commit()
-
-#           return bank.to_dict()
-#         except:
-#           print('There was an error ... ?')
-#           return {'errors': ['Account number already exists. Please enter a different account number.']}, 401
-
-#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-
-
 @bank_account_routes.route('/add', methods=['POST'])
 @login_required
 def add_bank():

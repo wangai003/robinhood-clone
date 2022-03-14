@@ -20,10 +20,9 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setErrors([]);
 
     const data = await dispatch(addBuyingPower(buyingPower));
-
-    console.log('DATA -----------------> ', data);
 
     if (data) {
       setErrors(data);
@@ -32,11 +31,12 @@ function AddBuyingPower({ userId, name, accountNumber, id, bankId }) {
     if (data === null) {
       setShowModal(false);
     }
+    setBuyingPower(0);
   };
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Add BP</button>
+      <button className='bank-button' onClick={() => setShowModal(true)}>Add BP</button>
 
       {showModal && (
         <Modal2

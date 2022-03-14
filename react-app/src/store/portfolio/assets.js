@@ -6,9 +6,9 @@ const trade = asset => ({
   asset,
 });
 
-const sellAll = id => ({
+const sellAll = symbol => ({
   type: SELL_ALL_ASSETS,
-  id,
+  symbol,
 });
 
 export const buyAssets = payload => async dispatch => {
@@ -50,7 +50,7 @@ export const sellAllAssets = (payload, id) => async dispatch => {
   if (response.ok) {
     const asset = await response.json();
     console.log(asset);
-    await dispatch(sellAll(asset.id));
+    await dispatch(sellAll(asset.symbol));
   }
 };
 
@@ -59,11 +59,11 @@ const initialState = {};
 export default function assetReducer(state = initialState, action) {
   switch (action.type) {
     case TRADE_ASSETS:
-      const buyState = { ...state };
-      if (buyState[action.asset.symbol]) {
-        buyState[action.asset.symbol].count = action.asset.count;
-      } else buyState[action.asset.symbol] = action.asset;
-      return buyState;
+      const tradeState = { ...state };
+      if (tradeState[action.asset.symbol]) {
+        tradeState[action.asset.symbol].count = action.asset.count;
+      } else tradeState[action.asset.symbol] = action.asset;
+      return tradeState;
     case SELL_ALL_ASSETS:
       const sellAllState = { ...state };
       if (sellAllState[action.symbol]) delete sellAllState[action.symbol];

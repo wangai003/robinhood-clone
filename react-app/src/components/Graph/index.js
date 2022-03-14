@@ -73,7 +73,7 @@ function Graph({ times, prices, inverval, color, setActivePrice }) {
         const ctx = chart.ctx;
         ctx.save();
         const activePoint = chart.tooltip._active[0];
-        setActivePrice(activePoint.element['$context'].raw);
+        setActivePrice(Number(activePoint.element["$context"].raw))
         ctx.beginPath();
         ctx.moveTo(activePoint.element.x, chart.chartArea.top);
         ctx.lineTo(activePoint.element.x, chart.chartArea.bottom);

@@ -1,35 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { deleteStockFromWatchlist, deleteWatchlistReducer } from '../../store/portfolio/watchlist';
 import AddStockForm from '../AddStockForm';
-import CreateWatchlistForm from '../CreateWatchlistform';
 import EditWatchlistForm from '../EditWatchlistForm';
+import WatchlistMenu from './watchlistMenu';
+// import Hamburger from 'hamburger-react';
 import './Watchlist.css';
 
 function Watchlist({ watchlist }) {
   const dispatch = useDispatch();
-  // const sessionUser = useSelector(state => state.session.User);
-  // const watchlists = useSelector(state => state.portfolio.watchlists);
-  const [showEditWatchlistForm, changeEditWatchlistForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [showAddStockToWatchlist, setShowAddStockToWatchlist] = useState(false);
-  const toggleEditWatchlistForm = async e => {
-    changeEditWatchlistForm(!showEditWatchlistForm);
+  const [editWatchlistText, setEditWatchlistText] = useState("Edit")
+  const [isOpen, setOpen] = useState(false)
+  const [menuText, setMenuText] = useState("+")
+  const toggleIsOpen = (e) => {
+    setOpen(!isOpen)
+    if (isOpen) setMenuText("+")
+    else { setMenuText("-") }
+  }
+
+
+  useEffect(() => {
+    if (!isOpen) {
+      setMenuText("+")
+      return;
+    }
+    const closeMenu = () => {
+      setOpen(false);
+    };
+
+    setMenuText("-")
+    document.addEventListener('click', closeMenu);
+
+    return () => document.removeEventListener('click', closeMenu);
+  }, [isOpen]);
+
+
+
+  const toggleShowModal = async e => {
+    setShowModal(true)
   };
   const toggleShowAddStockToWatchlist = async e => {
     setShowAddStockToWatchlist(!showAddStockToWatchlist);
   };
-  const deleteWatchlist = async e => {
-    let response = await dispatch(deleteWatchlistReducer(watchlist.id));
-  };
 
   let editForm;
   let addStockForm;
-  if (showEditWatchlistForm) {
+  if (showModal) {
     editForm = (
       <EditWatchlistForm
-        hideform={toggleEditWatchlistForm}
         watchlist={watchlist}
+        showModal={showModal}
+        setShowModal={setShowModal}
       ></EditWatchlistForm>
+
     );
   }
   if (showAddStockToWatchlist) {
@@ -40,28 +66,48 @@ function Watchlist({ watchlist }) {
   return (
     <div className='watchListContainer'>
       <ul className='watchList'>
-        {watchlist.name}
-        <button onClick={toggleShowAddStockToWatchlist}>Add Stock to Watchlist</button>
-        {addStockForm}
-        <button onClick={toggleEditWatchlistForm}>Edit name of watchlist</button>
-        {editForm}
-        <button onClick={deleteWatchlist}>Delete watchlist</button>
-        <ul>
-          {watchlist &&
-            Object.values(watchlist.stocks).map((stock, i) => (
-              <div className='watchListStockContainer' key={i}>
-                <div>{stock.name}</div>
-                <div>{stock.symbol}</div>
-                <button
-                  onClick={async () =>
-                    await dispatch(deleteStockFromWatchlist(stock.id, watchlist))
-                  }
-                >
-                  Delete {stock.name}
-                </button>
-              </div>
-            ))}
-        </ul>
+        {/* <button onClick={toggleShowAddStockToWatchlist}>Add Stock to Watchlist</button>
+        {addStockForm} */}
+        {/* <button className='editWatchlist' onClick={toggleShowModal}>{editWatchlistText}</button>
+        {editForm} */}
+        {/* <div className='hamburgerDiv' onClick={toggleIsOpen}>
+        <Hamburger className={"stopit"}size={12} toggled={isOpen} >
+             </Hamburger>
+             </div> */}
+        <div className='nameAndMenuIcon stockSymbol'>
+          {watchlist.name}
+          <span className={"menuSpan"} onClick={(e) => toggleIsOpen(e)}> {menuText}
+            {isOpen && <WatchlistMenu watchlist={watchlist}></WatchlistMenu>}
+          </span>
+
+        </div>
+        {watchlist &&
+          Object.values(watchlist.stocks).map((stock, i) => (
+            <div key={i} className={"outerDiv"}>
+              <Link to={`stocks/${stock.symbol}`}>
+                <div className='watchlistStockContainer' key={i}>
+                  <div className='leftSide'>
+                    <span className='stockSymbol one'>{stock.symbol}
+                    </span>
+                    <span className='removeStockFromList stockSymbol'
+                      onClick={async (e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        await dispatch(deleteStockFromWatchlist(stock.id, watchlist))
+                      }}
+                    >
+                      Remove {stock.name}
+                    </span>
+                  </div>
+                  <div className='rightSide'>
+                    <span className='stockPrice'>info1</span>
+                    <span className='stockChange'>info2</span>
+
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
       </ul>
     </div>
   );

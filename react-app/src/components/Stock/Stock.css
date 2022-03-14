@@ -31,12 +31,12 @@ nav>button {
 }
 
 .red.selected {
-  color: red;
-  border-bottom: 2px solid red;
+  color: var(--rh-red-base);
+  border-bottom: 2px solid var(--rh-red-base);
 }
 
 .red:hover {
-  color: red;
+  color: var(--rh-red-base);
 }
 
 .green.selected {
@@ -82,7 +82,7 @@ nav>button {
   background-color: black;
   padding: 1rem;
   font-size: 1rem;
-  min-width: 12rem;
+  min-width: 100%;
   height: 3rem;
   border-radius: 1.5rem;
   white-space: nowrap;
@@ -100,7 +100,7 @@ nav>button {
   background-color: black;
   padding: 1rem;
   font-size: 1rem;
-  min-width: 8rem;
+  min-width: 12rem;
   height: 3rem;
   border-radius: 1.5rem;
   white-space: nowrap;
@@ -112,7 +112,9 @@ nav>button {
 }
 
 .buy-sell-btn-container {
+  width: 100%;
   display: flex;
+  justify-content: space-between;
 }
 
 #add-to-list-btn.green,
@@ -128,11 +130,27 @@ nav>button {
   background-color: var(--rh-dark-green-hover);
 }
 
+#add-to-list-btn.red:hover,
+#buy-stock-btn.red:hover,
+#sell-stock-btn.red:hover {
+  background-color: var(--rh-red-hover2);
+}
+
+#buy-stock-btn.green.trade-selected,
+#sell-stock-btn.green.trade-selected {
+  background-color: var(--rh-dark-green-hover);
+}
+
+#buy-stock-btn.red.trade-selected,
+#sell-stock-btn.red.trade-selected {
+  background-color: var(--rh-red-hover2);
+}
+
 #add-to-list-btn.red,
 #buy-stock-btn.red,
 #sell-stock-btn.red {
-  border: 2px solid red;
-  color: red;
+  border: 2px solid var(--rh-red-base);
+  color: var(--rh-red-base);
 }
 
 .stock-add-to-watchlist-form {
@@ -172,5 +190,19 @@ nav>button {
 .stock-btn-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 25rem;
   margin: 10rem 0 0 5rem;
+}
+
+.stock.buyingPowerContainer {
+  width: 100%;
+}
+
+.stock-owned-container {
+  height: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
 }

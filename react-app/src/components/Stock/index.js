@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import BuySellStockForm from './BuySellStockForm';
 import Graph from '../Graph';
@@ -11,6 +11,7 @@ import './Stock.css';
 
 function Stock() {
   const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
   const [stock, setStock] = useState({});
   const [activePrice, setActivePrice] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -31,6 +32,7 @@ function Stock() {
   const candlesList = useSelector(state => state.candles);
 
   const assets = useSelector(state => Object.values(state.portfolio.assets));
+  const bp = useSelector(state => state.portfolio.buying_power);
   const stocks = useSelector(state => state.stocks);
 
   const symbol = useParams().symbol.toUpperCase();
@@ -60,7 +62,7 @@ function Stock() {
   useEffect(() => {
     const asset = assets.find(asset => asset.symbol === symbol);
     if (asset) {
-      setAssetsValue((asset.count * stock.current).toFixed(2));
+      setAssetsValue(asset.count * stock.current);
       setAsset(asset);
     }
   });
@@ -173,7 +175,10 @@ function Stock() {
               <div className='financials-title'>52 Week high</div>
               <div>
                 {stock.financials && stock.financials['52_week_high']
-                  ? `$${stock.financials['52_week_high'].toFixed(2)}`
+                  ? `${stock.financials['52_week_high'].toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}`
                   : '-'}
               </div>
             </li>
@@ -181,7 +186,10 @@ function Stock() {
               <div className='financials-title'>52 Week low</div>
               <div>
                 {stock.financials && stock.financials['52_week_low']
-                  ? `$${stock.financials['52_week_low'].toFixed(2)}`
+                  ? `${stock.financials['52_week_low'].toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}`
                   : '-'}
               </div>
             </li>
@@ -189,11 +197,12 @@ function Stock() {
         </div>
       </div>
       <div className='stock-btn-container'>
-        <div cla>
-          {asset && (
-            <div>
-              <div>{`You own ${asset.count} shares worth $${assetsValue}`}</div>
-            </div>
+        <div className='stock-owned-container'>
+          {isLoaded && Object.keys(asset).length !== 0 && (
+            <div>{`You own ${asset.count} shares worth ${assetsValue.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            })}`}</div>
           )}
         </div>
         <button
@@ -206,7 +215,7 @@ function Stock() {
         <div className='buy-sell-btn-container'>
           <button
             id='buy-stock-btn'
-            className={`${color}`}
+            className={`${color}` + `${buySell === 'buy' && showBuySell ? ' trade-selected' : ''}`}
             onClick={() => {
               setBuySell('buy');
               SetShowBuySell(true);
@@ -216,7 +225,7 @@ function Stock() {
           </button>
           <button
             id='sell-stock-btn'
-            className={`${color}`}
+            className={`${color}` + `${buySell === 'sell' && showBuySell ? ' trade-selected' : ''}`}
             onClick={() => {
               setBuySell('sell');
               SetShowBuySell(true);
@@ -225,6 +234,7 @@ function Stock() {
             Sell {symbol}
           </button>
         </div>
+
         {isLoaded && showBuySell && (
           <BuySellStockForm
             symbol={symbol}
@@ -232,13 +242,45 @@ function Stock() {
             buySell={buySell}
             name={stocks[symbol].name}
             hideForm={closeBuySellForm}
+            setIsLoaded={setIsLoaded}
           />
         )}
+        <div className={'stock buyingPowerContainer' + `${showMenu ? ' selected' : ''}`}>
+          <div className='bpHeader noSelect' onClick={() => setShowMenu(!showMenu)}>
+            <span>Buying Power</span>
+            {!showMenu && (
+              <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+            )}
+          </div>
+          {showMenu && (
+            <div className='bpBody'>
+              <div className='bpDetails'>
+                <div className='cash'>
+                  <span>Brokerage Cash</span>
+                  <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                </div>
+                <div className='power'>
+                  <span>Buying Power</span>
+                  <span>{bp?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                </div>
+                <Link className='btn btn-filled deposit' to='/add-funds'>
+                  Deposit Funds
+                </Link>
+              </div>
+              <div className='bpMessage'>
+                Buying Power represents the total value of assets you can purchase.
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       {showWatchlistForm && (
-        <div className={`${showWatchlistForm} stock-add-to-watchlist-form`}>
-          <AddToWatchlist hideForm={closeWatchlistForm} symbol={symbol} stock={stock} />
-        </div>
+        <AddToWatchlist
+          showModal={showWatchlistForm}
+          setShowModal={setShowWatchlistform}
+          symbol={symbol}
+          stock={stock}
+        />
       )}
     </div>
   );

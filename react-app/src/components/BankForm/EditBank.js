@@ -12,14 +12,10 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
   const [updatedName, setUpdatedname] = useState(name);
   const [updatedAccountNumber, setUpdatedAccountNumber] = useState(accountNumber);
 
-  const [updatedId, setUpdatedId] = useState(id);
-
   const [errors, setErrors] = useState([]);
 
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
-
-  const initialAccount = accountNumber;
 
   const updateName = e => {
     setUpdatedname(e.target.value);
@@ -55,7 +51,7 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Edit Bank</button>
+      <button className='bank-button' onClick={() => setShowModal(true)}>Edit Bank</button>
 
       {showModal && (
         <Modal2
@@ -103,7 +99,7 @@ function EditBank({ userId, name, accountNumber, id, bankId }) {
               />
             </div>
 
-            <button type='submit'>Submit Changes</button>
+            <button className='submit-button' type='submit'>Submit Changes</button>
           </form>
         </Modal2>
       )}
