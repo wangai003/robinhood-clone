@@ -139,7 +139,7 @@ def deleteStock(watchlistId, stockId):
         db.session.delete(stock)
         db.session.commit()
         return stock.to_dict()
-    else:
+    # else:
         # error is here
         # print("ERROR")
-        return "200"
+    return "200"
