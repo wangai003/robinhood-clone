@@ -142,4 +142,4 @@ def deleteStock(watchlistId, stockId):
     else:
         # error is here
         # print("ERROR")
-    return "200"
+        return "200"
