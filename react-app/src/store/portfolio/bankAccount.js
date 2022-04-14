@@ -94,8 +94,8 @@ export const editBankAccount = bank => async dispatch => {
     const data = await response.json();
 
     if (data.errors) {
-      console.log('INSIDE EDITBANK THUNK --------------------');
-      console.log('my errors inside thunk---> ', data.errors);
+      // console.log('INSIDE EDITBANK THUNK --------------------');
+      // console.log('my errors inside thunk---> ', data.errors);
       return data.errors;
     }
   } else {

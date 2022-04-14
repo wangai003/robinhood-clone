@@ -15,23 +15,23 @@ def checkWatchlistName(name):
     watchlists = Watchlist.query.filter(Watchlist.user_id == current_user.id).filter(
         func.lower(Watchlist.name) == func.lower(name)).all()
     if(watchlists):
-        print("same one")
+        # print("same one")
         return True
 
     else:
-        print("no same one")
+        # print("no same one")
         return False
 
 
 def checkStockInWatchlist(symbol, watchlistId):
-    print(symbol)
+    # print(symbol)
     # print(company)
     stocks = WatchlistStock.query.filter(WatchlistStock.watchlist_id == watchlistId).filter(func.lower(WatchlistStock.symbol) == func.lower(symbol)).all()
     if(stocks):
-        print("exists")
+        # print("exists")
         return True
     else:
-        print("Doesnt exist")
+        # print("Doesnt exist")
         return False
 
 
@@ -50,7 +50,7 @@ def validation_errors_to_error_messages(validation_errors):
 @login_required
 def loadOrCreateWatchlist():
     if(request.method == 'POST'):
-        print("HIT CREATE")
+        # print("HIT CREATE")
         form = CreateWatchlistForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         # check if it exists inside of the request
@@ -67,7 +67,7 @@ def loadOrCreateWatchlist():
             return watchlist.to_dict()
         return("200")
     else:
-        print("HIT LOAD")
+        # print("HIT LOAD")
         # figure out a way to get current user and their id replace 1 with user id
         # current_user doesnt exist for some reason but it exists in delete
         watchlists = Watchlist.query.filter(
@@ -87,16 +87,16 @@ def loadOrCreateWatchlist():
 @login_required
 def deleteOrEditWatchlist(id):
     if(request.method == 'DELETE'):
-        print("Hitting Delete")
-        print(id)
+        # print("Hitting Delete")
+        # print(id)
         watchlist = Watchlist.query.get(id)
         if(current_user.id == watchlist.user_id):
             db.session.delete(watchlist)
             db.session.commit()
         return watchlist.to_dict()
     else:
-        print("HITTING EDIT")
-        print(id)
+        # print("HITTING EDIT")
+        # print(id)
         form = CreateWatchlistForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         watchlist = Watchlist.query.get(id)
@@ -112,7 +112,7 @@ def deleteOrEditWatchlist(id):
 @watchlist_routes.route('/<int:id>/stocks', methods=['POST'])
 @login_required
 def addStockToWatchlist(id):
-    print(id)
+    # print(id)
     symbol = request.json['name']
     # joined = ' '.join(str(e) for e in split)
     # print(symbol)
@@ -131,8 +131,8 @@ def addStockToWatchlist(id):
 @watchlist_routes.route('/<int:watchlistId>/stocks/<int:stockId>', methods=['DELETE'])
 @login_required
 def deleteStock(watchlistId, stockId):
-    print(watchlistId)
-    print(stockId)
+    # print(watchlistId)
+    # print(stockId)
     stock = WatchlistStock.query.get(stockId)
     watchlist = Watchlist.query.get(watchlistId)
     if(watchlistId == stock.watchlist_id and watchlist.user_id == current_user.id):
@@ -141,5 +141,5 @@ def deleteStock(watchlistId, stockId):
         return stock.to_dict()
     else:
         # error is here
-        print("ERROR")
+        # print("ERROR")
     return "200"

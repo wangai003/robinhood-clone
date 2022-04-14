@@ -32,7 +32,7 @@ const AddStockForm = ({ hideform, watchlist }) => {
     setName(str);
   };
   const onSuggestion = async e => {
-    console.log('ON UGGESTION');
+    // console.log('ON UGGESTION');
     e.preventDefault();
     const errors = [];
     setName(e.target.innerText);
@@ -51,11 +51,11 @@ const AddStockForm = ({ hideform, watchlist }) => {
 
   const onKeyDown = async e => {
     if (e.keyCode === 13) {
-      console.log('IS THIS ENTER');
+      // console.log('IS THIS ENTER');
       if (filteredStocks.length !== 0) {
         setActiveSuggestionIndex(0);
         setShowSuggestions(false);
-        console.log(filteredStocks[activeSuggestionIndex]);
+        // console.log(filteredStocks[activeSuggestionIndex]);
         updateOnlyName(filteredStocks[activeSuggestionIndex]);
         await dispatch(
           addStockToWatchlist(filteredStocks[activeSuggestionIndex], watchlist)
