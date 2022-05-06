@@ -28,9 +28,9 @@ const WatchlistList = ({ quotes }) => {
 
   const toggleShowEditModal = (e, watchlist) => {
     setShowEditModal(true);
-    console.log();
+    // console.log();
     setActiveEditWatchlist(watchlist);
-    console.log(watchlist);
+    // console.log(watchlist);
   };
   const deleteWatchlist = async (e, watchlist) => {
     await dispatch(deleteWatchlistReducer(watchlist.id));
@@ -77,7 +77,7 @@ const WatchlistList = ({ quotes }) => {
               onClick={event => {
                 if (event.target.tagName !== 'BUTTON' && event.target.tagName !== 'SPAN') {
                   //target is specific event.target === event.currentTarget ||
-                  console.log('hitting true');
+                  // console.log('hitting true');
                   if (event.currentTarget.classList.contains('activeWatchlist'))
                     event.currentTarget.classList.remove('activeWatchlist');
                   else {

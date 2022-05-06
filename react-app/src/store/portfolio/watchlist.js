@@ -44,17 +44,17 @@ const deleteFromWatchlistType = (stock, watchlist) => {
 };
 
 export const searchStocks = query => async dispatch => {
-  console.log('Hitting Search Stocks');
+  // console.log('Hitting Search Stocks');
   const response = await fetch(`/api/stocks/search/${query}`);
   if (response.status === 200) {
     let data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   }
 };
 
 export const createWatchlist = (name, userId) => async dispatch => {
-  console.log('Creating Watchlist');
+  // console.log('Creating Watchlist');
   const response = await fetch('/api/portfolio/watchlists/', {
     method: 'POST',
     headers: {
@@ -65,8 +65,8 @@ export const createWatchlist = (name, userId) => async dispatch => {
   if (response.status === 200) {
     const data = await response.json();
     if (data.error) {
-      console.log('data error if');
-      console.log(data);
+      // console.log('data error if');
+      // console.log(data);
       return data;
     } else {
       // probabably give them an option to add stock somehow early
@@ -78,7 +78,7 @@ export const createWatchlist = (name, userId) => async dispatch => {
 };
 
 export const deleteWatchlistReducer = id => async dispatch => {
-  console.log('Deleting Watchlist');
+  // console.log('Deleting Watchlist');
   const response = await fetch(`/api/portfolio/watchlists/${id}`, {
     method: 'DELETE',
     headers: {
@@ -92,7 +92,7 @@ export const deleteWatchlistReducer = id => async dispatch => {
   }
 };
 export const editWatchlist = (name, userId, watchlistId) => async dispatch => {
-  console.log('Editing Watchlist');
+  // console.log('Editing Watchlist');
   const response = await fetch(`/api/portfolio/watchlists/${watchlistId}`, {
     method: 'PATCH',
     headers: {
@@ -106,8 +106,8 @@ export const editWatchlist = (name, userId, watchlistId) => async dispatch => {
   if (response.status === 200) {
     const data = await response.json();
     if (data.error) {
-      console.log('data error if');
-      console.log(data);
+      // console.log('data error if');
+      // console.log(data);
       return data;
     }
     await dispatch(editWatchlistType(data));
@@ -115,8 +115,8 @@ export const editWatchlist = (name, userId, watchlistId) => async dispatch => {
   }
 };
 export const addStockToWatchlist = (name, watchlist) => async dispatch => {
-  console.log('Hitting add stock to watchlist');
-  console.log(name);
+  // console.log('Hitting add stock to watchlist');
+  // console.log(name);
   const response = await fetch(`/api/portfolio/watchlists/${watchlist.id}/stocks`, {
     method: 'POST',
     headers: {
@@ -137,9 +137,9 @@ export const addStockToWatchlist = (name, watchlist) => async dispatch => {
   }
 };
 export const deleteStockFromWatchlist = (id, watchlist) => async dispatch => {
-  console.log('HITTING DELETE STOCK');
-  console.log(id);
-  console.log(watchlist);
+  // console.log('HITTING DELETE STOCK');
+  // console.log(id);
+  // console.log(watchlist);
   const response = await fetch(`/api/portfolio/watchlists/${watchlist.id}/stocks/${id}`, {
     method: 'DELETE',
   });
@@ -155,7 +155,7 @@ const watchlistReducer = (state = initialState, action) => {
   let newState = {};
   switch (action.type) {
     case CREATE_WATCHLIST:
-      console.log('HITTING CREATE');
+      // console.log('HITTING CREATE');
       newState = JSON.parse(JSON.stringify(state));
       newState.watchlists.push(action.payload);
       return newState;
@@ -167,7 +167,7 @@ const watchlistReducer = (state = initialState, action) => {
       for (let i = 0; i < watchlists.length; i++) {
         let watchlist = watchlists[i];
         if (watchlist.id.toString() === action.payload.id.toString()) {
-          console.log('found deleted');
+          // console.log('found deleted');
           index = i;
           break;
         }

@@ -28,7 +28,7 @@ def buy_assets():
         )
         db.session.add(asset)
         db.session.commit()
-        print(asset)
+        # print(asset)
         return asset.to_dict()
     return("200")
 
@@ -37,7 +37,7 @@ def buy_assets():
 @login_required
 def buy_sell_assets(id):
     form = BuyAssetForm()
-    print("*************IN PUT")
+    # print("*************IN PUT")
     form['csrf_token'].data = request.cookies['csrf_token']
     if(form.validate_on_submit()):
         asset = Asset.query.get(id)
@@ -51,7 +51,7 @@ def buy_sell_assets(id):
 @login_required
 def sell_all_assets(id):
     form = BuyAssetForm()
-    print("***************IN DELETE")
+    # print("***************IN DELETE")
     form['csrf_token'].data = request.cookies['csrf_token']
     if(form.validate_on_submit()):
         asset = Asset.query.get(id)

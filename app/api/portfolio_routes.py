@@ -31,6 +31,6 @@ def get_portfolio():
         'watchlists': user['watchlists']
     }
 
-    print(portfolio)
+    # print(portfolio)
 
     return portfolio

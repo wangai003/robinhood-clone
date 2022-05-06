@@ -8,18 +8,18 @@ function WatchlistMenu({watchlist}){
     const [showEditModal,setShowEditModal] = useState(false)
     const dispatch = useDispatch();
     const toggleShowEditModal = (e ,watchlist) => {
-        console.log("we re toggling")
+        // console.log("we re toggling")
         setShowEditModal(true)
-        console.log()
+        // console.log()
         setActiveEditWatchlist(watchlist)
-        console.log(watchlist)
+        // console.log(watchlist)
       }
       const deleteWatchlist = async (e,watchlist) => {
         await dispatch(deleteWatchlistReducer(watchlist.id));
     };
     let editForm;
     if (showEditModal) {
-        console.log("edit form")
+        // console.log("edit form")
         editForm = (
           <EditWatchlistForm
             watchlist={watchlist}

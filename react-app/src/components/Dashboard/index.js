@@ -51,14 +51,14 @@ const Dashboard = () => {
         }
       }
 
-      console.log(watchlistSet);
+      // console.log(watchlistSet);
       for (const symbol of watchlistSet) {
         const res = await fetch(`/api/stocks/${symbol}/quote`);
         const quote = await res.json();
         quotes[symbol] = quote;
       }
 
-      console.log(quotes);
+      // console.log(quotes);
 
       setCurrPrice(sum);
       setQuotes(quotes);

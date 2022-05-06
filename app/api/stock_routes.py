@@ -47,7 +47,7 @@ def stock_symbols():
 
 @stock_routes.route('/search/<query>')
 def test(query):
-    print(query)
+    # print(query)
     AMEX = [line.strip().split('\t')
             for line in open('app/utils/AMEX.txt')][1:]
     NASDAQ = [line.strip().split('\t')
@@ -58,13 +58,13 @@ def test(query):
             for stock in sorted(AMEX + NASDAQ + NYSE) if len(stock) == 2]
     # data is a list of objects
     res = []
-    print("asdkbasjhdbasjhdbasjhb")
+    # print("asdkbasjhdbasjhdbasjhb")
     for something in data:
         symbol = something["symbol"]
         name = something["name"]
         if(query.lower() in symbol.lower() or query.lower() in name.lower()):
             res.append(something)
-    print(res)
+    # print(res)
     return jsonify(res)
 
 

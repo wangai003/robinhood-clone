@@ -6,7 +6,7 @@ const SuggestionsList = ({filteredSuggestions,onSuggestion,activeSuggestionIndex
           let className;
           // Flag the active suggestion with a class
           if (index === activeSuggestionIndex) {
-            console.log(index)
+            // console.log(index)
             className = "suggestion-active";
           }
           return (

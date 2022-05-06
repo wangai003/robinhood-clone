@@ -42,7 +42,7 @@ export default function reducer(state = null, action) {
       } else buyState.assets[action.asset.symbol] = action.asset;
       return { ...buyState };
     case SELL_ALL_ASSETS:
-      console.log(action);
+      // console.log(action);
       const sellAllState = { ...state };
       if (sellAllState.assets[action.symbol]) delete sellAllState.assets[action.symbol];
       return { ...sellAllState };
@@ -70,7 +70,7 @@ export default function reducer(state = null, action) {
       return newState;
 
     case CREATE_WATCHLIST:
-      console.log('HITTING CREATE');
+      // console.log('HITTING CREATE');
       newState = JSON.parse(JSON.stringify(state));
       newState.watchlists[action.payload.id] = action.payload;
       return newState;

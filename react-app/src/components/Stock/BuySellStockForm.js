@@ -72,7 +72,7 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock, setIsLoaded }) {
                 payload.count = -payload.count;
             }
             if (asset) {
-                console.log(asset.count, count)
+                // console.log(asset.count, count)
                 if (asset.count === Number(count) && buySell === 'sell') {
                     await dispatch(sellAllAssets(payload, asset.id));
                     await dispatch(addBuyingPower(price))
