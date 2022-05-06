@@ -12,7 +12,7 @@ import Dashboard from './components/Dashboard';
 import Stock from './components/Stock';
 import BankForm from './components/BankForm';
 import { getBanks } from './store/bank';
-
+import Footer from './components/footer';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
@@ -45,6 +45,7 @@ function App() {
             <Switch>
               <Route exact path='/'>
                 {user ? <Dashboard /> : <Redirect to='/splash' />}
+                <Footer></Footer>
               </Route>
               <ProtectedRoute exact path='/add-funds'>
                 <BankForm />

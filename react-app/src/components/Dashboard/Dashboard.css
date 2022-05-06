@@ -3,6 +3,7 @@
   width: 1024px;
   display: flex;
   justify-content: space-between;
+  z-index: 2;
 }
 
 .leftContainer {
