@@ -14,10 +14,8 @@ AZIX is a revolutionary blockchain-powered trading platform that tokenizes real-
   * Flask
   * SQLAlchemy
 
-## Splash Page
-From the splash page you can either sign up with the button in the center of the screen, or log in or sign up with the buttons in the top right of the navbar.
 
-![image](https://user-images.githubusercontent.com/92738445/163467747-a775e38f-c844-47b0-9c3b-6257085e7b60.png)
+
 
 ## Portfolio
 
