@@ -41,13 +41,13 @@ Clicking the plus symbol next to a watchlists name unveils an edit button and a 
 
 ## Accounts / Buying Power
 
-To add a bank account or transfer buying power from a bank to your account, you can either click the "Account" button in the top right corner and click "Transfers" in the dropdown menu, or you can click the "Buying Power" underneath the chart and then click "Deposit Funds".
+To add a wallet or transfer buying power from a bank to your AzixWallet, you can either click the "Account" button in the top right corner and click "Transfers" in the dropdown menu, or you can click the "Buying Power" underneath the chart and then click "Deposit Funds".
 
 ![image](https://user-images.githubusercontent.com/92738445/163471642-e8e1b19b-fc61-49c4-9aae-31576d9694f1.png)
 
 ![image](https://user-images.githubusercontent.com/92738445/163472003-823cb37a-c72f-4eff-a7ad-2dca41c9240e.png)
 
-From this page you can add a bank account, edit or delete that account, or use that bank account to add funds to your Robinsock account.
+From this page you can add a wallet, edit or delete that account, or use that wallet to add funds to your Azix account.
 
 ![image](https://user-images.githubusercontent.com/92738445/163472131-028c497b-0204-4f1c-ac38-3db6287570a8.png)
 
