@@ -1,4 +1,4 @@
-# Robinsock
+
 
 AZIX is a revolutionary blockchain-powered trading platform that tokenizes real-world stocks and enables decentralized trading. Built on cutting-edge blockchain technology, AZIX allows users to trade tokenized shares of global stocks, including emerging markets like the Nairobi Securities Exchange (NSE), while earning rewards through staking and DeFi features.
 
