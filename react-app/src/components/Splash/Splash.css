@@ -40,6 +40,29 @@
   margin-left: 30px;
 }
 
+.demo {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 0 36px;
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  height: 48px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
 .signup.black {
   color: white;
   background-color: black;
@@ -129,4 +152,10 @@
   object-fit: contain;
   overflow: hidden;
   clip-path: inset(5px 5px);
+}
+
+.demo-instructions-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
 }

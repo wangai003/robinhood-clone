@@ -7,6 +7,9 @@ import Graph from '../Graph';
 import GraphBar from '../Graph/GraphBar';
 import { getCandle } from '../../store/candles';
 import { fixMarketCap } from '../utils/stockUtils';
+import { getStockQuote, getStockFinancials } from '../../services/stockService';
+import { useRealTimeUpdates } from '../../hooks/useRealTimeUpdates';
+import { isDemoMode } from '../../config/demo';
 import './Stock.css';
 
 function Stock() {
@@ -49,14 +52,23 @@ function Stock() {
       return;
     }
     (async () => {
-      const response1 = await fetch(`/api/stocks/${symbol}/quote`);
-      const stock = await response1.json();
-      const response2 = await fetch(`/api/stocks/${symbol}/financials`);
-      stock.financials = await response2.json();
-      setStock(stock);
-      setCurrPrice(stock.current);
+      try {
+        const stockQuote = await getStockQuote(symbol);
+        const stockFinancials = await getStockFinancials(symbol);
+        const stockData = { ...stockQuote, financials: stockFinancials };
+        setStock(stockData);
+        setCurrPrice(stockData.current);
+      } catch (error) {
+        console.error('Error fetching stock data:', error);
+      }
     })();
   }, [symbol]);
+
+  // Add real-time updates for demo mode
+  useRealTimeUpdates(symbol, (newQuote) => {
+    setStock(prevStock => ({ ...prevStock, ...newQuote }));
+    setCurrPrice(newQuote.current);
+  });
 
   useEffect(() => {
     if (assets[symbol]) {

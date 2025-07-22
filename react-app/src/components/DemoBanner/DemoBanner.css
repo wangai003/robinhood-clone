@@ -1,0 +1,76 @@
+.demo-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 0;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+.demo-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.demo-banner-icon {
+  font-size: 18px;
+  animation: bounce 2s infinite;
+}
+
+.demo-banner-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.demo-banner-features {
+  font-size: 12px;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 768px) {
+  .demo-banner-content {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .demo-banner-text {
+    font-size: 13px;
+  }
+  
+  .demo-banner-features {
+    font-size: 11px;
+  }
+}

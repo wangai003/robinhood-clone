@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { buyAssets, tradeAssets, sellAllAssets } from '../../store/portfolio/assets';
 import { addBuyingPower, subtractBuyingPower } from '../../store/portfolio/buyingPower';
+import { buyStock, sellStock } from '../../services/stockService';
+import { isDemoMode } from '../../config/demo';
 import './BuySellStock.css';
 
 function BuySellStockForm({ symbol, buySell, hideForm, stock, setIsLoaded }) {
@@ -61,31 +63,46 @@ function BuySellStockForm({ symbol, buySell, hideForm, stock, setIsLoaded }) {
     const handleSubmit = async (e, buySell) => {
         e.preventDefault();
         if (!errors.length && count > 0) {
-            const payload = {
-                name: symbol,
-                symbol,
-                count,
-            };
-            const price = count * stock.current;
-            const fundsError = [];
-            if (buySell === 'sell') {
-                payload.count = -payload.count;
-            }
-            if (asset) {
-                // console.log(asset.count, count)
-                if (asset.count === Number(count) && buySell === 'sell') {
-                    await dispatch(sellAllAssets(payload, asset.id));
-                    await dispatch(addBuyingPower(price))
-                    // hideForm();
+            try {
+                if (isDemoMode()) {
+                    // Use demo trading service
+                    if (buySell === 'buy') {
+                        const result = await buyStock(symbol, count, stock.current);
+                        // Update Redux store with new user data
+                        dispatch({ type: 'session/SET_USER', payload: JSON.parse(localStorage.getItem('demoUser')) });
+                        alert(result.message);
+                    } else {
+                        const result = await sellStock(symbol, count, stock.current);
+                        // Update Redux store with new user data
+                        dispatch({ type: 'session/SET_USER', payload: JSON.parse(localStorage.getItem('demoUser')) });
+                        alert(result.message);
+                    }
                 } else {
-                    await manageBuyingPower(buySell, price);
-                    await dispatch(tradeAssets(payload, asset.id));
-                    // hideForm();
+                    // Original backend logic
+                    const payload = {
+                        name: symbol,
+                        symbol,
+                        count,
+                    };
+                    const price = count * stock.current;
+                    if (buySell === 'sell') {
+                        payload.count = -payload.count;
+                    }
+                    if (asset) {
+                        if (asset.count === Number(count) && buySell === 'sell') {
+                            await dispatch(sellAllAssets(payload, asset.id));
+                            await dispatch(addBuyingPower(price))
+                        } else {
+                            await manageBuyingPower(buySell, price);
+                            await dispatch(tradeAssets(payload, asset.id));
+                        }
+                    } else {
+                        await dispatch(subtractBuyingPower(price));
+                        await dispatch(buyAssets(payload));
+                    }
                 }
-            } else {
-                await dispatch(subtractBuyingPower(price));
-                await dispatch(buyAssets(payload));
-                // hideForm();
+            } catch (error) {
+                alert(error.message);
             }
         }
         setCount(0);

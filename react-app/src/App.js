@@ -13,6 +13,14 @@ import Stock from './components/Stock';
 import BankForm from './components/BankForm';
 import { getBanks } from './store/bank';
 import Footer from './components/footer';
+import DemoBanner from './components/DemoBanner';
+import DemoNotifications from './components/DemoNotifications';
+import DemoDataUpdater from './components/DemoDataUpdater';
+import DemoStockTicker from './components/DemoStockTicker';
+import Staking from './components/Staking';
+import KenyanStocks from './components/KenyanStocks';
+import DeFiFeatures from './components/DeFiFeatures';
+import BlockchainStatus from './components/BlockchainStatus';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
@@ -31,6 +39,9 @@ function App() {
   return (
     loaded && (
       <BrowserRouter>
+        <DemoBanner />
+        <DemoNotifications />
+        <DemoDataUpdater />
         <Switch>
           <Route exact path='/splash'>
             <Splash user={user} />
@@ -53,12 +64,23 @@ function App() {
               <ProtectedRoute exact path='/stocks/:symbol'>
                 <Stock />
               </ProtectedRoute>
+              <ProtectedRoute exact path='/staking'>
+                <Staking />
+              </ProtectedRoute>
+              <ProtectedRoute exact path='/kenyan-stocks'>
+                <KenyanStocks />
+              </ProtectedRoute>
+              <ProtectedRoute exact path='/defi'>
+                <DeFiFeatures />
+              </ProtectedRoute>
               <Route>
                 <h1>404 Not Found</h1>
               </Route>
             </Switch>
           </MainWrapper>
         </Switch>
+        <DemoStockTicker />
+        <BlockchainStatus />
       </BrowserRouter>
     )
   );

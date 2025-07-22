@@ -1,0 +1,152 @@
+.blockchain-status {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 998;
+  min-width: 280px;
+  border: 1px solid #333;
+  backdrop-filter: blur(10px);
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.network-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.network-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #00d4aa;
+}
+
+.network-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #666;
+}
+
+.status-dot.active {
+  background: #10b981;
+  animation: pulse 2s infinite;
+}
+
+.status-text {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-toggle {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.status-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.status-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-value.health.excellent {
+  color: #10b981;
+}
+
+.stat-value.health.good {
+  color: #f59e0b;
+}
+
+.stat-value.health.poor {
+  color: #ef4444;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .blockchain-status {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 16px;
+    min-width: auto;
+  }
+  
+  .status-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+}

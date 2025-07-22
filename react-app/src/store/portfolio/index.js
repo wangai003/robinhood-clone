@@ -1,3 +1,5 @@
+import { isDemoMode, getDemoConfig } from '../../config/demo';
+import { simulateApiDelay } from '../../services/mockData';
 import { TRADE_ASSETS, SELL_ALL_ASSETS } from './assets';
 import { ADD_BANK_ACCOUNT, EDIT_BANK_ACCOUNT, REMOVE_BANK_ACCOUNT } from './bankAccount';
 import { ADD_BP, SUBTRACT_BP } from './buyingPower';
@@ -17,6 +19,13 @@ const load = portfolio => ({
 });
 
 export const loadPortfolio = () => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    // In demo mode, portfolio data comes from the user session
+    // This will be handled by the session authentication
+    return;
+  }
+
   const response = await fetch('/api/portfolio/');
 
   if (response.ok) {

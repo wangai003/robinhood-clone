@@ -1,3 +1,6 @@
+import { isDemoMode, getDemoConfig } from '../config/demo';
+import { MOCK_BANKS, simulateApiDelay } from '../services/mockData';
+
 const GET_BANK = 'bank/GET_BANK';
 
 const setBank = bank => ({
@@ -6,6 +9,12 @@ const setBank = bank => ({
 });
 
 export const getBanks = () => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    dispatch(setBank(MOCK_BANKS));
+    return MOCK_BANKS;
+  }
+
   const response = await fetch('/api/banks/');
 
   if (response.ok) {

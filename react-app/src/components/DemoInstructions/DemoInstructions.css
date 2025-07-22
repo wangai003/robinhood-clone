@@ -1,0 +1,147 @@
+.demo-instructions {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e1e8ed;
+}
+
+.demo-instructions-header {
+  padding: 16px 20px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e1e8ed;
+  transition: background-color 0.2s ease;
+}
+
+.demo-instructions-header:hover {
+  background: #f8f9fa;
+}
+
+.demo-instructions-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.demo-instructions-toggle {
+  font-size: 14px;
+  color: #666;
+  transition: transform 0.2s ease;
+}
+
+.demo-instructions-toggle.expanded {
+  transform: rotate(180deg);
+}
+
+.demo-instructions-content {
+  padding: 24px;
+  background: white;
+}
+
+.demo-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.demo-feature {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #00d4aa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.demo-feature:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.demo-feature-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.demo-feature h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.demo-feature p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.demo-instructions-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e8ed;
+}
+
+.demo-quick-start h4,
+.demo-credentials h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.demo-quick-start ol {
+  margin: 0;
+  padding-left: 20px;
+  color: #666;
+}
+
+.demo-quick-start li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.demo-credentials p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.demo-credentials strong {
+  color: #333;
+}
+
+.demo-credentials small {
+  color: #999;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .demo-instructions-content {
+    padding: 16px;
+  }
+  
+  .demo-features-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .demo-instructions-actions {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .demo-feature {
+    padding: 16px;
+  }
+}

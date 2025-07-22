@@ -1,3 +1,6 @@
+import { isDemoMode, getDemoConfig } from '../config/demo';
+import { MOCK_USER, simulateApiDelay } from '../services/mockData';
+
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
@@ -14,6 +17,16 @@ const removeUser = () => ({
 const initialState = { user: null };
 
 export const authenticate = () => async dispatch => {
+  if (isDemoMode()) {
+    // In demo mode, check if user is already logged in (localStorage)
+    const demoUser = localStorage.getItem('demoUser');
+    if (demoUser) {
+      await simulateApiDelay(getDemoConfig().API_DELAY);
+      dispatch(setUser(JSON.parse(demoUser)));
+    }
+    return;
+  }
+
   const response = await fetch('/api/auth/', {
     headers: {
       'Content-Type': 'application/json',
@@ -30,6 +43,29 @@ export const authenticate = () => async dispatch => {
 };
 
 export const login = (email, password) => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    
+    // In demo mode, accept any credentials or specific demo credentials
+    const demoConfig = getDemoConfig();
+    if (email === demoConfig.DEMO_CREDENTIALS.email && password === demoConfig.DEMO_CREDENTIALS.password) {
+      const userData = { ...MOCK_USER };
+      localStorage.setItem('demoUser', JSON.stringify(userData));
+      dispatch(setUser(userData));
+      return null;
+    } else {
+      // For demo purposes, also accept any email/password combination
+      const userData = { 
+        ...MOCK_USER, 
+        email: email,
+        first_name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1)
+      };
+      localStorage.setItem('demoUser', JSON.stringify(userData));
+      dispatch(setUser(userData));
+      return null;
+    }
+  }
+
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {
@@ -56,6 +92,14 @@ export const login = (email, password) => async dispatch => {
 };
 
 export const demo = () => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    const userData = { ...MOCK_USER };
+    localStorage.setItem('demoUser', JSON.stringify(userData));
+    dispatch(setUser(userData));
+    return;
+  }
+
   const response = await fetch('/api/auth/demo', {
     method: 'POST',
   });
@@ -74,6 +118,13 @@ export const demo = () => async dispatch => {
 };
 
 export const logout = () => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    localStorage.removeItem('demoUser');
+    dispatch(removeUser());
+    return;
+  }
+
   const response = await fetch('/api/auth/logout', {
     method: 'POST',
   });
@@ -84,6 +135,26 @@ export const logout = () => async dispatch => {
 };
 
 export const signUp = (firstName, lastName, email, password) => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    
+    const userData = {
+      ...MOCK_USER,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      // Start new users with some demo assets and watchlists
+      assets: {
+        'AAPL': { id: 1, symbol: 'AAPL', count: 5 }
+      },
+      buying_power: 10000.00
+    };
+    
+    localStorage.setItem('demoUser', JSON.stringify(userData));
+    dispatch(setUser(userData));
+    return null;
+  }
+
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     headers: {

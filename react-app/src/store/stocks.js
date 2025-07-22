@@ -1,3 +1,6 @@
+import { isDemoMode, getDemoConfig } from '../config/demo';
+import { MOCK_STOCKS, simulateApiDelay } from '../services/mockData';
+
 const LOAD = 'stocks/LOAD';
 
 const load = stocks => ({
@@ -6,6 +9,12 @@ const load = stocks => ({
 });
 
 export const getAllStocks = () => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    dispatch(load(MOCK_STOCKS));
+    return MOCK_STOCKS;
+  }
+
   const response = await fetch('/api/stocks/');
   if (response.ok) {
     const stocks = await response.json();

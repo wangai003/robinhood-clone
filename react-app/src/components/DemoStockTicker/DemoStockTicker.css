@@ -1,0 +1,151 @@
+.demo-stock-ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  color: white;
+  z-index: 999;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  border-top: 2px solid #00d4aa;
+}
+
+.ticker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ticker-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #00d4aa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ticker-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.ticker-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.ticker-scroll {
+  overflow: hidden;
+  height: 40px;
+  position: relative;
+}
+
+.ticker-content {
+  display: flex;
+  animation: scroll 60s linear infinite;
+  height: 100%;
+  align-items: center;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  white-space: nowrap;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.2s ease;
+  height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ticker-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ticker-symbol {
+  font-weight: 700;
+  font-size: 13px;
+  color: #00d4aa;
+  min-width: 50px;
+}
+
+.ticker-price {
+  font-weight: 600;
+  font-size: 13px;
+  min-width: 60px;
+}
+
+.ticker-change {
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 50px;
+  text-align: right;
+}
+
+.ticker-change.positive {
+  color: #10b981;
+}
+
+.ticker-change.negative {
+  color: #ef4444;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Pause animation on hover */
+.ticker-content:hover {
+  animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .ticker-item {
+    padding: 0 16px;
+    gap: 8px;
+  }
+  
+  .ticker-symbol {
+    min-width: 40px;
+    font-size: 12px;
+  }
+  
+  .ticker-price {
+    min-width: 50px;
+    font-size: 12px;
+  }
+  
+  .ticker-change {
+    min-width: 40px;
+    font-size: 11px;
+  }
+  
+  .ticker-header {
+    padding: 6px 12px;
+  }
+  
+  .ticker-title {
+    font-size: 11px;
+  }
+}

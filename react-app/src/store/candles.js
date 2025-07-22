@@ -1,3 +1,6 @@
+import { isDemoMode, getDemoConfig } from '../config/demo';
+import { generateMockCandles, simulateApiDelay } from '../services/mockData';
+
 const GET_CANDLE = 'candles/GET';
 
 const get = (timeFrame, symbol, data) => ({
@@ -8,6 +11,13 @@ const get = (timeFrame, symbol, data) => ({
 });
 
 export const getCandle = (timeFrame, symbol) => async dispatch => {
+  if (isDemoMode()) {
+    await simulateApiDelay(getDemoConfig().API_DELAY);
+    const data = generateMockCandles(symbol, timeFrame);
+    dispatch(get(timeFrame, symbol, data));
+    return data;
+  }
+
   const response = await fetch(`/api/stocks/${symbol}/candles?time-frame=${timeFrame}`);
 
   if (response.ok) {

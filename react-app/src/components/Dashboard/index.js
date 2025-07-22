@@ -5,6 +5,11 @@ import Watchlists from '../Watchlists';
 import GraphBar from '../Graph/GraphBar';
 import Graph from '../Graph';
 import { getCandle } from '../../store/candles';
+import { getStockQuote } from '../../services/stockService';
+import { usePortfolioRealTimeUpdates } from '../../hooks/useRealTimeUpdates';
+import { isDemoMode } from '../../config/demo';
+import DemoPortfolioStats from '../DemoPortfolioStats';
+import BlockchainPortfolio from '../BlockchainPortfolio';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -22,48 +27,62 @@ const Dashboard = () => {
   const [quotes, setQuotes] = useState({});
   const candlesList = useSelector(state => state.candles);
 
-  const assetList = useSelector(state => Object.values(state.portfolio.assets));
+  const assetList = useSelector(state =>
+    state.portfolio?.assets ? Object.values(state.portfolio.assets) : []
+  );
   const assetSymbols = assetList.map(asset => asset.symbol);
-  const watchlists = Object.values(useSelector(state => state.portfolio.watchlists));
+  const watchlists = useSelector(state =>
+    state.portfolio?.watchlists ? Object.values(state.portfolio.watchlists) : []
+  );
 
-  const bp = useSelector(state => state.portfolio.buying_power).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
+  const bp = useSelector(state =>
+    state.portfolio?.buying_power?.toLocaleString
+      ? state.portfolio.buying_power.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        })
+      : '$0.00'
+  );
 
   useEffect(() => {
     (async () => {
-      let sum = 0;
-      const quotes = {};
-      for (const symbol of assetSymbols) {
-        const res = await fetch(`/api/stocks/${symbol}/quote`);
-        const quote = await res.json();
-        sum += quote.current * assetList.find(asset => asset.symbol === symbol).count;
-        quotes[symbol] = quote;
-      }
+      try {
+        let sum = 0;
+        const quotes = {};
 
-      const watchlistSet = new Set();
-      for (const watchlist of watchlists) {
-        for (const stock of Object.values(watchlist.stocks)) {
-          if (!assetSymbols.includes(stock.symbol)) {
-            watchlistSet.add(stock.symbol);
+        for (const symbol of assetSymbols) {
+          const quote = await getStockQuote(symbol);
+          sum += quote.current * (assetList.find(asset => asset.symbol === symbol)?.count || 0);
+          quotes[symbol] = quote;
+        }
+
+        const watchlistSet = new Set();
+        for (const watchlist of watchlists) {
+          for (const stock of Object.values(watchlist.stocks || {})) {
+            if (!assetSymbols.includes(stock.symbol)) {
+              watchlistSet.add(stock.symbol);
+            }
           }
         }
+
+        for (const symbol of watchlistSet) {
+          const quote = await getStockQuote(symbol);
+          quotes[symbol] = quote;
+        }
+
+        setCurrPrice(sum);
+        setQuotes(quotes);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
       }
-
-      // console.log(watchlistSet);
-      for (const symbol of watchlistSet) {
-        const res = await fetch(`/api/stocks/${symbol}/quote`);
-        const quote = await res.json();
-        quotes[symbol] = quote;
-      }
-
-      // console.log(quotes);
-
-      setCurrPrice(sum);
-      setQuotes(quotes);
     })();
   }, []);
+
+  usePortfolioRealTimeUpdates((portfolioData) => {
+    if (portfolioData) {
+      setCurrPrice(portfolioData.totalValue - portfolioData.buyingPower);
+    }
+  });
 
   useEffect(() => {
     (async () => {
@@ -79,31 +98,29 @@ const Dashboard = () => {
     setIsLoaded(true);
   }, [timeFrame]);
 
-  // Some stocks are missing timestamps in candle data... so have to filter those time frames out
   const candles = {};
   for (const [symbol, data] of Object.entries(candlesList[timeFrame] || {})) {
     if (assetSymbols.includes(symbol)) {
       data.forEach(d => {
         candles[d.time] = {
           ...candles[d.time],
-          [symbol]: d.price * assetList.find(asset => asset.symbol === symbol).count,
+          [symbol]: d.price * (assetList.find(asset => asset.symbol === symbol)?.count || 0),
         };
       });
     }
   }
 
-  // Filters out incomplete timestamp datas and returns as {timestamp: summed price}
   const filtedCandles = Object.fromEntries(
     Object.entries(candles)
       .filter(candle => Object.keys(candle[1]).length === assetSymbols.length)
-      .map(candle => [candle[0], Object.values(candle[1]).reduce((price, sum) => price + sum)])
+      .map(candle => [candle[0], Object.values(candle[1]).reduce((sum, price) => sum + price)])
   );
 
   const times = Object.keys(filtedCandles);
   const prices = Object.values(filtedCandles);
 
   useEffect(() => {
-    setStartingPrice(prices[0]);
+    setStartingPrice(prices[0] || 0);
   }, [prices]);
 
   useEffect(() => {
@@ -114,10 +131,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     const change = (activePrice || currPrice) - startingPrice;
-    const percentChange = (change * 100) / startingPrice;
+    const percentChange = startingPrice ? (change * 100) / startingPrice : 0;
     setChange(change);
     setChangePercent(percentChange);
   }, [currPrice, activePrice, startingPrice]);
+
+  if (isDemoMode()) {
+    return <BlockchainPortfolio />;
+  }
 
   return (
     <div className='dashboardContainer'>
@@ -179,6 +200,7 @@ const Dashboard = () => {
               </div>
             )}
           </div>
+          {isDemoMode() && <DemoPortfolioStats />}
         </div>
       </div>
       <div className='rightWrapper'>
@@ -197,7 +219,7 @@ const Dashboard = () => {
                   <div className='miniGraph'></div>
                   <div className='stockQuote'>
                     <span className='stockPrice'>
-                      {quotes[asset.symbol]?.current.toLocaleString('en-US', {
+                      {quotes[asset.symbol]?.current?.toLocaleString('en-US', {
                         style: 'currency',
                         currency: 'USD',
                       })}
@@ -225,3 +247,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
